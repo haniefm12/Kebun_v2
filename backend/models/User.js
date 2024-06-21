@@ -1,40 +1,53 @@
 const mongoose = require("mongoose");
 
 // Defining the user schema
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    set: (v) => v.replace(/\b\w/g, (l) => l.toUpperCase()),
-  },
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  phoneNumber: {
-    type: String,
-    // required: true,
-  },
-  roles: [
-    {
+const userSchema = new mongoose.Schema(
+  {
+    //user id auto
+    //name
+    name: {
       type: String,
-      default: "Employee",
+      required: true,
+      set: (v) => v.replace(/\b\w/g, (l) => l.toUpperCase()),
     },
-  ],
-  image: {
-    type: String,
-    default: "none",
+    //username
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    //password
+    password: {
+      type: String,
+      required: true,
+    },
+    //phone
+    phoneNumber: {
+      type: String,
+      // required: true,
+    },
+    //role
+    roles: [
+      {
+        type: String,
+        default: "Employee",
+      },
+    ],
+    //picture
+    image: {
+      type: String,
+      default: "none",
+    },
+    //status
+    active: {
+      type: Boolean,
+      default: true,
+    },
   },
-  active: {
-    type: Boolean,
-    default: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 // Hashing the password before saving the user
 
 module.exports = mongoose.model("User", userSchema);
