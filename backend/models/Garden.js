@@ -4,6 +4,8 @@ const gardenSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
+    set: (v) => v.replace(/\b\w/g, (l) => l.toUpperCase()),
   },
   address: {
     type: String,

@@ -13,16 +13,10 @@ const getAllUsers = asyncHandler(async (req, res) => {
 });
 
 const createNewUser = asyncHandler(async (req, res) => {
-  const { name, username, password, roles } = req.body;
+  const { name, username, password } = req.body;
 
   // Confirm data
-  if (
-    !name ||
-    !username ||
-    !password ||
-    !Array.isArray(roles) ||
-    !roles.length
-  ) {
+  if (!name || !username || !password) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -38,7 +32,7 @@ const createNewUser = asyncHandler(async (req, res) => {
   // Hash password
   const hashedPwd = await bcrypt.hash(password, 10); // salt rounds
 
-  const userObject = { name: fineName, username, password: hashedPwd, roles };
+  const userObject = { name: fineName, username, password: hashedPwd };
 
   // Create and store new user
   const user = await User.create(userObject);
@@ -54,7 +48,7 @@ const createNewUser = asyncHandler(async (req, res) => {
 });
 
 const updateUser = asyncHandler(async (req, res) => {
-  const { id, name, phoneNumber, image, username, roles, active, password } =
+  const { id, name, phoneNumber, image, username, role, active, password } =
     req.body;
 
   // Confirm data
@@ -64,8 +58,7 @@ const updateUser = asyncHandler(async (req, res) => {
     !phoneNumber ||
     !image ||
     !username ||
-    !Array.isArray(roles) ||
-    !roles.length ||
+    !role ||
     typeof active !== "boolean"
   ) {
     return res
@@ -89,7 +82,7 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 
   user.username = username;
-  user.roles = roles;
+  user.role = role;
   user.active = active;
   user.name = req.body.name.replace(/\b\w/g, (l) => l.toUpperCase());
   user.phoneNumber = phoneNumber;

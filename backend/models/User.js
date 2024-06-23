@@ -15,6 +15,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      //onlylowercase?
+      set: (v) => v.toLowerCase(),
     },
     //password
     password: {
@@ -26,13 +28,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       // required: true,
     },
-    //role
-    roles: [
-      {
-        type: String,
-        default: "Employee",
-      },
-    ],
+    //roles with 3 choice admin managar and employee?
+    role: {
+      type: String,
+      enum: ["admin", "manager", "employee"],
+      default: "employee",
+    },
     //picture
     image: {
       type: String,
