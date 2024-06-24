@@ -66,7 +66,7 @@ const Sidebar = ({
           }}
         >
           <Box width="100%">
-            <Box m="1rem 2rem 2rem 3rem" disableGutters>
+            <Box m="1.1rem 2rem 2rem 3rem" disableGutters>
               <FlexBetween color={theme.palette.primary.main}>
                 <Box display="flex" alignItems="center" gap="0.5rem">
                   <ParkIcon
