@@ -11,8 +11,9 @@ const useSidebar = () => {
   }, [pathname]);
 
   const handleNavigate = (route) => {
-    navigate(`/${route}`);
-    setActive(route);
+    const encodedRoute = route.replace(/\s+/g, "-");
+    navigate(`/${encodedRoute}`);
+    setActive(encodedRoute);
   };
 
   return { active, handleNavigate };
