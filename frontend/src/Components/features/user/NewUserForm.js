@@ -44,7 +44,7 @@ const NewUserForm = () => {
   const [validPassword, setValidPassword] = useState(false);
   const [retypePassword, setRetypePassword] = useState("");
   const [validRetypePassword, setValidRetypePassword] = useState(false);
-  const [roles, setRoles] = useState("");
+  const [roles, setRoles] = useState("employee");
   const [showPassword, setShowPassword] = useState(false);
   const [showRetypePassword, setShowRetypePassword] = useState(false);
 
@@ -85,18 +85,18 @@ const NewUserForm = () => {
   };
 
   const canSave =
-    [
-      roles.length,
-      validName,
-      validUsername,
-      validPassword,
-      validRetypePassword,
-    ].every(Boolean) && !isLoading;
+    [validName, validUsername, validPassword, validRetypePassword].every(
+      Boolean
+    ) && !isLoading;
 
   const onSaveUserClicked = async (e) => {
     e.preventDefault();
     if (canSave) {
-      await addNewUser({ username, password, roles, name });
+      try {
+        await addNewUser({ username, password, roles, name });
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
     }
   };
 
@@ -107,15 +107,6 @@ const NewUserForm = () => {
       </MenuItem>
     );
   });
-
-  const errClass = isError ? "errmsg" : "offscreen";
-  const validUserClass = !validUsername ? "form__input--incomplete" : "";
-  const validNameClass = !validName ? "form__input--incomplete" : "";
-  const validPwdClass = !validPassword ? "form__input--incomplete" : "";
-  const validRetypePwdClass = !validRetypePassword
-    ? "form__input--incomplete"
-    : "";
-  const validRolesClass = !roles ? "form__input--incomplete" : "";
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -162,6 +153,7 @@ const NewUserForm = () => {
                   autoFocus
                   value={username}
                   onChange={onUsernameChanged}
+                  InputLabelProps={{ htmlFor: "username" }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -174,7 +166,8 @@ const NewUserForm = () => {
                   id="name"
                   label="Name"
                   name="name"
-                  autoComplete="family-name"
+                  autoComplete="off"
+                  InputLabelProps={{ htmlFor: "name" }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -184,7 +177,7 @@ const NewUserForm = () => {
                   id="password"
                   label="Password"
                   name="password"
-                  autoComplete="new-password"
+                  autoComplete="off"
                   value={password}
                   type={showPassword ? "text" : "password"}
                   onChange={onPasswordChanged}
@@ -197,6 +190,7 @@ const NewUserForm = () => {
                       </InputAdornment>
                     ),
                   }}
+                  InputLabelProps={{ htmlFor: "password" }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -206,7 +200,7 @@ const NewUserForm = () => {
                   id="retype-password"
                   label="Retype Password"
                   name="retype-password"
-                  autoComplete="new-password"
+                  autoComplete="off"
                   value={retypePassword}
                   type={showRetypePassword ? "text" : "password"}
                   onChange={onRetypePasswordChanged}
@@ -223,13 +217,16 @@ const NewUserForm = () => {
                       </InputAdornment>
                     ),
                   }}
+                  InputLabelProps={{ htmlFor: "retype-password" }}
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel id="role">Role</InputLabel>
+                  <InputLabel id="role-label" htmlFor="roles">
+                    Role
+                  </InputLabel>
                   <Select
-                    labelId="role"
+                    labelId="role-label"
                     fullWidth
                     required
                     label="Role"
@@ -246,6 +243,8 @@ const NewUserForm = () => {
             <Button
               type="submit"
               fullWidth
+              title="Save"
+              disabled={!canSave}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
