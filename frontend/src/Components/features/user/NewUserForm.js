@@ -79,7 +79,6 @@ const NewUserForm = () => {
   const onPasswordChanged = (e) => setPassword(e.target.value);
   const onRetypePasswordChanged = (e) => setRetypePassword(e.target.value);
   const onNameChanged = (e) => setName(e.target.value);
-
   const onRolesChanged = (e) => {
     setRoles(e.target.value);
   };
