@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
-import { selectUserById } from "../../app/api/usersApiSlice";
+import { selectUserById } from "../../../app/api/usersApiSlice";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import { IconButton, TableCell } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";

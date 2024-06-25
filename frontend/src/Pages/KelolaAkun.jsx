@@ -1,6 +1,6 @@
 import React from "react";
 import { useGetUsersQuery } from "../app/api/usersApiSlice";
-import User from "../Components/features/User";
+import User from "../Components/features/user/User";
 import {
   Box,
   Paper,
