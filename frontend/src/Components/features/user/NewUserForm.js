@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useAddNewUserMutation } from "../../../app/api/usersApiSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { ROLES } from "../../../config/roles";
@@ -18,12 +17,20 @@ import {
   Select,
   TextField,
   Typography,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
-import { Copyright, ParkOutlined } from "@mui/icons-material";
+import {
+  Copyright,
+  ParkOutlined,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
 
 const USER_REGEX = /^[A-z]{3,20}$/;
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
 const NAME_REGEX = /^[A-z\s]{3,20}$/;
+
 const NewUserForm = () => {
   const [addNewUser, { isLoading, isSuccess, isError, error }] =
     useAddNewUserMutation();
@@ -35,7 +42,11 @@ const NewUserForm = () => {
   const [validUsername, setValidUsername] = useState(false);
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
-  const [roles, setRoles] = useState("Employee");
+  const [retypePassword, setRetypePassword] = useState("");
+  const [validRetypePassword, setValidRetypePassword] = useState(false);
+  const [roles, setRoles] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRetypePassword, setShowRetypePassword] = useState(false);
 
   useEffect(() => {
     setValidName(NAME_REGEX.test(name));
@@ -50,10 +61,15 @@ const NewUserForm = () => {
   }, [password]);
 
   useEffect(() => {
+    setValidRetypePassword(password === retypePassword);
+  }, [password, retypePassword]);
+
+  useEffect(() => {
     if (isSuccess) {
       setName("");
       setUsername("");
       setPassword("");
+      setRetypePassword("");
       setRoles([]);
       navigate("/kelola-akun");
     }
@@ -61,14 +77,21 @@ const NewUserForm = () => {
 
   const onUsernameChanged = (e) => setUsername(e.target.value);
   const onPasswordChanged = (e) => setPassword(e.target.value);
+  const onRetypePasswordChanged = (e) => setRetypePassword(e.target.value);
   const onNameChanged = (e) => setName(e.target.value);
 
   const onRolesChanged = (e) => {
     setRoles(e.target.value);
   };
+
   const canSave =
-    [roles.length, validName, validUsername, validPassword].every(Boolean) &&
-    !isLoading;
+    [
+      roles.length,
+      validName,
+      validUsername,
+      validPassword,
+      validRetypePassword,
+    ].every(Boolean) && !isLoading;
 
   const onSaveUserClicked = async (e) => {
     e.preventDefault();
@@ -76,6 +99,7 @@ const NewUserForm = () => {
       await addNewUser({ username, password, roles, name });
     }
   };
+
   const options = Object.values(ROLES).map((role) => {
     return (
       <MenuItem key={role} value={role}>
@@ -88,7 +112,18 @@ const NewUserForm = () => {
   const validUserClass = !validUsername ? "form__input--incomplete" : "";
   const validNameClass = !validName ? "form__input--incomplete" : "";
   const validPwdClass = !validPassword ? "form__input--incomplete" : "";
+  const validRetypePwdClass = !validRetypePassword
+    ? "form__input--incomplete"
+    : "";
   const validRolesClass = !roles ? "form__input--incomplete" : "";
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleShowRetypePassword = () => {
+    setShowRetypePassword(!showRetypePassword);
+  };
 
   const content = (
     <>
@@ -151,8 +186,43 @@ const NewUserForm = () => {
                   name="password"
                   autoComplete="new-password"
                   value={password}
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   onChange={onPasswordChanged}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleShowPassword}>
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="retype-password"
+                  label="Retype Password"
+                  name="retype-password"
+                  autoComplete="new-password"
+                  value={retypePassword}
+                  type={showRetypePassword ? "text" : "password"}
+                  onChange={onRetypePasswordChanged}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleShowRetypePassword}>
+                          {showRetypePassword ? (
+                            <Visibility />
+                          ) : (
+                            <VisibilityOff />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
