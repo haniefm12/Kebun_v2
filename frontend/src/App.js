@@ -13,6 +13,7 @@ import Tugas from "./Pages/Tugas.jsx";
 import Profile from "./Pages/Profile.jsx";
 import EditUser from "./Components/features/user/EditUser.js";
 import NewUserForm from "./Components/features/user/NewUserForm.js";
+import Prefetch from "./Components/features/auth/Prefetch.js";
 
 function App() {
   const [mode, setMode] = useState("dark");
@@ -29,17 +30,20 @@ function App() {
         <Route path="/" element={<Layout setMode={setMode} mode={mode} />}>
           <Route index element={<Dashboard />} />
           <Route path="login" element={<Login />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="inventaris" element={<Inventaris />} />
-          <Route path="kebun" element={<Kebun />} />
-          <Route path="kelola-akun">
-            <Route index element={<KelolaAkun />} />
-            <Route path="new" element={<NewUserForm />} />
-            <Route path=":id" element={<EditUser />} />
+
+          <Route element={<Prefetch />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="inventaris" element={<Inventaris />} />
+            <Route path="kebun" element={<Kebun />} />
+            <Route path="kelola-akun">
+              <Route index element={<KelolaAkun />} />
+              <Route path="new" element={<NewUserForm />} />
+              <Route path=":id" element={<EditUser />} />
+            </Route>
+            <Route path="keuangan" element={<Keuangan />} />
+            <Route path="tugas" element={<Tugas />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
-          <Route path="keuangan" element={<Keuangan />} />
-          <Route path="tugas" element={<Tugas />} />
-          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
     </ThemeProvider>
