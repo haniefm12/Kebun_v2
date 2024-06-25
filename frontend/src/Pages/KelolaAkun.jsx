@@ -1,8 +1,12 @@
 import React from "react";
 import { useGetUsersQuery } from "../app/api/usersApiSlice";
 import User from "../Components/features/user/User";
+import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
+  Container,
+  Fab,
   Paper,
   Table,
   TableBody,
@@ -12,15 +16,21 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { AddCircleOutline } from "@mui/icons-material";
 
 const KelolaAkun = () => {
+  const navigate = useNavigate();
   const {
     data: users,
     isLoading,
     isSuccess,
     isError,
     error,
-  } = useGetUsersQuery();
+  } = useGetUsersQuery(undefined, {
+    pollingInterval: 60000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+  });
 
   let content;
 
@@ -44,7 +54,7 @@ const KelolaAkun = () => {
       : null;
 
     content = (
-      <Box p={2}>
+      <Box pl={4} pb={2} pt={2} pr={2}>
         <Typography pl={2} pb={1} variant="h4">
           Daftar Akun
         </Typography>
@@ -64,6 +74,18 @@ const KelolaAkun = () => {
             <TableBody>{tableContent}</TableBody>
           </Table>
         </TableContainer>
+        <Fab
+          color="primary"
+          size="large"
+          sx={{
+            position: "absolute",
+            bottom: 35,
+            right: 35,
+          }}
+          onClick={() => navigate("/kelola-akun/new")}
+        >
+          <AddIcon />
+        </Fab>
       </Box>
     );
   }

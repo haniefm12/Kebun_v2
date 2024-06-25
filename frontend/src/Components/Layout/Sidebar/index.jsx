@@ -39,9 +39,9 @@ const Sidebar = ({
 
   return (
     <Box
-      sx={{
-        borderRightColor: grey[100],
-      }}
+      // sx={{
+      //   borderRightColor: grey[100],
+      // }}
       component="nav"
     >
       {isSidebarOpen && (
