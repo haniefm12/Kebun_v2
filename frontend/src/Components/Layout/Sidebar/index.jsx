@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Box,
-  Divider,
   Drawer,
   IconButton,
   List,
@@ -83,7 +82,6 @@ const Sidebar = ({
                     sx={{
                       mr: 2,
                       display: { xs: "flex", md: "flex" },
-                      // fontFamily: 'onospace',
                       fontWeight: 700,
                       letterSpacing: ".3rem",
                       color: "inherit",

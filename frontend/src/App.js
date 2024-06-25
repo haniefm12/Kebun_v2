@@ -1,8 +1,8 @@
-import { Box, createTheme } from "@mui/material";
+import { createTheme } from "@mui/material";
 import Layout from "./Components/Layout.jsx";
 import { useState } from "react";
 import { ThemeProvider } from "@emotion/react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard.jsx";
 import Login from "./Pages/Login.jsx";
 import Inventaris from "./Pages/Inventaris.jsx";

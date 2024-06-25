@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Box, useMediaQuery } from "@mui/material";
 import { Outlet, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import Navbar from "./Layout/Navbar";
 import Sidebar from "./Layout/Sidebar";
-import { grey } from "@mui/material/colors";
+
 // import { useAuthContext } from "../../hooks/useAuthContext";
 //import { useGetUserQuery } from "/api";
 
