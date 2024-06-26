@@ -27,7 +27,7 @@ import { Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectGardenById } from "../../app/api/gardenApiSlice";
+import { selectGardenById } from "../../app/api/gardensApiSlice";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -42,6 +42,8 @@ const ExpandMore = styled((props) => {
 
 export default function KebunCard({ gardenId }) {
   const [expanded, setExpanded] = useState(false);
+  const garden = useSelector((state) => selectGardenById(state, gardenId));
+  console.log(gardenId, garden.name);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -69,7 +71,7 @@ export default function KebunCard({ gardenId }) {
             <OpenInNew></OpenInNew>
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
+        title={garden.name}
         subheader="September 14, 2016"
       />
       <CardMedia
@@ -80,9 +82,7 @@ export default function KebunCard({ gardenId }) {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {garden.description}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

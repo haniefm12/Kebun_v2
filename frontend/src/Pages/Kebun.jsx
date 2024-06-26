@@ -5,7 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import {
   selectGardenById,
   useGetGardensQuery,
-} from "../app/api/gardenApiSlice";
+} from "../app/api/gardensApiSlice";
 import { red } from "@mui/material/colors";
 import KebunCard from "../Components/Card/KebunCard";
 import { useSelector } from "react-redux";
@@ -14,7 +14,7 @@ const Kebun = () => {
   const navigate = useNavigate();
 
   const {
-    data: garden,
+    data: gardens,
     isLoading,
     isSuccess,
     isError,
@@ -36,7 +36,7 @@ const Kebun = () => {
     );
   }
   if (isSuccess) {
-    const { ids } = garden;
+    const { ids } = gardens;
 
     const cardContent = ids?.length
       ? ids.map((gardenId) => (
