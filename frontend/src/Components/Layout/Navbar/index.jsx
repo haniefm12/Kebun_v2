@@ -12,21 +12,43 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { Divider, Switch, styled } from "@mui/material";
-// import DarkModeIcon from "@mui/icons-material/DarkMode";
-// import LightModeIcon from "@mui/icons-material/LightMode";
 import MaterialUISwitch from "../../Switch";
 import useNavbar from "./index.hooks";
 import { ChevronLeft } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/MenuOutlined";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useSendLogoutMutation } from "../../../app/api/authApiSlice";
 
 const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
-  const {
-    anchorElUser,
-    handleOpenUserMenu,
-    handleCloseUserMenu,
-    account,
-    settings,
-  } = useNavbar();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [tooltipOpen, setTooltipOpen] = useState(true);
+  const open = Boolean(anchorEl);
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [sendLogout, { isLoading, isSuccess, isError, error }] =
+    useSendLogoutMutation();
+  const handleLogout = async () => {
+    await sendLogout();
+  };
+  useEffect(() => {
+    if (isSuccess) {
+      console.log("Navigating to /login");
+      navigate("/login", { replace: true });
+    }
+  }, [isSuccess, navigate]);
+
+  if (isLoading) return <p>Logging Out...</p>;
+
+  if (isError) return <p>Error: {error.data?.message}</p>;
 
   return (
     <AppBar position="static">
@@ -98,46 +120,36 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
             </Tooltip>
 
             <Tooltip title="Open settings" arrow>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar></Avatar>
+              <IconButton
+                onMouseEnter={() => setTooltipOpen(true)}
+                onMouseLeave={() => setTooltipOpen(false)}
+                onClick={handleAvatarClick}
+                sx={{ p: 0 }}
+              >
+                <Avatar />
               </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Avatar></Avatar>
-                <Box flexDirection="column" alignItems="start" ml="10px">
-                  {account.map((element, index) => (
-                    <Typography
-                      align="center"
-                      variant={index === 0 ? "body1" : "caption"}
-                    >
-                      {element}
+              <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+                <MenuItem>
+                  <Avatar></Avatar>
+                  <Box flexDirection="column" alignItems="start" ml="10px">
+                    <Typography variant="body1" textAlign="center">
+                      Nama
                     </Typography>
-                  ))}
-                </Box>
-              </MenuItem>
-              <Divider></Divider>
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                    <Typography variant="caption" textAlign="center">
+                      Role
+                    </Typography>
+                  </Box>
                 </MenuItem>
-              ))}
-            </Menu>
+
+                <Divider></Divider>
+                <MenuItem>
+                  <Typography textAlign="center">Profile</Typography>
+                </MenuItem>
+                <MenuItem title="Logout" onClick={handleLogout}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              </Menu>
+            </Tooltip>
           </Box>
         </Toolbar>
       </Container>
