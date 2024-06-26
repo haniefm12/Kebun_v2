@@ -27,6 +27,7 @@ const login = asyncHandler(async (req, res) => {
     {
       UserInfo: {
         username: foundUser.username,
+        name: foundUser.name,
         role: foundUser.role,
       },
     },
@@ -78,6 +79,7 @@ const refresh = (req, res) => {
         {
           UserInfo: {
             username: foundUser.username,
+            name: foundUser.name,
             role: foundUser.role,
           },
         },

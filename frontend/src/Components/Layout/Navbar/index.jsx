@@ -20,8 +20,10 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useSendLogoutMutation } from "../../../app/api/authApiSlice";
+import useAuth from "../../../hooks/useAuth";
 
 const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
+  const { name, status } = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
   const [tooltipOpen, setTooltipOpen] = useState(true);
   const open = Boolean(anchorEl);
@@ -133,10 +135,10 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
                   <Avatar></Avatar>
                   <Box flexDirection="column" alignItems="start" ml="10px">
                     <Typography variant="body1" textAlign="center">
-                      Nama
+                      {name}
                     </Typography>
                     <Typography variant="caption" textAlign="center">
-                      Role
+                      {status}
                     </Typography>
                   </Box>
                 </MenuItem>
