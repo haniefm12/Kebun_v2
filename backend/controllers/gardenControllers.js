@@ -3,21 +3,18 @@ const Garden = require("../models/Garden");
 const Note = require("../models/Note");
 
 const getAllGardens = asyncHandler(async (req, res) => {
-  const gardens = await Garden.find().lean().exec();
+  const gardens = await Garden.find().lean();
   if (!gardens?.length) {
     return res.status(404).json({ message: "No garden found" });
   }
   res.json(gardens);
 });
 
-//createnew with diffrent name?
-
 const createGarden = asyncHandler(async (req, res) => {
   const { name, address, area } = req.body;
   if (!name || !address || !area) {
     return res.status(400).json({ message: "Please fill all the fields" });
   }
-  //check duplicate name?
   const existingGarden = await Garden.findOne({ name });
   if (existingGarden) {
     return res
@@ -26,12 +23,7 @@ const createGarden = asyncHandler(async (req, res) => {
   }
 
   const garden = await Garden.create({ name, address, area });
-  res.json(garden);
-  if (garden) {
-    res.status(201).json({ message: "Garden created successfully" });
-  } else {
-    res.status(400).json({ message: "Failed to create garden" });
-  }
+  res.status(201).json({ message: "Garden created successfully", garden });
 });
 
 const updateGarden = asyncHandler(async (req, res) => {
@@ -39,12 +31,10 @@ const updateGarden = asyncHandler(async (req, res) => {
   if (!id || !name || !address || !area) {
     return res.status(400).json({ message: "Please fill all the fields" });
   }
-  //garden exist?
   const garden = await Garden.findById(id).exec();
   if (!garden) {
     return res.status(404).json({ message: "Garden not found" });
   }
-  //check duplicate name?
   const existingGarden = await Garden.findOne({ name });
   if (existingGarden && existingGarden.id !== id) {
     return res
@@ -58,14 +48,9 @@ const updateGarden = asyncHandler(async (req, res) => {
   garden.description = description;
   garden.status = status;
   const updatedGarden = await garden.save();
-  res.json(updatedGarden);
-  if (updatedGarden) {
-    res.status(200).json({ message: "Garden updated successfully" });
-  } else {
-    res.status(400).json({ message: "Failed to update garden" });
-  }
+  res.json({ message: "Garden updated successfully", garden: updatedGarden });
 });
-//add gardennotes?
+
 const addGardenNote = asyncHandler(async (req, res) => {
   const { id, note } = req.body;
   if (!id || !note) {
@@ -79,36 +64,32 @@ const addGardenNote = asyncHandler(async (req, res) => {
 
   garden.notes.push({ note, date: new Date() });
   const updatedGarden = await garden.save();
-  res.json(updatedGarden);
-  if (updatedGarden) {
-    res.status(200).json({ message: "Garden note added successfully" });
-  } else {
-    res.status(400).json({ message: "Failed to add garden note" });
-  }
+  res.json({
+    message: "Garden note added successfully",
+    garden: updatedGarden,
+  });
 });
-//delete gardennotes?
+
 const deleteGardenNote = asyncHandler(async (req, res) => {
-  const { id, noteId } = req.body;
-  if (!id || !noteId) {
-    return res.status(400).json({ message: "Please fill all the fields" });
-  }
+  try {
+    const gardenId = req.params.id;
+    const noteToRemove = req.body.note;
 
-  const garden = await Garden.findById(id).exec();
-  if (!garden) {
-    return res.status(404).json({ message: "Garden not found" });
-  }
+    const garden = await Garden.findByIdAndUpdate(
+      gardenId,
+      {
+        $pull: { notes: { note: noteToRemove } },
+      },
+      { new: true }
+    );
 
-  garden.notes.pull({ _id: noteId });
-  const updatedGarden = await garden.save();
-  res.json(updatedGarden);
-  if (updatedGarden) {
-    res.status(200).json({ message: "Garden note deleted successfully" });
-  } else {
-    res.status(400).json({ message: "Failed to delete garden note" });
+    res.json(garden);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating garden" });
   }
 });
 
-//delete garden?
 const deleteGarden = asyncHandler(async (req, res) => {
   const { id } = req.body;
   if (!id) {
@@ -128,9 +109,10 @@ const deleteGarden = asyncHandler(async (req, res) => {
   if (result) {
     res.status(200).json({ message: "Garden deleted successfully" });
   } else {
-    res.status(400).json({ message: "Failed to delete garden" });
+    res.status(400).json({ message: "Failed todelete garden" });
   }
 });
+
 module.exports = {
   getAllGardens,
   createGarden,

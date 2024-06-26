@@ -34,7 +34,7 @@ const KelolaAkun = () => {
 
   let content;
 
-  if (isLoading) content = <p>Loading...</p>;
+  if (isLoading) content = <Typography>Loading...</Typography>;
 
   if (isError) {
     content = (

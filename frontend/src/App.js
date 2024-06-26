@@ -17,9 +17,14 @@ import Prefetch from "./Components/features/auth/Prefetch.js";
 import PersistLogin from "./Components/features/auth/PersistLogin.js";
 import RequireAuth from "./Components/features/auth/RequireAuth.js";
 import { ROLES } from "./config/roles.js";
-
+import { selectCurrentUser } from "./app/api/authSlice.js";
+import { useSelector } from "react-redux";
+import useAuth from "./hooks/useAuth.js";
 function App() {
   const [mode, setMode] = useState("dark");
+  const user = useSelector(selectCurrentUser);
+  console.log("awww", user);
+  const { username } = useAuth();
 
   const theme = createTheme({
     palette: {
@@ -30,20 +35,10 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route
-          path="/login"
-          element={<Login setMode={setMode} mode={mode} />}
-        />
-        <Route
-          path="/"
-          element={
-            // Redirect to /login if not logged in, or /dashboard if logged in
-            <RequireAuth>
-              <Navigate to="/dashboard" replace />
-            </RequireAuth>
-          }
-        />
         <Route path="/" element={<Layout setMode={setMode} mode={mode} />}>
+          <Route index element={<Dashboard />} />
+          <Route path="login" element={<Login />} />
+
           <Route element={<PersistLogin />}>
             <Route
               element={
@@ -66,7 +61,9 @@ function App() {
                 <Route path="profile" element={<Profile />} />
               </Route>
             </Route>
+            {/* End Protected Rreq*/}
           </Route>
+          {/* End Protected Routes */}
         </Route>
       </Routes>
     </ThemeProvider>

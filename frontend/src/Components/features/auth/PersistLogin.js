@@ -4,6 +4,7 @@ import { useRefreshMutation } from "../../../app/api/authApiSlice";
 import usePersist from "../../../hooks/usePersist";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "../../../app/api/authSlice";
+import { Box, Typography } from "@mui/material";
 
 const PersistLogin = () => {
   const [persist] = usePersist();
@@ -52,10 +53,21 @@ const PersistLogin = () => {
     //persist: yes, token: no
     console.log("error");
     content = (
-      <p className="errmsg">
-        {error.data?.message}
+      <Box
+        pl={5}
+        pt={5}
+        sx={{
+          margin: "10px",
+          alignItems: "center",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Typography variant="h3" align="left">
+          {error.data?.message}
+        </Typography>
         <Link to="/login">Please login again</Link>.
-      </p>
+      </Box>
     );
   } else if (isSuccess && trueSuccess) {
     //persist: yes, token: yes

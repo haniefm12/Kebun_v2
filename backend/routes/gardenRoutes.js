@@ -7,7 +7,7 @@ router.get("/", gardenControllers.getAllGardens);
 router.post("/", gardenControllers.createGarden);
 router.patch("/", gardenControllers.updateGarden);
 router.post("/:id/notes", gardenControllers.addGardenNote);
-router.delete("/:id/notes/:noteId", gardenControllers.deleteGardenNote);
+router.patch("/:id/notes", gardenControllers.deleteGardenNote);
 router.delete("/", gardenControllers.deleteGarden);
 
 module.exports = router;
