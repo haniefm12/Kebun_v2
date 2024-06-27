@@ -16,6 +16,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   AddBox,
+  ArrowRight,
   Delete,
   Details,
   Edit,
@@ -23,11 +24,18 @@ import {
   OpenInNew,
   Park,
 } from "@mui/icons-material";
-import { Menu, MenuItem } from "@mui/material";
+import {
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectGardenById } from "../../app/api/gardensApiSlice";
+import { useEffect } from "react";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -43,11 +51,43 @@ const ExpandMore = styled((props) => {
 export default function KebunCard({ gardenId }) {
   const [expanded, setExpanded] = useState(false);
   const garden = useSelector((state) => selectGardenById(state, gardenId));
-  console.log(gardenId, garden.name);
+  console.log(gardenId, garden.notes);
+  const [notes, setNotes] = useState([]);
+  const formatDateTime = (date) => {
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const dateObj = new Date(date);
+    const month = monthNames[dateObj.getMonth()];
+    const day = dateObj.getDate();
+    const year = dateObj.getFullYear();
+    const hour = dateObj.getHours();
+    const minute = dateObj.getMinutes();
+    return `(${hour.toString().padStart(2, "0")}:${minute
+      .toString()
+      .padStart(2, "0")})  ${month} ${day}, ${year} `;
+  };
+
+  useEffect(() => {
+    const notesArray = garden.notes.filter((note) => note.note && note.date);
+    setNotes(notesArray);
+  }, [garden]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const hectare = garden.area / 10000;
 
   return (
     <Card
@@ -72,7 +112,7 @@ export default function KebunCard({ gardenId }) {
           </IconButton>
         }
         title={garden.name}
-        subheader="September 14, 2016"
+        subheader={`${garden.area} m² (${hectare} ha)`}
       />
       <CardMedia
         component="img"
@@ -82,6 +122,9 @@ export default function KebunCard({ gardenId }) {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
+          {garden.address}
+        </Typography>
+        <Typography variant="caption" color="text.secondary">
           {garden.description}
         </Typography>
       </CardContent>
@@ -103,33 +146,26 @@ export default function KebunCard({ gardenId }) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and
-            set aside for 10 minutes.
-          </Typography>
-          <Typography paragraph>
-            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet
-            over medium-high heat. Add chicken, shrimp and chorizo, and cook,
-            stirring occasionally until lightly browned, 6 to 8 minutes.
-            Transfer shrimp to a large plate and set aside, leaving chicken and
-            chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes,
-            onion, salt and pepper, and cook, stirring often until thickened and
-            fragrant, about 10 minutes. Add saffron broth and remaining 4 1/2
-            cups chicken broth; bring to a boil.
-          </Typography>
-          <Typography paragraph>
-            Add rice and stir very gently to distribute. Top with artichokes and
-            peppers, and cook without stirring, until most of the liquid is
-            absorbed, 15 to 18 minutes. Reduce heat to medium-low, add reserved
-            shrimp and mussels, tucking them down into the rice, and cook again
-            without stirring, until mussels have opened and rice is just tender,
-            5 to 7 minutes more. (Discard any mussels that don&apos;t open.)
-          </Typography>
-          <Typography>
-            Set aside off of the heat to let rest for 10 minutes, and then
-            serve.
-          </Typography>
+          <Typography paragraph>Catatan:</Typography>
+
+          <div>
+            {garden.notes.slice(1).map((note, index) => (
+              <ListItem key={index}>
+                <ListItemIcon>
+                  <ArrowRight /> {/* or any other icon you want */}
+                </ListItemIcon>
+                <ListItemText>
+                  <Typography variant="body2">{note.note}</Typography>
+                  <Typography variant="caption">
+                    {formatDateTime(note.date)}
+                  </Typography>
+                </ListItemText>
+              </ListItem>
+            ))}
+          </div>
+          <Typography paragraph></Typography>
+          <Typography paragraph></Typography>
+          <Typography></Typography>
         </CardContent>
       </Collapse>
     </Card>
