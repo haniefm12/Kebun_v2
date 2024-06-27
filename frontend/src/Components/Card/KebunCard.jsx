@@ -9,28 +9,12 @@ import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red, green } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
+import { green } from "@mui/material/colors";
+
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {
-  AddBox,
-  ArrowRight,
-  Delete,
-  Details,
-  Edit,
-  OpenInFull,
-  OpenInNew,
-  Park,
-} from "@mui/icons-material";
-import {
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
-} from "@mui/material";
+import { AddBox, ArrowRight, Edit, OpenInNew, Park } from "@mui/icons-material";
+import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
