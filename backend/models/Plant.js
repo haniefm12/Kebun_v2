@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 
 const plantSchema = new mongoose.Schema({
   garden: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Garden",
-    required: true,
+    type: String,
   },
   name: {
     type: String,

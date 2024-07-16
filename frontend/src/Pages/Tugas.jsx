@@ -30,7 +30,7 @@ const Tugas = () => {
     isError,
     error,
   } = useGetNotesQuery("noteList", {
-    pollingInterval: 15000,
+    pollingInterval: 60000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });

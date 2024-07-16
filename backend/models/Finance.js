@@ -3,8 +3,7 @@ const mongoose = require("mongoose");
 const financeSchema = new mongoose.Schema(
   {
     garden: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Garden",
+      type: String,
       required: true,
     },
     supplier: {

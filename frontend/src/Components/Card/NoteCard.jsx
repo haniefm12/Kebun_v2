@@ -10,6 +10,8 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { green } from "@mui/material/colors";
+import { selectUserById } from "../../app/api/usersApiSlice";
+import { selectGardenById } from "../../app/api/gardensApiSlice";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -48,12 +50,40 @@ const bull = (
   </Box>
 );
 
-export default function NoteCard(noteId) {
+export default function NoteCard({ noteId }) {
   const note = useSelector((state) => selectNoteById(state, noteId));
+  const userId = note.user; // assuming note.user is the user ID
+  const user = useSelector((state) => selectUserById(state, userId));
+  const gardenId = note.garden;
+  const garden = useSelector((state) => selectGardenById(state, gardenId));
+  const formatDateTime = (date) => {
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const dateObj = new Date(date);
+    const month = monthNames[dateObj.getMonth()];
+    const day = dateObj.getDate();
+    const year = dateObj.getFullYear();
+    const hour = dateObj.getHours();
+    const minute = dateObj.getMinutes();
+    return `(${hour.toString().padStart(2, "0")}:${minute
+      .toString()
+      .padStart(2, "0")})  ${month} ${day}, ${year} `;
+  };
 
+  console.log(note, noteId);
   const navigate = useNavigate();
-  console.log(note);
-
   const handleEdit = () => navigate(`/dash/notes/${noteId}`);
   return (
     <Card
@@ -68,25 +98,23 @@ export default function NoteCard(noteId) {
     >
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {/* {note.user.toString()} */}
+          Tugas untuk {user ? user.name : "Unknown user"} di{" "}
+          {garden ? garden.name : "Unknown garden"}
         </Typography>
         <Typography variant="h5" component="div">
-          {/* {note.title} */}
+          {note.title}
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {/* {note.createdAt} */}
+        <Typography sx={{ mb: 1.5, fontSize: 13 }} color="text.secondary">
+          {note.completed ? "status : selesai" : "status : belum selesai"}
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {/* {note.updatedAt} */}
-        </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
+        <Typography variant="body2">{note.text}</Typography>
+        <br></br>
+        <Typography variant="caption">
+          {formatDateTime(note.createdAt)}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="small">Lihat Detail</Button>
       </CardActions>
     </Card>
   );
