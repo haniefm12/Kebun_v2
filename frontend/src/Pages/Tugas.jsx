@@ -48,10 +48,18 @@ const Tugas = () => {
   }
 
   if (isSuccess) {
-    const { ids } = notes;
+    const { ids, entities } = notes;
 
+    let filteredIds;
+    if (isManager || isAdmin) {
+      filteredIds = [...ids];
+    } else {
+      filteredIds = ids.filter(
+        (noteId) => entities[noteId].username === username
+      );
+    }
     const cardNoteContent = ids?.length
-      ? ids.map((noteId) => (
+      ? filteredIds.map((noteId) => (
           <Grid item xs={12} sm={6} md={4} xl={3} key={noteId}>
             <NoteCard noteId={noteId.toString()} />
           </Grid>

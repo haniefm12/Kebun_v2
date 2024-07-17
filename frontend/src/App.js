@@ -21,6 +21,7 @@ import { selectCurrentUser } from "./app/api/authSlice.js";
 import { useSelector } from "react-redux";
 import useAuth from "./hooks/useAuth.js";
 import NewGardenForm from "./Components/features/garden/NewGardenForm.js";
+import NewNoteForm from "./Components/features/note/NewNoteForm.js";
 function App() {
   const [mode, setMode] = useState("dark");
   const user = useSelector(selectCurrentUser);
@@ -61,7 +62,10 @@ function App() {
                   <Route path=":id" element={<EditUser />} />
                 </Route>
                 <Route path="keuangan" element={<Keuangan />} />
-                <Route path="tugas" element={<Tugas />} />
+                <Route path="tugas">
+                  <Route index element={<Tugas />} />
+                  <Route path="new" element={<NewNoteForm />} />
+                </Route>
                 <Route path="profile" element={<Profile />} />
               </Route>
             </Route>

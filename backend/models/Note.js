@@ -6,11 +6,15 @@ const noteSchema = new mongoose.Schema(
     //tugas id auto
     //kebun id
     garden: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Garden",
     },
     //user id
     user: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
     },
     //tugas tittle
     title: {

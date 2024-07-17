@@ -52,9 +52,9 @@ const bull = (
 
 export default function NoteCard({ noteId }) {
   const note = useSelector((state) => selectNoteById(state, noteId));
-  const userId = note.user; // assuming note.user is the user ID
+  const userId = note ? note.user : null; // Add a check for note
   const user = useSelector((state) => selectUserById(state, userId));
-  const gardenId = note.garden;
+  const gardenId = note ? note.garden : null; // Add a check for note
   const garden = useSelector((state) => selectGardenById(state, gardenId));
   const formatDateTime = (date) => {
     const monthNames = [
