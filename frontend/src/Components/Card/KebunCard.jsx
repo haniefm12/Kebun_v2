@@ -64,16 +64,26 @@ export default function KebunCard({ gardenId }) {
   };
 
   useEffect(() => {
-    if (garden && garden.notes) {
+    if (garden?.notes) {
       const notesArray = garden.notes.filter((note) => note.note && note.date);
       setNotes(notesArray);
     }
-  }, [garden]);
+  }, [garden?.notes]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const hectare = garden.area / 10000;
+  const hectare = garden?.area ? garden.area / 10000 : 0;
+  let title = "";
+  let subheader = "";
+  let address = " ";
+  let description = " ";
+  if (garden) {
+    title = garden.name;
+    address = garden.address;
+    description = garden.description;
+    subheader = `${garden.area} m² (${garden.area / 10000} ha)`;
+  }
 
   return (
     <Card
@@ -97,8 +107,8 @@ export default function KebunCard({ gardenId }) {
             <OpenInNew></OpenInNew>
           </IconButton>
         }
-        title={garden.name}
-        subheader={`${garden.area} m² (${hectare} ha)`}
+        title={title}
+        subheader={subheader}
       />
       <CardMedia
         component="img"
@@ -108,10 +118,10 @@ export default function KebunCard({ gardenId }) {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {garden.address}
+          {address}
         </Typography>
         <Typography variant="caption" color="text.secondary">
-          {garden.description}
+          {description}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -135,19 +145,27 @@ export default function KebunCard({ gardenId }) {
           <Typography paragraph>Catatan:</Typography>
 
           <div>
-            {garden.notes.slice(1).map((note, index) => (
-              <ListItem key={index}>
-                <ListItemIcon>
-                  <ArrowRight /> {/* or any other icon you want */}
-                </ListItemIcon>
+            {garden && garden.notes && garden.notes.length > 0 ? (
+              garden.notes.slice(1).map((note, index) => (
+                <ListItem key={index}>
+                  <ListItemIcon>
+                    <ArrowRight /> {/* or any other icon you want */}
+                  </ListItemIcon>
+                  <ListItemText>
+                    <Typography variant="body2">{note.note}</Typography>
+                    <Typography variant="caption">
+                      {formatDateTime(note.date)}
+                    </Typography>
+                  </ListItemText>
+                </ListItem>
+              ))
+            ) : (
+              <ListItem>
                 <ListItemText>
-                  <Typography variant="body2">{note.note}</Typography>
-                  <Typography variant="caption">
-                    {formatDateTime(note.date)}
-                  </Typography>
+                  <Typography variant="body2">No notes available</Typography>
                 </ListItemText>
               </ListItem>
-            ))}
+            )}
           </div>
           <Typography paragraph></Typography>
           <Typography paragraph></Typography>

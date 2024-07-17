@@ -20,6 +20,7 @@ import { ROLES } from "./config/roles.js";
 import { selectCurrentUser } from "./app/api/authSlice.js";
 import { useSelector } from "react-redux";
 import useAuth from "./hooks/useAuth.js";
+import NewGardenForm from "./Components/features/garden/NewGardenForm.js";
 function App() {
   const [mode, setMode] = useState("dark");
   const user = useSelector(selectCurrentUser);
@@ -50,7 +51,10 @@ function App() {
               <Route element={<Prefetch />}>
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="inventaris" element={<Inventaris />} />
-                <Route path="kebun" element={<Kebun />} />
+                <Route path="kebun">
+                  <Route index element={<Kebun />} />
+                  <Route path="new" element={<NewGardenForm />} />
+                </Route>
                 <Route path="kelola-akun">
                   <Route index element={<KelolaAkun />} />
                   <Route path="new" element={<NewUserForm />} />
