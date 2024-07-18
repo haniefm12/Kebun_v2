@@ -63,7 +63,7 @@ const getAllInventorysPopulate = asyncHandler(async (req, res) => {
 });
 
 const createNewInventory = asyncHandler(async (req, res) => {
-  const { garden, user, title, text } = req.body;
+  const { garden, item, quantity, itemType } = req.body;
 
   // Confirm data
   if (!garden || !item || !quantity || !itemType) {
