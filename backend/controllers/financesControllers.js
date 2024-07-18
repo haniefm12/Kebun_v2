@@ -63,22 +63,39 @@ const getAllFinancesPopulate = asyncHandler(async (req, res) => {
 });
 
 const createNewFinance = asyncHandler(async (req, res) => {
-  const { garden, user, title, text } = req.body;
+  const { garden, supplier, item, quantity, unitPrice, totalCost, itemType } =
+    req.body;
 
   // Confirm data
-  if (!user || !title || !text) {
+  if (
+    !garden ||
+    !supplier ||
+    !item ||
+    !quantity ||
+    !unitPrice ||
+    !totalCost ||
+    !itemType
+  ) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
   // Check for duplicate title
-  const duplicate = await Finance.findOne({ title }).lean().exec();
+  // const duplicate = await Finance.findOne({ id }).lean().exec();
 
-  if (duplicate) {
-    return res.status(409).json({ message: "Duplicate finance title" });
-  }
+  // if (duplicate) {
+  //   return res.status(409).json({ message: "Duplicate finance " });
+  // }
 
   // Create and store the new user
-  const finance = await Finance.create({ garden, user, title, text });
+  const finance = await Finance.create({
+    garden,
+    supplier,
+    item,
+    quantity,
+    unitPrice,
+    totalCost,
+    itemType,
+  });
 
   if (finance) {
     // Created
@@ -89,16 +106,26 @@ const createNewFinance = asyncHandler(async (req, res) => {
 });
 
 const updateFinance = asyncHandler(async (req, res) => {
-  const { id, garden, user, title, text, completed } = req.body;
+  const {
+    id,
+    garden,
+    supplier,
+    item,
+    quantity,
+    unitPrice,
+    totalCost,
+    itemType,
+  } = req.body;
 
   // Confirm data
   if (
     !id ||
-    !garden ||
-    !user ||
-    !title ||
-    !text ||
-    typeof completed !== "boolean"
+    !supplier ||
+    !item ||
+    !quantity ||
+    !unitPrice ||
+    !totalCost ||
+    !itemType
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -111,12 +138,12 @@ const updateFinance = asyncHandler(async (req, res) => {
   }
 
   // Check for duplicate title
-  const duplicate = await Finance.findOne({ title }).lean().exec();
+  // const duplicate = await Finance.findOne({ title }).lean().exec();
 
-  // Allow renaming of the original finance
-  if (duplicate && duplicate?._id.toString() !== id) {
-    return res.status(409).json({ message: "Duplicate finance title" });
-  }
+  // // Allow renaming of the original finance
+  // if (duplicate && duplicate?._id.toString() !== id) {
+  //   return res.status(409).json({ message: "Duplicate finance title" });
+  // }
 
   finance.garden = garden;
   finance.title = title;
@@ -125,7 +152,7 @@ const updateFinance = asyncHandler(async (req, res) => {
 
   const updatedFinance = await finance.save();
 
-  res.json(`'${updatedFinance.title}' updated`);
+  res.json(`'${updatedFinance.id}' updated`);
 });
 
 const deleteFinance = asyncHandler(async (req, res) => {

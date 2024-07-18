@@ -66,19 +66,24 @@ const createNewInventory = asyncHandler(async (req, res) => {
   const { garden, user, title, text } = req.body;
 
   // Confirm data
-  if (!user || !title || !text) {
+  if (!garden || !item || !quantity || !itemType) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
   // Check for duplicate title
-  const duplicate = await Inventory.findOne({ title }).lean().exec();
+  const duplicate = await Inventory.findOne({ item }).lean().exec();
 
   if (duplicate) {
-    return res.status(409).json({ message: "Duplicate inventory title" });
+    return res.status(409).json({ message: "Duplicate inventory item" });
   }
 
   // Create and store the new user
-  const inventory = await Inventory.create({ garden, user, title, text });
+  const inventory = await Inventory.create({
+    garden,
+    item,
+    quantity,
+    itemType,
+  });
 
   if (inventory) {
     // Created
@@ -89,17 +94,10 @@ const createNewInventory = asyncHandler(async (req, res) => {
 });
 
 const updateInventory = asyncHandler(async (req, res) => {
-  const { id, garden, user, title, text, completed } = req.body;
+  const { id, item, quantity, itemType } = req.body;
 
   // Confirm data
-  if (
-    !id ||
-    !garden ||
-    !user ||
-    !title ||
-    !text ||
-    typeof completed !== "boolean"
-  ) {
+  if (!id || !item || !quantity || !itemType) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -111,21 +109,21 @@ const updateInventory = asyncHandler(async (req, res) => {
   }
 
   // Check for duplicate title
-  const duplicate = await Inventory.findOne({ title }).lean().exec();
+  const duplicate = await Inventory.findOne({ item }).lean().exec();
 
   // Allow renaming of the original inventory
   if (duplicate && duplicate?._id.toString() !== id) {
-    return res.status(409).json({ message: "Duplicate inventory title" });
+    return res.status(409).json({ message: "Duplicate inventory item" });
   }
 
   inventory.garden = garden;
-  inventory.title = title;
-  inventory.text = text;
-  inventory.completed = completed;
+  inventory.item = item;
+  inventory.quantity = quantity;
+  inventory.itemType = itemType;
 
   const updatedInventory = await inventory.save();
 
-  res.json(`'${updatedInventory.title}' updated`);
+  res.json(`'${updatedInventory.item}' updated`);
 });
 
 const deleteInventory = asyncHandler(async (req, res) => {
