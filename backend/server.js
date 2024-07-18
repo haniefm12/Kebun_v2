@@ -30,6 +30,8 @@ app.use("/auth", require("./routes/authRoutes"));
 app.use("/user", require("./routes/userRoutes"));
 app.use("/notes", require("./routes/noteRoutes"));
 app.use("/garden", require("./routes/gardenRoutes"));
+app.use("/finances", require("./routes/financeRoutes"));
+app.use("/inventorys", require("./routes/inventoryRoutes"));
 
 app.all("*", (req, res) => {
   res.status(404);
