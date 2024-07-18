@@ -3,6 +3,8 @@ import { store } from "../../../app/store";
 import { usersApiSlice } from "../../../app/api/usersApiSlice";
 import { gardensApiSlice } from "../../../app/api/gardensApiSlice";
 import { notesApiSlice } from "../../../app/api/notesApiSlice";
+import { inventorysApiSlice } from "../../../app/api/inventorysApiSlice";
+import { financesApiSlice } from "../../../app/api/financesApiSlice";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
@@ -15,6 +17,12 @@ const Prefetch = () => {
       gardensApiSlice.endpoints.getGardens.initiate()
     );
     const notes = store.dispatch(notesApiSlice.endpoints.getNotes.initiate());
+    const inventorys = store.dispatch(
+      inventorysApiSlice.endpoints.getInventorys.initiate()
+    );
+    const finances = store.dispatch(
+      financesApiSlice.endpoints.getFinances.initiate()
+    );
 
     return () => {
       console.log("unsubscribing");
@@ -22,6 +30,8 @@ const Prefetch = () => {
       users.unsubscribe();
       gardens.unsubscribe();
       notes.unsubscribe();
+      inventorys.unsubscribe();
+      finances.unsubscribe();
     };
   }, []);
 
