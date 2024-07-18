@@ -2,7 +2,9 @@ const mongoose = require("mongoose");
 
 const inventorySchema = new mongoose.Schema({
   garden: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Garden",
   },
   item: {
     type: String,
