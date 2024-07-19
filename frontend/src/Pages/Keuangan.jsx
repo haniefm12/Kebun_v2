@@ -96,7 +96,7 @@ const Inventaris = () => {
             bottom: 35,
             right: 35,
           }}
-          onClick={() => navigate("/inventaris/new")}
+          onClick={() => navigate("/keuangan/new")}
         >
           <AddIcon />
         </Fab>

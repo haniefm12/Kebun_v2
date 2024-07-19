@@ -22,6 +22,8 @@ import { useSelector } from "react-redux";
 import useAuth from "./hooks/useAuth.js";
 import NewGardenForm from "./Components/features/garden/NewGardenForm.js";
 import NewNoteForm from "./Components/features/note/NewNoteForm.js";
+import NewInventoryForm from "./Components/features/inventory/NewInventoryForm.js";
+import NewFinanceForm from "./Components/features/finance/NewFinanceForm.js";
 function App() {
   const [mode, setMode] = useState("dark");
   const user = useSelector(selectCurrentUser);
@@ -51,7 +53,11 @@ function App() {
             >
               <Route element={<Prefetch />}>
                 <Route path="dashboard" element={<Dashboard />} />
-                <Route path="inventaris" element={<Inventaris />} />
+
+                <Route path="inventaris">
+                  <Route index element={<Inventaris />} />
+                  <Route path="new" element={<NewInventoryForm />} />
+                </Route>
                 <Route path="kebun">
                   <Route index element={<Kebun />} />
                   <Route path="new" element={<NewGardenForm />} />
@@ -61,7 +67,10 @@ function App() {
                   <Route path="new" element={<NewUserForm />} />
                   <Route path=":id" element={<EditUser />} />
                 </Route>
-                <Route path="keuangan" element={<Keuangan />} />
+                <Route path="keuangan">
+                  <Route index element={<Keuangan />} />
+                  <Route path="new" element={<NewFinanceForm />} />
+                </Route>
                 <Route path="tugas">
                   <Route index element={<Tugas />} />
                   <Route path="new" element={<NewNoteForm />} />
