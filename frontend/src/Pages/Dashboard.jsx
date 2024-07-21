@@ -94,17 +94,24 @@ function Dashboard() {
         .slice(0, 4) // limit to 4 most updated gardens
         .map((gardenId, index) => (
           <Grid item key={gardenId} xs={12} sm={12} md={12} lg={6}>
-            <Card sx={{ minHeight: 300 }}>
+            <Card
+              sx={{
+                minHeight: 300,
+                border: "1px solid #FFFFFF", // add white border
+                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)", // add grey shadow
+              }}
+            >
               <Grid container>
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid item xs={12} sm={6} md={5}>
                   <CardMedia
+                    sx={{ mt: 1, ml: 1 }}
                     component="img"
                     height="200"
                     image="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/390px-No-Image-Placeholder.svg.png"
                     alt="Paella dish"
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={8}>
+                <Grid item xs={12} sm={6} md={7}>
                   <CardHeader
                     titleTypographyProps={{ fontWeight: "bold" }}
                     title={gardens.entities[gardenId].name}
@@ -126,7 +133,9 @@ function Dashboard() {
                   </CardContent>
                 </Grid>
               </Grid>
-              <Typography paragraph>Catatan:</Typography>
+              <Typography sx={{ ml: 2, mt: 2, mb: 0 }} paragraph>
+                Catatan:
+              </Typography>
               <div>
                 {gardens.entities[gardenId].notes &&
                 gardens.entities[gardenId].notes.length > 0 ? (
@@ -195,7 +204,16 @@ function Dashboard() {
 
   const noteContent = notesIsSuccess ? (
     Object.keys(notes.entities).map((noteId, index) => (
-      <Card key={noteId} sx={{ mb: 2, mr: 2 }}>
+      <Card
+        key={noteId}
+        sx={{
+          mt: 1,
+          mb: 2,
+          mr: 2,
+          border: "1px solid #FFFFFF", // add white border
+          boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+        }}
+      >
         <CardContent sx={{ p: 2, display: "flex" }}>
           <Checkbox checked={notes.entities[noteId].completed} />
           <Stack sx={{ ml: 1 }}>
