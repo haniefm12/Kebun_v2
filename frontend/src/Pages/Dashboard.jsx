@@ -203,28 +203,65 @@ function Dashboard() {
   );
 
   const noteContent = notesIsSuccess ? (
-    Object.keys(notes.entities).map((noteId, index) => (
-      <Card
-        key={noteId}
-        sx={{
-          mt: 1,
-          mb: 2,
-          mr: 2,
-          border: "1px solid #FFFFFF", // add white border
-          boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-        }}
-      >
-        <CardContent sx={{ p: 2, display: "flex" }}>
-          <Checkbox checked={notes.entities[noteId].completed} />
-          <Stack sx={{ ml: 1 }}>
-            <Typography variant="h6">{notes.entities[noteId].title}</Typography>
-            <Typography variant="body2">
-              {notes.entities[noteId].text}
-            </Typography>
-          </Stack>
-        </CardContent>
-      </Card>
-    ))
+    Object.keys(notes.entities)
+      .sort((a, b) => {
+        const noteA = notes.entities[a];
+        const noteB = notes.entities[b];
+        return noteA.completed - noteB.completed; // sort by completed status (false comes first)
+      })
+      .map((noteId, index) => {
+        const note = notes.entities[noteId];
+        const thisDay = new Date();
+        thisDay.setDate(thisDay.getDate());
+
+        const scheduleDate = new Date(note.schedule);
+        console.log("thisDay:", scheduleDate); // convert timestamp to Date object
+
+        const thisDayYear = thisDay.getFullYear();
+        const thisDayMonth = thisDay.getMonth();
+        const thisDayDay = thisDay.getDate();
+
+        const scheduleYear = scheduleDate.getFullYear();
+        const scheduleMonth = scheduleDate.getMonth();
+        const scheduleDay = scheduleDate.getDate();
+        console.log(
+          thisDayYear,
+          thisDayMonth,
+          thisDayDay,
+          scheduleYear,
+          scheduleMonth,
+          scheduleDay
+        );
+
+        if (
+          scheduleYear === thisDayYear &&
+          scheduleMonth === thisDayMonth &&
+          scheduleDay === thisDayDay
+        ) {
+          return (
+            <Card
+              key={noteId}
+              sx={{
+                mt: 1,
+                mb: 2,
+                mr: 2,
+                border: "1px solid #FFFFFF", // add white border
+                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              <CardContent sx={{ p: 2, display: "flex" }}>
+                <Checkbox checked={note.completed} />
+                <Stack sx={{ ml: 1 }}>
+                  <Typography variant="h6">{note.title}</Typography>
+                  <Typography variant="body2">{note.text}</Typography>
+                </Stack>
+              </CardContent>
+            </Card>
+          );
+        } else {
+          return null;
+        }
+      })
   ) : notesIsError ? (
     <Typography variant="h5">
       Data Tidak Ditemukan : {notesError?.data?.message}
