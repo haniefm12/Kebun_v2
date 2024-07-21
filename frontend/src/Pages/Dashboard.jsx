@@ -81,74 +81,85 @@ function Dashboard() {
 
   const gardenContent = gardensIsSuccess ? (
     <Grid container spacing={2} display="flex" flexWrap="wrap">
-      {Object.keys(gardens.entities).map((gardenId, index) => (
-        <Grid item key={gardenId} xs={12} sm={12} md={12} lg={6}>
-          <Card sx={{ minHeight: 300 }}>
-            <Grid container>
-              <Grid item xs={12} sm={6} md={4}>
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/390px-No-Image-Placeholder.svg.png"
-                  alt="Paella dish"
-                />
+      {Object.keys(gardens.entities)
+        .sort((a, b) => {
+          if (gardens.entities[a].updatedAt && gardens.entities[b].updatedAt) {
+            return gardens.entities[b].updatedAt.localeCompare(
+              gardens.entities[a].updatedAt
+            );
+          } else {
+            return 0; // or some other default value
+          }
+        })
+        .slice(0, 4) // limit to 4 most updated gardens
+        .map((gardenId, index) => (
+          <Grid item key={gardenId} xs={12} sm={12} md={12} lg={6}>
+            <Card sx={{ minHeight: 300 }}>
+              <Grid container>
+                <Grid item xs={12} sm={6} md={4}>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/390px-No-Image-Placeholder.svg.png"
+                    alt="Paella dish"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={8}>
+                  <CardHeader
+                    titleTypographyProps={{ fontWeight: "bold" }}
+                    title={gardens.entities[gardenId].name}
+                    subheader={gardens.entities[gardenId].address}
+                    sx={{ mb: 0, pb: 0 }}
+                  />
+                  <CardContent
+                    sx={{
+                      mt: 0,
+                      pt: 2,
+                      display: "flex",
+                      flexDirection: "column",
+                      flexGrow: 1,
+                    }}
+                  >
+                    <Typography variant="body2">
+                      {gardens.entities[gardenId].description}
+                    </Typography>
+                  </CardContent>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6} md={8}>
-                <CardHeader
-                  titleTypographyProps={{ fontWeight: "bold" }}
-                  title={gardens.entities[gardenId].name}
-                  subheader={gardens.entities[gardenId].address}
-                  sx={{ mb: 0, pb: 0 }}
-                />
-                <CardContent
-                  sx={{
-                    mt: 0,
-                    pt: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    flexGrow: 1,
-                  }}
-                >
-                  <Typography variant="body2">
-                    {gardens.entities[gardenId].description}
-                  </Typography>
-                </CardContent>
-              </Grid>
-            </Grid>
-            <Typography paragraph>Catatan:</Typography>
-            <div>
-              {gardens.entities[gardenId].notes &&
-              gardens.entities[gardenId].notes.length > 0 ? (
-                [...gardens.entities[gardenId].notes] // create a copy of the notes array
-                  .sort((a, b) => {
-                    if (a.date && b.date) {
-                      return b.date.localeCompare(a.date); // sort by date in descending order
-                    } else {
-                      return 0; // or some other default value
-                    }
-                  })
-                  .slice(1, 3) // limit to 3 newest notes
-                  .map((note, index) => (
-                    <ListItem key={index}>
-                      <ListItemText>
-                        <Typography variant="body2">
-                          {note.note ? note.note : "Tidak ada catatan"}{" "}
-                          {/* show "Tidak ada catatan" if note.note is null or undefined */}
-                        </Typography>
+              <Typography paragraph>Catatan:</Typography>
+              <div>
+                {gardens.entities[gardenId].notes &&
+                gardens.entities[gardenId].notes.length > 0 ? (
+                  [...gardens.entities[gardenId].notes] // create a copy of the notes array
+                    .sort((a, b) => {
+                      if (a.date && b.date) {
+                        return b.date.localeCompare(a.date); // sort by date in descending order
+                      } else {
+                        return 0; // or some other default value
+                      }
+                    })
+                    .slice(1, 3) // limit to 3 newest notes
+                    .map((note, index) => (
+                      <ListItem key={index}>
+                        <ListItemText>
+                          <Typography variant="body2">
+                            {note.note ? note.note : "Tidak ada catatan"}{" "}
+                            {/* show "Tidak ada catatan" if note.note is null or undefined */}
+                          </Typography>
 
-                        <Typography variant="caption">
-                          {formatDateTime(note.date)}
-                        </Typography>
-                      </ListItemText>
-                    </ListItem>
-                  ))
-              ) : (
-                <Typography>Tidak ada catatan</Typography>
-              )}
-            </div>
-          </Card>
-        </Grid>
-      ))}
+                          <Typography variant="caption">
+                            {formatDateTime(note.date)}
+                          </Typography>
+                        </ListItemText>
+                      </ListItem>
+                    ))
+                ) : (
+                  <Typography>Tidak ada catatan</Typography>
+                )}
+              </div>
+            </Card>
+          </Grid>
+        ))}
     </Grid>
   ) : gardensIsError ? (
     <Typography variant="h5">Error: {gardensError?.data?.message}</Typography>

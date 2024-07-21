@@ -11,7 +11,7 @@ const getAllGardens = asyncHandler(async (req, res) => {
 });
 
 const createGarden = asyncHandler(async (req, res) => {
-  const { name, address, area } = req.body;
+  const { name, address, area, description } = req.body;
   if (!name || !address || !area) {
     return res.status(400).json({ message: "Please fill all the fields" });
   }
@@ -22,7 +22,7 @@ const createGarden = asyncHandler(async (req, res) => {
       .json({ message: "Garden with this name already exists" });
   }
 
-  const garden = await Garden.create({ name, address, area });
+  const garden = await Garden.create({ name, address, area, description });
   res.status(201).json({ message: "Garden created successfully", garden });
 });
 

@@ -1,4 +1,4 @@
-import { Box, Container, Fab, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Fab, Grid, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
@@ -30,9 +30,29 @@ const Kebun = () => {
 
   if (isError) {
     content = (
-      <Box variant="h1" className="errmsg">
-        {error?.data?.message}
-      </Box>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        style={{ minHeight: "100vh" }}
+      >
+        <Grid item xs={12}>
+          <Typography variant="h5" color="error" align="center">
+            {error?.data?.message}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} pt={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate("/kebun/new")}
+          >
+            Tambah Kebun
+          </Button>
+        </Grid>
+      </Grid>
     );
   }
   if (isSuccess) {

@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Description, ParkOutlined } from "@mui/icons-material";
+import { ParkOutlined } from "@mui/icons-material";
 
 const GARDEN_NAME_REGEX = /^[A-z\s]{3,50}$/;
 const GARDEN_ADDRESS_REGEX = /^[A-z\s,\.]{3,100}$/;
