@@ -55,7 +55,7 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
   return (
     <AppBar position="static">
       <Container maxWidth="100%">
-        <Toolbar disableGutters>
+        <Toolbar>
           {!isSidebarOpen && (
             <IconButton onClick={() => setIsSidebarOpen(true)}>
               <MenuIcon sx={{ color: "#ffff" }} />
@@ -114,44 +114,44 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
           )}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip>
+            <Tooltip title="Toggle dark mode">
               <MaterialUISwitch
                 checked={mode === "dark"}
                 onChange={() => setMode(mode === "dark" ? "light" : "dark")}
-              ></MaterialUISwitch>
+              />
             </Tooltip>
 
-            <Tooltip title="Open settings" arrow>
-              <IconButton
-                onMouseEnter={() => setTooltipOpen(true)}
-                onMouseLeave={() => setTooltipOpen(false)}
-                onClick={handleAvatarClick}
-                sx={{ p: 0 }}
-              >
+            <IconButton
+              onMouseEnter={() => setTooltipOpen(true)}
+              onMouseLeave={() => setTooltipOpen(false)}
+              onClick={handleAvatarClick}
+              sx={{ p: 0 }}
+            >
+              <Tooltip title="Open settings" arrow>
                 <Avatar />
-              </IconButton>
-              <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-                <MenuItem>
-                  <Avatar></Avatar>
-                  <Box flexDirection="column" alignItems="start" ml="10px">
-                    <Typography variant="body1" textAlign="center">
-                      {name}
-                    </Typography>
-                    <Typography variant="caption" textAlign="center">
-                      {status}
-                    </Typography>
-                  </Box>
-                </MenuItem>
+              </Tooltip>
+            </IconButton>
+            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+              <MenuItem>
+                <Avatar></Avatar>
+                <Box flexDirection="column" alignItems="start" ml="10px">
+                  <Typography variant="body1" textAlign="center">
+                    {name}
+                  </Typography>
+                  <Typography variant="caption" textAlign="center">
+                    {status}
+                  </Typography>
+                </Box>
+              </MenuItem>
 
-                <Divider></Divider>
-                <MenuItem>
-                  <Typography textAlign="center">Profile</Typography>
-                </MenuItem>
-                <MenuItem title="Logout" onClick={handleLogout}>
-                  <Typography textAlign="center">Logout</Typography>
-                </MenuItem>
-              </Menu>
-            </Tooltip>
+              <Divider></Divider>
+              <MenuItem>
+                <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
+              <MenuItem title="Logout" onClick={handleLogout}>
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
+            </Menu>
           </Box>
         </Toolbar>
       </Container>

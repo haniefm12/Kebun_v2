@@ -8,17 +8,18 @@ const getAllNotes = asyncHandler(async (req, res) => {
   const notes = await Note.find().lean();
 
   if (!notes?.length) {
-    return res.status(404).json({ message: "No notes found" });
+    return res.status(404).json({ message: "Tidak ada tugas!" });
   }
   res.json(notes);
 });
+
 const getAllNotesUser = asyncHandler(async (req, res) => {
   // Get all notes from MongoDB
   const notes = await Note.find().lean();
 
   // If no notes
   if (!notes?.length) {
-    return res.status(400).json({ message: "No notes found" });
+    return res.status(400).json({ message: "Tidak ada Tugas!" });
   }
 
   // Add username to each note before sending the response
@@ -38,7 +39,7 @@ const getAllNotesUser = asyncHandler(async (req, res) => {
 const getAllNotesGarden = asyncHandler(async (req, res) => {
   const notes = await Note.find().lean();
   if (!notes?.length) {
-    return res.status(400).json({ message: "No notes found" });
+    return res.status(400).json({ message: "Tidak ada tugas!" });
   }
   // You could also do this with a for...of loop
   const notesWithGarden = await Promise.all(
@@ -50,6 +51,7 @@ const getAllNotesGarden = asyncHandler(async (req, res) => {
 
   res.json(notesWithGarden);
 });
+
 // getallnotes populate garden and user?
 const getAllNotesPopulate = asyncHandler(async (req, res) => {
   const notes = await Note.find()
@@ -63,10 +65,10 @@ const getAllNotesPopulate = asyncHandler(async (req, res) => {
 });
 
 const createNewNote = asyncHandler(async (req, res) => {
-  const { garden, user, title, text } = req.body;
+  const { garden, user, title, text, schedule } = req.body;
 
   // Confirm data
-  if (!user || !title || !text) {
+  if (!user || !title || !text || !schedule) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -78,7 +80,7 @@ const createNewNote = asyncHandler(async (req, res) => {
   }
 
   // Create and store the new user
-  const note = await Note.create({ garden, user, title, text });
+  const note = await Note.create({ garden, user, title, text, schedule });
 
   if (note) {
     // Created
@@ -89,7 +91,7 @@ const createNewNote = asyncHandler(async (req, res) => {
 });
 
 const updateNote = asyncHandler(async (req, res) => {
-  const { id, garden, user, title, text, completed } = req.body;
+  const { id, garden, user, title, text, completed, schedule } = req.body;
 
   // Confirm data
   if (
@@ -98,7 +100,8 @@ const updateNote = asyncHandler(async (req, res) => {
     !user ||
     !title ||
     !text ||
-    typeof completed !== "boolean"
+    typeof completed !== "boolean" ||
+    !schedule
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -123,6 +126,7 @@ const updateNote = asyncHandler(async (req, res) => {
   note.title = title;
   note.text = text;
   note.completed = completed;
+  note.schedule = schedule;
 
   const updatedNote = await note.save();
 

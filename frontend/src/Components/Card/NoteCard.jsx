@@ -97,21 +97,29 @@ export default function NoteCard({ noteId }) {
       }}
     >
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Tugas untuk {user ? user.name : "Unknown user"} di{" "}
-          {garden ? garden.name : "Unknown garden"}
-        </Typography>
-        <Typography variant="h5" component="div">
-          {note.title}
-        </Typography>
-        <Typography sx={{ mb: 1.5, fontSize: 13 }} color="text.secondary">
-          {note.completed ? "status : selesai" : "status : belum selesai"}
-        </Typography>
-        <Typography variant="body2">{note.text}</Typography>
-        <br></br>
-        <Typography variant="caption">
-          {formatDateTime(note.createdAt)}
-        </Typography>
+        {note && (
+          <>
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              Tugas untuk {user ? user.name : "Unknown user"} di{" "}
+              {garden ? garden.name : "Unknown garden"}
+            </Typography>
+            <Typography variant="h5" component="div">
+              {note.title}
+            </Typography>
+            <Typography sx={{ mb: 1.5, fontSize: 13 }} color="text.secondary">
+              {note.completed ? "status : selesai" : "status : belum selesai"}
+            </Typography>
+            <Typography variant="body2">{note.text}</Typography>
+            <br></br>
+            <Typography variant="caption">
+              {formatDateTime(note.createdAt)}
+            </Typography>
+          </>
+        )}
       </CardContent>
       <CardActions>
         <Button size="small">Lihat Detail</Button>

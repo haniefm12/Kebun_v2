@@ -167,9 +167,6 @@ export default function KebunCard({ gardenId }) {
               </ListItem>
             )}
           </div>
-          <Typography paragraph></Typography>
-          <Typography paragraph></Typography>
-          <Typography></Typography>
         </CardContent>
       </Collapse>
     </Card>

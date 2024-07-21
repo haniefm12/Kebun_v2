@@ -25,6 +25,10 @@ import {
 } from "@mui/material";
 import { Description } from "@mui/icons-material";
 
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import moment from "moment-timezone";
+
 const NOTE_TITLE_REGEX = /^[A-z\s\d+]{3,50}$/;
 const NOTE_TEXT_REGEX = /^[A-z\s,\.\d+]{3,1000}$/;
 
@@ -53,18 +57,7 @@ const NewNoteForm = () => {
   const [validTitle, setValidTitle] = useState(false);
   const [text, setText] = useState("");
   const [validText, setValidText] = useState(false);
-
-  //   useEffect(() => {
-  //     if (users && users.length > 0) {
-  //       setUserId(users[0].id);
-  //     }
-  //   }, [users]);
-
-  //   useEffect(() => {
-  //     if (gardens && gardens.length > 0) {
-  //       setGardenId(gardens[0].id);
-  //     }
-  //   }, [gardens]);
+  const [schedule, setSchedule] = useState(null);
 
   useEffect(() => {
     setValidTitle(NOTE_TITLE_REGEX.test(title));
@@ -80,6 +73,7 @@ const NewNoteForm = () => {
       setUserId("");
       setTitle("");
       setText("");
+      setSchedule(null);
       navigate("/tugas");
     }
   }, [isSuccess, navigate]);
@@ -89,6 +83,19 @@ const NewNoteForm = () => {
   const onTitleChanged = (e) => setTitle(e.target.value);
   const onTextChanged = (e) => setText(e.target.value);
 
+  const onScheduleChanged = (newDate) => {
+    const utcDate = new Date(
+      `${newDate.getFullYear()}-${padZero(newDate.getMonth() + 1)}-${padZero(
+        newDate.getDate()
+      )}T00:00:00.000Z`
+    );
+    setSchedule(utcDate);
+  };
+
+  // Helper function to pad zero
+  const padZero = (num) => {
+    return (num < 10 ? "0" : "") + num;
+  };
   const canSave = [validTitle, validText].every(Boolean) && !isLoading;
 
   const onSaveNoteClicked = async (e) => {
@@ -100,6 +107,7 @@ const NewNoteForm = () => {
           user: userId,
           title,
           text,
+          schedule,
         });
       } catch (error) {
         console.error("Error submitting form:", error);
@@ -113,113 +121,131 @@ const NewNoteForm = () => {
 
   const content = (
     <>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-            <Description />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Tambah Catatan Baru
-          </Typography>
+      <LocalizationProvider dateAdapter={AdapterDateFns} tz="Asia/Jakarta">
+        {/* ... */}
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
           <Box
-            component="form"
-            noValidate
-            onSubmit={onSaveNoteClicked}
-            sx={{ mt: 3 }}
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel outlined required>
-                    Tugas untuk
-                  </InputLabel>
-                  <Select
-                    required
-                    value={userId}
-                    onChange={onUserIdChanged}
-                    fullWidth
-                    id="userId"
-                    name="userId"
-                    label="Tugas untuk"
-                  >
-                    {users &&
-                      users.map((user) => (
-                        <MenuItem key={user.id} value={user.id}>
-                          {user.name}
-                        </MenuItem>
-                      ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel outlined required>
-                    Tugas di
-                  </InputLabel>
-                  <Select
-                    required
-                    value={gardenId}
-                    onChange={onGardenIdChanged}
-                    fullWidth
-                    id="gardenId"
-                    name="gardenId"
-                    label="Tugas di "
-                  >
-                    {gardens &&
-                      gardens.map((garden) => (
-                        <MenuItem key={garden.id} value={garden.id}>
-                          {garden.name}
-                        </MenuItem>
-                      ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  type="text"
-                  value={title}
-                  onChange={onTitleChanged}
-                  fullWidth
-                  id="title"
-                  label="Judul Tugas"
-                  name="title"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  type="text"
-                  value={text}
-                  onChange={onTextChanged}
-                  fullWidth
-                  id="text"
-                  label="Deskripsi Tugas"
-                  name="text"
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              disabled={!canSave}
+            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+              <Description />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Tambah Catatan Baru
+            </Typography>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={onSaveNoteClicked}
+              sx={{ mt: 3 }}
             >
-              Tambah Catatan
-            </Button>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel outlined="true" required>
+                      Tugas untuk
+                    </InputLabel>
+                    <Select
+                      required
+                      value={userId}
+                      onChange={onUserIdChanged}
+                      fullWidth
+                      id="userId"
+                      name="userId"
+                      label="Tugas untuk"
+                    >
+                      {users &&
+                        users.map((user) => (
+                          <MenuItem key={user.id} value={user.id}>
+                            {user.name}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel outlined="true" required>
+                      Tugas di
+                    </InputLabel>
+                    <Select
+                      required
+                      value={gardenId}
+                      onChange={onGardenIdChanged}
+                      fullWidth
+                      id="gardenId"
+                      name="gardenId"
+                      label="Tugas di"
+                    >
+                      {gardens &&
+                        gardens.map((garden) => (
+                          <MenuItem key={garden.id} value={garden.id}>
+                            {garden.name}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    type="text"
+                    value={title}
+                    onChange={onTitleChanged}
+                    fullWidth
+                    id="title"
+                    label="Judul Tugas"
+                    name="title"
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    type="text"
+                    value={text}
+                    onChange={onTextChanged}
+                    fullWidth
+                    id="text"
+                    label="Deskripsi Tugas"
+                    name="text"
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <DatePicker
+                    label="Pilih jadwal tugas"
+                    value={schedule}
+                    onChange={onScheduleChanged}
+                  >
+                    {(params) => <TextField {...params} />}
+                  </DatePicker>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    disabled={!canSave}
+                  >
+                    Tambah Catatan
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
           </Box>
-        </Box>
-      </Container>
+        </Container>
+      </LocalizationProvider>
     </>
   );
 
