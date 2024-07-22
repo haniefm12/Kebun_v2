@@ -22,6 +22,8 @@ const gardenSchema = new mongoose.Schema(
     },
     image: {
       type: String,
+      default:
+        "https://res.cloudinary.com/kebunv2/image/upload/v1721632658/Kebun_gqfi9m.jpg",
     },
     description: {
       type: String,

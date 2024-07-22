@@ -78,11 +78,13 @@ export default function KebunCard({ gardenId }) {
   let subheader = "";
   let address = " ";
   let description = " ";
+  let image = " ";
   if (garden) {
     title = garden.name;
     address = garden.address;
     description = garden.description;
     subheader = `${garden.area} m² (${garden.area / 10000} ha)`;
+    image = garden.image;
   }
 
   return (
@@ -113,7 +115,11 @@ export default function KebunCard({ gardenId }) {
       <CardMedia
         component="img"
         height="194"
-        image="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/390px-No-Image-Placeholder.svg.png"
+        image={
+          image
+            ? image
+            : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/390px-No-Image-Placeholder.svg.png "
+        }
         alt="Paella dish"
       />
       <CardContent>
