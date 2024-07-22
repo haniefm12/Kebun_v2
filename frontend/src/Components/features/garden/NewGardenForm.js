@@ -13,8 +13,8 @@ import {
 } from "@mui/material";
 import { ParkOutlined } from "@mui/icons-material";
 
-const GARDEN_NAME_REGEX = /^[A-z\s]{3,50}$/;
-const GARDEN_ADDRESS_REGEX = /^[A-z\s,\.]{3,100}$/;
+const GARDEN_NAME_REGEX = /^[A-z\s\d]{3,50}$/;
+const GARDEN_ADDRESS_REGEX = /^[A-z\s\d,\.]{3,100}$/;
 const GARDEN_AREA_REGEX = /^\d+(\.\d+)?$/;
 
 const NewGardenForm = () => {
