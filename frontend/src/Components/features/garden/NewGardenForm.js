@@ -182,6 +182,7 @@ const NewGardenForm = () => {
           address,
           area,
           description,
+          image: imageHttps,
         });
       } catch (error) {
         console.error("Error submitting form:", error);

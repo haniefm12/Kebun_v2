@@ -12,7 +12,7 @@ const getAllGardens = asyncHandler(async (req, res) => {
 });
 
 const createGarden = asyncHandler(async (req, res) => {
-  const { name, address, area, description } = req.body;
+  const { name, address, area, description, image } = req.body;
   if (!name || !address || !area) {
     return res.status(400).json({ message: "Please fill all the fields" });
   }
@@ -28,6 +28,7 @@ const createGarden = asyncHandler(async (req, res) => {
     address,
     area,
     description,
+    image,
     // Use the passed imageID here
   });
   res.status(201).json({ message: "Garden created successfully", garden });
