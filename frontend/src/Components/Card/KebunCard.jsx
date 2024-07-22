@@ -35,7 +35,7 @@ const ExpandMore = styled((props) => {
 export default function KebunCard({ gardenId }) {
   const [expanded, setExpanded] = useState(false);
   const garden = useSelector((state) => selectGardenById(state, gardenId));
-  console.log(gardenId, garden);
+  // console.log(gardenId, garden);
   const [notes, setNotes] = useState([]);
   const formatDateTime = (date) => {
     const monthNames = [
