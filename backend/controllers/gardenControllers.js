@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Garden = require("../models/Garden");
 const Note = require("../models/Note");
+const passPublicId = require("../middleware/passPublicId");
 
 const getAllGardens = asyncHandler(async (req, res) => {
   const gardens = await Garden.find().lean();
@@ -22,7 +23,13 @@ const createGarden = asyncHandler(async (req, res) => {
       .json({ message: "Garden with this name already exists" });
   }
 
-  const garden = await Garden.create({ name, address, area, description });
+  const garden = await Garden.create({
+    name,
+    address,
+    area,
+    description,
+    // Use the passed imageID here
+  });
   res.status(201).json({ message: "Garden created successfully", garden });
 });
 
