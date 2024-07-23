@@ -25,6 +25,7 @@ import NewNoteForm from "./Components/features/note/NewNoteForm.js";
 import NewInventoryForm from "./Components/features/inventory/NewInventoryForm.js";
 import NewFinanceForm from "./Components/features/finance/NewFinanceForm.js";
 import AddNewGardenNoteForm from "./Components/features/garden/AddGardenNoteForm";
+import AddGardenNote from "./Components/features/garden/AddGardenNote.js";
 function App() {
   const [mode, setMode] = useState("dark");
   const user = useSelector(selectCurrentUser);
@@ -62,7 +63,7 @@ function App() {
                 <Route path="kebun">
                   <Route index element={<Kebun />} />
                   <Route path="new" element={<NewGardenForm />} />
-                  <Route path=":id/notes/" element={<AddNewGardenNoteForm />} />
+                  <Route path=":id/notes/" element={<AddGardenNote />} />
                 </Route>
                 <Route path="kelola-akun">
                   <Route index element={<KelolaAkun />} />

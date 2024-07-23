@@ -89,9 +89,7 @@ const KebunCard = ({ gardenId }) => {
     description = garden.description;
     subheader = `${garden.area} m² (${garden.area / 10000} ha)`;
     image = garden.image;
-    const handleAddNoteClick = () => {
-      navigate(`/kebun/${gardenId}/notes/`, { state: { garden: garden } });
-    };
+    const handleAddNoteClick = () => navigate(`/kebun/${gardenId}/notes/`);
 
     return (
       <Card

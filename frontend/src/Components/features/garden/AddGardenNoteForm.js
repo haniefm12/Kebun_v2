@@ -13,13 +13,12 @@ import {
   Typography,
 } from "@mui/material";
 
-const AddNewGardenNoteForm = () => {
+const AddNewGardenNoteForm = ({ garden }) => {
   const [addNewGardenNote, { isLoading, isSuccess, isError, error }] =
     useAddNewGardenNoteMutation();
   const navigate = useNavigate();
   const [note, setNote] = useState("");
-  const location = useLocation();
-  const garden = location.state?.garden;
+
   console.log(garden);
   console.log(garden.id);
 
