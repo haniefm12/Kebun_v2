@@ -137,7 +137,7 @@ const NewNoteForm = () => {
               <Description />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Tambah Catatan Baru
+              Tambah Tugas Baru
             </Typography>
             <Box
               component="form"
@@ -238,7 +238,7 @@ const NewNoteForm = () => {
                     sx={{ mt: 3, mb: 2 }}
                     disabled={!canSave}
                   >
-                    Tambah Catatan
+                    Tambah Tugas
                   </Button>
                 </Grid>
               </Grid>

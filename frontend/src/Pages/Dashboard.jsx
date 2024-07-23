@@ -184,12 +184,12 @@ function Dashboard() {
   const financeContent = financesIsSuccess ? (
     <Grid container spacing={0}>
       <Grid item xs={6} md={6} xl={6}>
-        <Typography variant="h6" align="center">
+        <Typography variant="body2" align="center">
           Total Pengeluaran:{" "}
         </Typography>
       </Grid>
       <Grid item xs={6} md={6} xl={6}>
-        <Typography variant="h6" align="center">
+        <Typography variant="body1" align="center">
           {" "}
           Rp.{" "}
           {Object.keys(finances.entities)
@@ -202,12 +202,14 @@ function Dashboard() {
       </Grid>
     </Grid>
   ) : financesIsError ? (
-    <Typography variant="h5">Total Pengeluaran : Rp. 0,-</Typography>
+    <Typography align="center" variant="body1">
+      Total Pengeluaran : Rp. 0,-
+    </Typography>
   ) : (
     <Typography variant="h5">Loading...</Typography>
   );
 
-  const noteContent = notesIsSuccess ? (
+  const noteElement = notesIsSuccess ? (
     Object.keys(notes.entities)
       .sort((a, b) => {
         const noteA = notes.entities[a];
@@ -274,30 +276,18 @@ function Dashboard() {
   ) : (
     <Typography variant="h5">Loading...</Typography>
   );
-
+  const noteContent =
+    noteElement.length > 0 ? (
+      noteElement
+    ) : (
+      <Typography variant="body1">Tidak ada tugas untuk hari ini</Typography>
+    );
   return (
     <Grid container spacing={2} sx={{ pl: 4, pt: 2 }}>
       <Grid item xs={12} md={6} lg={7} xl={8}>
         <Typography variant="h4">Dashboard</Typography>
       </Grid>
-      <Grid item xs={12} md={6} lg={5} xl={4}>
-        <Card sx={{ mt: 0, mb: 0, mr: 4 }}>
-          <CardContent
-            sx={{
-              "&:last-child": {
-                paddingBottom: 2 /* add some padding to the last child element */,
-              },
-              mt: 0,
-              mb: 0,
-              p: 0,
-              pl: 1,
-              pt: 1,
-            }}
-          >
-            {financeContent}
-          </CardContent>
-        </Card>
-      </Grid>
+
       <Grid item xs={12} sm={12} md={8}>
         <Card>
           <Typography
@@ -310,6 +300,20 @@ function Dashboard() {
         </Card>
       </Grid>
       <Grid item xs={12} sm={12} md={4} sx={{ pr: 4 }}>
+        <Card sx={{ mt: 0, mb: 1 }}>
+          <CardContent
+            sx={{
+              mt: 0,
+              mb: 0,
+              p: 0,
+              pl: 1,
+              pt: 1,
+              alignContent: "center",
+            }}
+          >
+            {financeContent}
+          </CardContent>
+        </Card>
         <Card sx={{ mt: 0 }}>
           <CardContent sx={{ mr: 0, pr: 0 }}>
             <Typography variant="h5">Tugas</Typography>
