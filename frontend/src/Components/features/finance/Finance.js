@@ -38,7 +38,7 @@ const Finance = ({ financeId, serialNumber }) => {
   };
 
   if (finance) {
-    const handleEdit = () => navigate(`/inventaris/${financeId}`);
+    const handleEdit = () => navigate(`/keuangan/edit/${financeId}`);
 
     return (
       <TableRow>

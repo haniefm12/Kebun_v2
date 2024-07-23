@@ -146,9 +146,12 @@ const updateFinance = asyncHandler(async (req, res) => {
   // }
 
   finance.garden = garden;
-  finance.title = title;
-  finance.text = text;
-  finance.completed = completed;
+  finance.item = item;
+  finance.itemType = itemType;
+  finance.quantity = quantity;
+  finance.unitPrice = unitPrice;
+  finance.totalCost = totalCost;
+  finance.supplier = supplier;
 
   const updatedFinance = await finance.save();
 
