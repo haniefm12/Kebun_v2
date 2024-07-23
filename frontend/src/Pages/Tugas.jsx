@@ -19,10 +19,13 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { useSelector } from "react-redux";
+import { selectUserByUsername } from "../app/api/usersApiSlice";
 
 const Tugas = () => {
   const navigate = useNavigate();
   const { username, isManager, isAdmin } = useAuth();
+  const user = useSelector((state) => selectUserByUsername(state, username));
 
   const {
     data: notes,
@@ -75,9 +78,7 @@ const Tugas = () => {
     if (isManager || isAdmin) {
       filteredIds = [...ids];
     } else {
-      filteredIds = ids.filter(
-        (noteId) => entities[noteId].username === username
-      );
+      filteredIds = ids.filter((noteId) => entities[noteId].user === user.id);
     }
     const cardNoteContent = ids?.length
       ? filteredIds.map((noteId) => (

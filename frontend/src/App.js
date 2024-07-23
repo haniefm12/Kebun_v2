@@ -71,10 +71,16 @@ function App() {
                   <Route path=":id" element={<GardenDetails />} />
                   <Route path="edit/:id" element={<EditGarden />} />
                 </Route>
-                <Route path="kelola-akun">
-                  <Route index element={<KelolaAkun />} />
-                  <Route path="new" element={<NewUserForm />} />
-                  <Route path=":id" element={<EditUser />} />
+                <Route
+                  element={
+                    <RequireAuth allowedRoles={[ROLES.manager, ROLES.admin]} />
+                  }
+                >
+                  <Route path="kelola-akun">
+                    <Route index element={<KelolaAkun />} />
+                    <Route path="new" element={<NewUserForm />} />
+                    <Route path=":id" element={<EditUser />} />
+                  </Route>
                 </Route>
                 <Route path="keuangan">
                   <Route index element={<Keuangan />} />

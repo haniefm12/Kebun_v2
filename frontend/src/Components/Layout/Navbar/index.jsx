@@ -30,7 +30,8 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [tooltipOpen, setTooltipOpen] = useState(true);
   const open = Boolean(anchorEl);
-  const profileImage = user.image;
+
+  const profileImage = user ? user.image : "";
   const handleAvatarClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
