@@ -56,6 +56,14 @@ export const gardensApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Garden", id: arg.id }],
     }),
+    addNewGardenNote: builder.mutation({
+      query: (initialGardenData) => ({
+        url: `/garden/${initialGardenData.id}/notes`,
+        method: "POST",
+        body: { ...initialGardenData },
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "Garden", id: arg.id }],
+    }),
   }),
 });
 
@@ -64,6 +72,7 @@ export const {
   useAddNewGardenMutation,
   useUpdateGardenMutation,
   useDeleteGardenMutation,
+  useAddNewGardenNoteMutation,
 } = gardensApiSlice;
 
 // returns the query result object

@@ -107,8 +107,13 @@ function Dashboard() {
                     sx={{ mt: 1, ml: 1 }}
                     component="img"
                     height="200"
-                    image="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/390px-No-Image-Placeholder.svg.png"
-                    alt="Paella dish"
+                    image={
+                      gardens.entities[gardenId] &&
+                      gardens.entities[gardenId].image
+                        ? gardens.entities[gardenId].image
+                        : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/390px-No-Image-Placeholder.svg.png"
+                    }
+                    alt="No Image"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} md={7}>

@@ -20,6 +20,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectGardenById } from "../../app/api/gardensApiSlice";
 import { useEffect } from "react";
+import Kebun from "../../Pages/Kebun";
+import { retry } from "@reduxjs/toolkit/query";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -32,7 +34,9 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function KebunCard({ gardenId }) {
+const KebunCard = ({ gardenId }) => {
+  const navigate = useNavigate();
+
   const [expanded, setExpanded] = useState(false);
   const garden = useSelector((state) => selectGardenById(state, gardenId));
   // console.log(gardenId, garden);
@@ -85,96 +89,112 @@ export default function KebunCard({ gardenId }) {
     description = garden.description;
     subheader = `${garden.area} m² (${garden.area / 10000} ha)`;
     image = garden.image;
-  }
+    const handleAddNoteClick = () => {
+      navigate(`/kebun/${gardenId}/notes/`, { state: { garden: garden } });
+    };
 
-  return (
-    <Card
-      sx={{
-        maxWidth: {
-          xs: 700,
-          sm: 600,
-          md: 500,
-          xl: 400,
-        },
-      }}
-    >
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: green[300] }} aria-label="recipe">
-            <Park></Park>
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <OpenInNew></OpenInNew>
-          </IconButton>
-        }
-        title={title}
-        subheader={subheader}
-      />
-      <CardMedia
-        component="img"
-        height="194"
-        image={
-          image
-            ? image
-            : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/390px-No-Image-Placeholder.svg.png "
-        }
-        alt="Paella dish"
-      />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {address}
-        </Typography>
-        <Typography variant="caption" color="text.secondary">
-          {description}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <Edit />
-        </IconButton>
-        <IconButton aria-label="share">
-          <AddBox />
-        </IconButton>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+    return (
+      <Card
+        sx={{
+          maxWidth: {
+            xs: 700,
+            sm: 600,
+            md: 500,
+            xl: 400,
+          },
+        }}
+      >
+        <CardHeader
+          avatar={
+            <Avatar sx={{ bgcolor: green[300] }} aria-label="recipe">
+              <Park></Park>
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+              <OpenInNew></OpenInNew>
+            </IconButton>
+          }
+          title={title}
+          subheader={subheader}
+        />
+        <CardMedia
+          component="img"
+          height="194"
+          image={
+            image
+              ? image
+              : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/390px-No-Image-Placeholder.svg.png "
+          }
+          alt="Paella dish"
+        />
         <CardContent>
-          <Typography paragraph>Catatan:</Typography>
+          {address ? (
+            <Typography variant="body2" color="text.secondary">
+              {address}
+            </Typography>
+          ) : (
+            <Typography variant="body2" color="text.secondary">
+              No address
+            </Typography>
+          )}
+          {description ? (
+            <Typography variant="caption" color="text.secondary">
+              {description}
+            </Typography>
+          ) : (
+            <Typography variant="caption" color="text.secondary">
+              No description
+            </Typography>
+          )}
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton aria-label="add to favorites">
+            <Edit />
+          </IconButton>
+          <IconButton aria-label="add note" onClick={handleAddNoteClick}>
+            <AddBox />
+          </IconButton>
+          <ExpandMore
+            expand={expanded}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </ExpandMore>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography paragraph>Catatan:</Typography>
 
-          <div>
-            {garden && garden.notes && garden.notes.length > 0 ? (
-              garden.notes.slice(1).map((note, index) => (
-                <ListItem key={index}>
-                  <ListItemIcon>
-                    <ArrowRight /> {/* or any other icon you want */}
-                  </ListItemIcon>
+            <div>
+              {garden && garden.notes && garden.notes.length > 0 ? (
+                garden.notes.slice(1).map((note, index) => (
+                  <ListItem key={index}>
+                    <ListItemIcon>
+                      <ArrowRight /> {/* or any other icon you want */}
+                    </ListItemIcon>
+                    <ListItemText>
+                      <Typography variant="body2">{note.note}</Typography>
+                      <Typography variant="caption">
+                        {formatDateTime(note.date)}
+                      </Typography>
+                    </ListItemText>
+                  </ListItem>
+                ))
+              ) : (
+                <ListItem>
                   <ListItemText>
-                    <Typography variant="body2">{note.note}</Typography>
-                    <Typography variant="caption">
-                      {formatDateTime(note.date)}
-                    </Typography>
+                    <Typography variant="body2">No notes available</Typography>
                   </ListItemText>
                 </ListItem>
-              ))
-            ) : (
-              <ListItem>
-                <ListItemText>
-                  <Typography variant="body2">No notes available</Typography>
-                </ListItemText>
-              </ListItem>
-            )}
-          </div>
-        </CardContent>
-      </Collapse>
-    </Card>
-  );
-}
+              )}
+            </div>
+          </CardContent>
+        </Collapse>
+      </Card>
+    );
+  } else return null;
+};
+export default KebunCard;
