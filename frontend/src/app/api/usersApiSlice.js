@@ -84,3 +84,8 @@ export const {
 } = usersAdapter.getSelectors(
   (state) => selectUsersData(state) ?? initialState
 );
+export const selectUserByUsername = (state, username) =>
+  createSelector(selectAllUsers, (users) => {
+    const user = users.find((user) => user.username === username);
+    return user ? user : null;
+  })(state);

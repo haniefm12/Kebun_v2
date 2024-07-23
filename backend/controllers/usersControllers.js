@@ -48,7 +48,8 @@ const createNewUser = asyncHandler(async (req, res) => {
 });
 
 const updateUser = asyncHandler(async (req, res) => {
-  const { id, name, phoneNumber, username, role, active, password } = req.body;
+  const { id, name, phoneNumber, username, role, active, password, image } =
+    req.body;
 
   // Confirm data
   if (
@@ -67,13 +68,9 @@ const updateUser = asyncHandler(async (req, res) => {
     if (!role) missingFields.push("role");
     if (typeof active !== "boolean") missingFields.push("active");
 
-    return res
-      .status(400)
-      .json({
-        message: `The following fields are required: ${missingFields.join(
-          ", "
-        )}`,
-      });
+    return res.status(400).json({
+      message: `The following fields are required: ${missingFields.join(", ")}`,
+    });
   }
   // Does the user exist to update?
   const user = await User.findById(id).exec();
@@ -95,6 +92,7 @@ const updateUser = asyncHandler(async (req, res) => {
   user.active = active;
   user.name = req.body.name.replace(/\b\w/g, (l) => l.toUpperCase());
   user.phoneNumber = phoneNumber;
+  user.image = image;
 
   if (password) {
     // Hash password

@@ -23,7 +23,8 @@ import { useSendLogoutMutation } from "../../../app/api/authApiSlice";
 import useAuth from "../../../hooks/useAuth";
 
 const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
-  const { name, status } = useAuth();
+  const { name, username, status } = useAuth();
+  console.log(username);
   const [anchorEl, setAnchorEl] = useState(null);
   const [tooltipOpen, setTooltipOpen] = useState(true);
   const open = Boolean(anchorEl);
@@ -41,6 +42,7 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
   const handleLogout = async () => {
     await sendLogout();
   };
+  const handleProfile = () => navigate(`/profile/${username}`);
   useEffect(() => {
     if (isSuccess) {
       console.log("Navigating to /login");
@@ -146,7 +148,9 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
 
               <Divider></Divider>
               <MenuItem>
-                <Typography textAlign="center">Profile</Typography>
+                <Typography textAlign="center" onClick={handleProfile}>
+                  Profile
+                </Typography>
               </MenuItem>
               <MenuItem title="Logout" onClick={handleLogout}>
                 <Typography textAlign="center">Logout</Typography>

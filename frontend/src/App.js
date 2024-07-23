@@ -87,7 +87,7 @@ function App() {
                   <Route path="detail/:id" element={<NoteDetail />} />
                   <Route path=":id/edit" element={<EditNote />} />
                 </Route>
-                <Route path="profile" element={<Profile />} />
+                <Route path="profile/:username" element={<Profile />} />
               </Route>
             </Route>
           </Route>
