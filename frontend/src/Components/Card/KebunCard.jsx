@@ -90,6 +90,7 @@ const KebunCard = ({ gardenId }) => {
     subheader = `${garden.area} m² (${garden.area / 10000} ha)`;
     image = garden.image;
     const handleAddNoteClick = () => navigate(`/kebun/${gardenId}/notes/`);
+    const handleViewClick = () => navigate(`/kebun/${gardenId}/`);
 
     return (
       <Card
@@ -110,7 +111,7 @@ const KebunCard = ({ gardenId }) => {
           }
           action={
             <IconButton aria-label="settings">
-              <OpenInNew></OpenInNew>
+              <OpenInNew onClick={handleViewClick}></OpenInNew>
             </IconButton>
           }
           title={title}

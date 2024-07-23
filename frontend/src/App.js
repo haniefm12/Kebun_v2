@@ -26,6 +26,7 @@ import NewInventoryForm from "./Components/features/inventory/NewInventoryForm.j
 import NewFinanceForm from "./Components/features/finance/NewFinanceForm.js";
 import AddNewGardenNoteForm from "./Components/features/garden/AddGardenNoteForm";
 import AddGardenNote from "./Components/features/garden/AddGardenNote.js";
+import GardenDetails from "./Components/features/garden/GardenDetails.js";
 
 function App() {
   const [mode, setMode] = useState("dark");
@@ -61,6 +62,7 @@ function App() {
                   <Route index element={<Kebun />} />
                   <Route path="new" element={<NewGardenForm />} />
                   <Route path=":id/notes/" element={<AddGardenNote />} />
+                  <Route path=":id" element={<GardenDetails />} />
                 </Route>
                 <Route path="kelola-akun">
                   <Route index element={<KelolaAkun />} />
