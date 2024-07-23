@@ -94,7 +94,7 @@ const createNewInventory = asyncHandler(async (req, res) => {
 });
 
 const updateInventory = asyncHandler(async (req, res) => {
-  const { id, item, quantity, itemType } = req.body;
+  const { id, item, quantity, itemType, garden } = req.body;
 
   // Confirm data
   if (!id || !item || !quantity || !itemType) {

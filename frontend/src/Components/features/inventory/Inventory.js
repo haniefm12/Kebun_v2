@@ -42,7 +42,7 @@ const Inventory = ({ inventoryId, serialNumber }) => {
   };
 
   if (inventory) {
-    const handleEdit = () => navigate(`/inventaris/${inventoryId}`);
+    const handleEdit = () => navigate(`/inventaris/edit/${inventoryId}`);
 
     return (
       <TableRow>
