@@ -21,13 +21,16 @@ import { useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useSendLogoutMutation } from "../../../app/api/authApiSlice";
 import useAuth from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import { selectUserByUsername } from "../../../app/api/usersApiSlice";
 
 const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
   const { name, username, status } = useAuth();
-  console.log(username);
+  const user = useSelector((state) => selectUserByUsername(state, username));
   const [anchorEl, setAnchorEl] = useState(null);
   const [tooltipOpen, setTooltipOpen] = useState(true);
   const open = Boolean(anchorEl);
+  const profileImage = user.image;
   const handleAvatarClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -130,12 +133,12 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
               sx={{ p: 0 }}
             >
               <Tooltip title="Open settings" arrow>
-                <Avatar />
+                <Avatar src={profileImage} />
               </Tooltip>
             </IconButton>
             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
               <MenuItem>
-                <Avatar></Avatar>
+                <Avatar src={profileImage}></Avatar>
                 <Box flexDirection="column" alignItems="start" ml="10px">
                   <Typography variant="body1" textAlign="center">
                     {name}
