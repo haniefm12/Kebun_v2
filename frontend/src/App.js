@@ -31,6 +31,7 @@ import EditGarden from "./Components/features/garden/EditGarden.js";
 import EditInventory from "./Components/features/inventory/EditInventory.js";
 import EditFinance from "./Components/features/finance/EditFinance.js";
 import NoteDetail from "./Components/features/note/NoteDetails.js";
+import EditNote from "./Components/features/note/EditNote.js";
 
 function App() {
   const [mode, setMode] = useState("dark");
@@ -84,6 +85,7 @@ function App() {
                   <Route index element={<Tugas />} />
                   <Route path="new" element={<NewNoteForm />} />
                   <Route path="detail/:id" element={<NoteDetail />} />
+                  <Route path=":id/edit" element={<EditNote />} />
                 </Route>
                 <Route path="profile" element={<Profile />} />
               </Route>

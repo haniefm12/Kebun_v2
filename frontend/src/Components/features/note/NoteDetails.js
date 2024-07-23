@@ -18,7 +18,10 @@ import {
   selectNoteById,
   useUpdateNoteMutation,
 } from "../../../app/api/notesApiSlice";
-import { useGetUsersQuery } from "../../../app/api/usersApiSlice";
+import {
+  selectUserById,
+  useGetUsersQuery,
+} from "../../../app/api/usersApiSlice";
 import {
   selectGardenById,
   useGetGardensQuery,
@@ -32,7 +35,7 @@ const NoteDetails = () => {
 
   const note = useSelector((state) => selectNoteById(state, id));
   const garden = useSelector((state) => selectGardenById(state, note?.garden));
-  const user = useSelector((state) => selectGardenById(state, note?.user));
+  const user = useSelector((state) => selectUserById(state, note?.user));
   const [status, setStatus] = useState(note ? note.completed : false);
 
   const handleEditClick = () => {
@@ -71,12 +74,15 @@ const NoteDetails = () => {
           <Typography variant="h5" sx={{ mt: 2, ml: 0 }}>
             Tugas Kebun
           </Typography>
+          <Typography variant="h6" sx={{ mt: 0, ml: 0 }}>
+            {note.title}
+          </Typography>
           <TableContainer component={Paper} sx={{ mt: 2 }}>
             <Table size="small">
               <TableBody>
                 <TableRow>
                   <TableCell>
-                    <strong>Tugas untuk:</strong> {user ? user.name : "Unknown"}
+                    <strong>Tugas untuk:</strong> {user.name}
                   </TableCell>
                   <TableCell>
                     <strong>Tugas di:</strong>{" "}
