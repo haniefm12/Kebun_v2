@@ -26,11 +26,10 @@ import NewInventoryForm from "./Components/features/inventory/NewInventoryForm.j
 import NewFinanceForm from "./Components/features/finance/NewFinanceForm.js";
 import AddNewGardenNoteForm from "./Components/features/garden/AddGardenNoteForm";
 import AddGardenNote from "./Components/features/garden/AddGardenNote.js";
+
 function App() {
   const [mode, setMode] = useState("dark");
   const user = useSelector(selectCurrentUser);
-  console.log("awww", user);
-  const { username } = useAuth();
 
   const theme = createTheme({
     palette: {
@@ -41,11 +40,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route path="/" element={<Layout setMode={setMode} mode={mode} />}>
-          <Route index element={<Dashboard />} />
-          <Route path="login" element={<Login />} />
-
-          <Route element={<PersistLogin />}>
+        <Route element={<PersistLogin />}>
+          <Route path="/" element={<Layout setMode={setMode} mode={mode} />}>
             <Route
               element={
                 <RequireAuth
@@ -53,6 +49,7 @@ function App() {
                 />
               }
             >
+              <Route path="/" element={<Navigate to="/dashboard" />} />
               <Route element={<Prefetch />}>
                 <Route path="dashboard" element={<Dashboard />} />
 
@@ -81,10 +78,9 @@ function App() {
                 <Route path="profile" element={<Profile />} />
               </Route>
             </Route>
-            {/* End Protected Rreq*/}
           </Route>
-          {/* End Protected Routes */}
         </Route>
+        <Route path="/login" element={<Login />} />
       </Routes>
     </ThemeProvider>
   );

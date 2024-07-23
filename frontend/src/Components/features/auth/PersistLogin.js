@@ -5,6 +5,7 @@ import usePersist from "../../../hooks/usePersist";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "../../../app/api/authSlice";
 import { Box, Typography } from "@mui/material";
+import UnauthorizedPage from "./UnauthorizedPage";
 
 const PersistLogin = () => {
   const [persist] = usePersist();
@@ -52,23 +53,7 @@ const PersistLogin = () => {
   } else if (isError) {
     //persist: yes, token: no
     console.log("error");
-    content = (
-      <Box
-        pl={5}
-        pt={5}
-        sx={{
-          margin: "10px",
-          alignItems: "center",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Typography variant="h3" align="left">
-          {error.data?.message}
-        </Typography>
-        <Link to="/login">Please login again</Link>.
-      </Box>
-    );
+    content = <UnauthorizedPage />;
   } else if (isSuccess && trueSuccess) {
     //persist: yes, token: yes
     console.log("success");

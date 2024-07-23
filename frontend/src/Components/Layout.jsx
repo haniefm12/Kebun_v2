@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Box, useMediaQuery } from "@mui/material";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 // import { useSelector } from "react-redux";
 import Navbar from "./Layout/Navbar";
 import Sidebar from "./Layout/Sidebar";
+import { selectCurrentUser } from "../app/api/authSlice";
+import { useSelector } from "react-redux";
+import useAuth from "../hooks/useAuth";
 
 // import { useAuthContext } from "../../hooks/useAuthContext";
 //import { useGetUserQuery } from "/api";
@@ -15,6 +18,8 @@ const Layout = ({ setMode, mode }) => {
   const [hideNavbarAndSidebar, setHideNavbarAndSidebar] = useState(false);
   // const userId = useSelector((state) => state.global.userId);
   // const { data } = useGetUserQuery(userId);
+  const user = useSelector(selectCurrentUser);
+  const navigate = useNavigate();
   useEffect(() => {
     if (location.pathname === "/login") {
       setHideNavbarAndSidebar(true);
@@ -22,6 +27,9 @@ const Layout = ({ setMode, mode }) => {
       setHideNavbarAndSidebar(false);
     }
   }, [location]);
+  const { name, username, role, status, isManager, isAdmin } = useAuth;
+  console.log("name", name);
+  console.log(name, username, role, status, isManager, isAdmin);
   return (
     <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">
       {!hideNavbarAndSidebar && (
