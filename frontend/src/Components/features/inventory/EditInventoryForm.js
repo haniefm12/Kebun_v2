@@ -249,7 +249,7 @@ const EditInventoryForm = ({ inventory }) => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Hapus Data Kebun
+              Hapus Data Barang
             </Button>
           </Box>
         </Box>
