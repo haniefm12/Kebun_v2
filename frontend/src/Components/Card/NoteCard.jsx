@@ -84,7 +84,7 @@ export default function NoteCard({ noteId }) {
 
   console.log(note, noteId);
   const navigate = useNavigate();
-  const handleEdit = () => navigate(`/dash/notes/${noteId}`);
+  const handleDetail = () => navigate(`/tugas/detail/${noteId}`);
   return (
     <Card
       sx={{
@@ -122,7 +122,9 @@ export default function NoteCard({ noteId }) {
         )}
       </CardContent>
       <CardActions>
-        <Button size="small">Lihat Detail</Button>
+        <Button size="small" onClick={handleDetail}>
+          Lihat Detail
+        </Button>
       </CardActions>
     </Card>
   );
