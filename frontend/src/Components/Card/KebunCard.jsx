@@ -91,6 +91,7 @@ const KebunCard = ({ gardenId }) => {
     image = garden.image;
     const handleAddNoteClick = () => navigate(`/kebun/${gardenId}/notes/`);
     const handleViewClick = () => navigate(`/kebun/${gardenId}/`);
+    const handleEdit = () => navigate(`/kebun/edit/${gardenId}/`);
 
     return (
       <Card
@@ -148,7 +149,7 @@ const KebunCard = ({ gardenId }) => {
           )}
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
+          <IconButton aria-label="add to favorites" onClick={handleEdit}>
             <Edit />
           </IconButton>
           <IconButton aria-label="add note" onClick={handleAddNoteClick}>
