@@ -316,7 +316,7 @@ function Dashboard() {
         </Card>
         <Card sx={{ mt: 0 }}>
           <CardContent sx={{ mr: 0, pr: 0 }}>
-            <Typography variant="h5">Tugas</Typography>
+            <Typography variant="h5">Tugas Saya Hari Ini</Typography>
             {noteContent}
           </CardContent>
         </Card>

@@ -34,7 +34,7 @@ import NoteDetail from "./Components/features/note/NoteDetails.js";
 import EditNote from "./Components/features/note/EditNote.js";
 
 function App() {
-  const [mode, setMode] = useState("dark");
+  const [mode, setMode] = useState("light");
   const user = useSelector(selectCurrentUser);
 
   const theme = createTheme({

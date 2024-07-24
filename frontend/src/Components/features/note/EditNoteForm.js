@@ -248,7 +248,7 @@ const EditNoteForm = ({ note }) => {
                   control={
                     <Switch checked={active} onChange={onActiveChanged} />
                   }
-                  label="Status Akun"
+                  label="Status Tugas"
                   id="user-active"
                   name="user-active"
                 ></FormControlLabel>

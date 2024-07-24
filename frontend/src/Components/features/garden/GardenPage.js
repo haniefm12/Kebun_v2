@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 const GardenPage = ({ garden }) => {
   return (
     <Container maxWidth="lg" sx={{ pl: 1, mt: 4, mb: 4, ml: 3 }}>
-      <Typography gutterBottom variant="h3" component="div">
+      <Typography gutterBottom variant="h4" component="div">
         {garden.name}
       </Typography>
       <Grid container spacing={2}>
@@ -74,13 +74,13 @@ const GardenPage = ({ garden }) => {
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
           <Typography variant="h6" component="h2">
-            Description
+            Deskripsi
           </Typography>
           <Typography variant="body1" paragraph>
             {garden.description}
           </Typography>
           <Typography variant="h6" component="h2">
-            Notes
+            Catatan
           </Typography>
           <ul>
             {garden.notes

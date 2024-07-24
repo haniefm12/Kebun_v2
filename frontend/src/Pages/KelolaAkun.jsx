@@ -78,7 +78,7 @@ const KelolaAkun = () => {
     content = (
       <Box pl={4} pb={2} pt={2} pr={2}>
         <Typography pl={2} pb={1} variant="h4">
-          Daftar Akun
+          Kelola Akun
         </Typography>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 580 }} aria-label="simple table">
