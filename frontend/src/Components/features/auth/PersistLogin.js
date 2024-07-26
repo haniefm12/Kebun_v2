@@ -1,10 +1,10 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useRefreshMutation } from "../../../app/api/authApiSlice";
 import usePersist from "../../../hooks/usePersist";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "../../../app/api/authSlice";
-import { Box, Typography } from "@mui/material";
+
 import UnauthorizedPage from "./UnauthorizedPage";
 
 const PersistLogin = () => {
@@ -14,7 +14,7 @@ const PersistLogin = () => {
 
   const [trueSuccess, setTrueSuccess] = useState(false);
 
-  const [refresh, { isUninitialized, isLoading, isSuccess, isError, error }] =
+  const [refresh, { isUninitialized, isLoading, isSuccess, isError }] =
     useRefreshMutation();
 
   useEffect(() => {
@@ -22,7 +22,6 @@ const PersistLogin = () => {
       // React 18 Strict Mode
 
       const verifyRefreshToken = async () => {
-        console.log("verifying refresh token");
         try {
           //const response =
           await refresh();
@@ -43,25 +42,14 @@ const PersistLogin = () => {
 
   let content;
   if (!persist) {
-    // persist: no
-    console.log("no persist");
     content = <Outlet />;
   } else if (isLoading) {
-    //persist: yes, token: no
-    console.log("loading");
     content = <p>Loading...</p>;
   } else if (isError) {
-    //persist: yes, token: no
-    console.log("error");
     content = <UnauthorizedPage />;
   } else if (isSuccess && trueSuccess) {
-    //persist: yes, token: yes
-    console.log("success");
     content = <Outlet />;
   } else if (token && isUninitialized) {
-    //persist: yes, token: yes
-    console.log("token and uninit");
-    console.log(isUninitialized);
     content = <Outlet />;
   }
 

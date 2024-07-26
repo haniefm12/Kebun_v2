@@ -3,13 +3,10 @@ import { useSelector } from "react-redux";
 import { selectFinanceById } from "../../../app/api/financesApiSlice";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import { IconButton, TableCell, TableRow } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
 import { selectGardenById } from "../../../app/api/gardensApiSlice";
 
 const Finance = ({ financeId, serialNumber }) => {
   const finance = useSelector((state) => selectFinanceById(state, financeId));
-  console.log(financeId);
   const navigate = useNavigate();
   const gardenId = finance ? finance.garden : null; // Add a check for note
   const garden = useSelector((state) => selectGardenById(state, gardenId));
@@ -32,8 +29,6 @@ const Finance = ({ financeId, serialNumber }) => {
     const month = monthNames[dateObj.getMonth()];
     const day = dateObj.getDate();
     const year = dateObj.getFullYear();
-    const hour = dateObj.getHours();
-    const minute = dateObj.getMinutes();
     return `${day} ${month} ${year} `;
   };
 

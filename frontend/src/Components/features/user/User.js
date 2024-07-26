@@ -8,7 +8,6 @@ import CancelIcon from "@mui/icons-material/Cancel";
 
 const User = ({ userId, serialNumber }) => {
   const user = useSelector((state) => selectUserById(state, userId));
-  console.log(userId[1]);
   const navigate = useNavigate();
 
   if (user) {

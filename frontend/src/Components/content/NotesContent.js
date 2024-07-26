@@ -4,7 +4,7 @@ import { Card, CardContent, Checkbox, Stack, Typography } from "@mui/material";
 import { useNotes } from "../../app/api/api";
 
 function NotesContent() {
-  const { data: notes, isLoading, isSuccess, isError, error } = useNotes();
+  const { data: notes, isLoading, isSuccess, isError } = useNotes();
 
   if (isLoading) {
     return <Typography variant="h5">Loading...</Typography>;
@@ -21,32 +21,19 @@ function NotesContent() {
     .sort((a, b) => {
       const noteA = notes.entities[a];
       const noteB = notes.entities[b];
-      return noteA.completed - noteB.completed; // sort by completed status (false comes first)
+      return noteA.completed - noteB.completed;
     })
     .map((noteId, index) => {
       const note = notes.entities[noteId];
       const thisDay = new Date();
       thisDay.setDate(thisDay.getDate());
-
       const scheduleDate = new Date(note.schedule);
-      console.log("thisDay:", scheduleDate); // convert timestamp to Date object
-
       const thisDayYear = thisDay.getFullYear();
       const thisDayMonth = thisDay.getMonth();
       const thisDayDay = thisDay.getDate();
-
       const scheduleYear = scheduleDate.getFullYear();
       const scheduleMonth = scheduleDate.getMonth();
       const scheduleDay = scheduleDate.getDate();
-      console.log(
-        thisDayYear,
-        thisDayMonth,
-        thisDayDay,
-        scheduleYear,
-        scheduleMonth,
-        scheduleDay
-      );
-
       if (
         scheduleYear === thisDayYear &&
         scheduleMonth === thisDayMonth &&

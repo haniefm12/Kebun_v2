@@ -3,15 +3,12 @@ import { useSelector } from "react-redux";
 import { selectInventoryById } from "../../../app/api/inventorysApiSlice";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import { IconButton, TableCell, TableRow } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
 import { selectGardenById } from "../../../app/api/gardensApiSlice";
 
 const Inventory = ({ inventoryId, serialNumber }) => {
   const inventory = useSelector((state) =>
     selectInventoryById(state, inventoryId)
   );
-  console.log(inventoryId);
   const navigate = useNavigate();
   const gardenId = inventory ? inventory.garden : null; // Add a check for note
   const garden = useSelector((state) => selectGardenById(state, gardenId));

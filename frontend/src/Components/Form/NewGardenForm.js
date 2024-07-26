@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useAddNewGardenMutation } from "../../app/api/gardensApiSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Alert,
   Avatar,
   Box,
   Button,
-  CircularProgress,
   Container,
   CssBaseline,
   Grid,
   LinearProgress,
-  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -22,11 +20,11 @@ const api_key = "989773282234796";
 const cloud_name = "kebunv2";
 
 const GARDEN_NAME_REGEX = /^[A-z\s\d]{3,50}$/;
-const GARDEN_ADDRESS_REGEX = /^[A-z\s\d,\.]{3,100}$/;
+const GARDEN_ADDRESS_REGEX = /^[A-z\s\d,.]{3,100}$/;
 const GARDEN_AREA_REGEX = /^\d+(\.\d+)?$/;
-const GARDEN_DESCRIPTION_REGEX = /^[A-z\s\d,.\-]{3,500}$/;
+const GARDEN_DESCRIPTION_REGEX = /^[A-z\s\d,.]{3,500}$/;
 const NewGardenForm = () => {
-  const [addNewGarden, { isLoading, isSuccess, isError, error }] =
+  const [addNewGarden, { isLoading, isSuccess, isError }] =
     useAddNewGardenMutation();
   const navigate = useNavigate();
 
@@ -157,7 +155,7 @@ const NewGardenForm = () => {
             },
           }
         );
-        console.log(cloudinaryResponse.data);
+
         const photoData = {
           public_id: cloudinaryResponse.data.public_id,
           version: cloudinaryResponse.data.version,
@@ -167,16 +165,11 @@ const NewGardenForm = () => {
         await axios
           .post("http://localhost:3500/do-something-with-photo", photoData)
           .then((response) => {
-            const imageID = response.data.imageID;
             imageHttps = response.data.imageHttps;
-            console.log(`Image ID: ${imageID}`);
-            console.log(`Image HTTPS: ${imageHttps}`);
-            // You can use the imageID here
           })
           .catch((error) => {
             console.error(error);
           });
-        console.log(imageHttps);
         await addNewGarden({
           name,
           address,

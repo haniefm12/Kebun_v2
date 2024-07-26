@@ -35,18 +35,15 @@ const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
 const NAME_REGEX = /^[A-z0-9\s]{3,36}$/;
 
 const EditUserForm = ({ user }) => {
-  const [updateUser, { isLoading, isSuccess, isError, error }] =
-    useUpdateUserMutation();
+  const [updateUser, { isLoading, isSuccess, error }] = useUpdateUserMutation();
 
-  const [
-    deleteUser,
-    { isSuccess: isDelSuccess, isError: isDelError, error: delerror },
-  ] = useDeleteUserMutation();
+  const [deleteUser, { isSuccess: isDelSuccess, error: delerror }] =
+    useDeleteUserMutation();
 
   const navigate = useNavigate();
 
   const [name, setName] = useState(user.name);
-  const [image, setImage] = useState(user.image);
+  const [image] = useState(user.image);
   const [validName, setValidName] = useState("");
   const [username, setUsername] = useState(user.username);
   const [validUsername, setValidUsername] = useState(false);
@@ -70,7 +67,6 @@ const EditUserForm = ({ user }) => {
   }, [password]);
 
   useEffect(() => {
-    console.log(isSuccess);
     if (isSuccess || isDelSuccess) {
       setUsername("");
       setPassword("");
@@ -102,7 +98,7 @@ const EditUserForm = ({ user }) => {
         active,
         image,
       }).then((response) => {
-        console.log("Update User Response: ", response);
+        console.log(response);
       });
     } else {
       await updateUser({
@@ -114,7 +110,7 @@ const EditUserForm = ({ user }) => {
         active,
         image,
       }).then((response) => {
-        console.log("Update User Response: ", response);
+        console.log(response);
       });
     }
   };

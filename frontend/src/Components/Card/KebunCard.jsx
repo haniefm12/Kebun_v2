@@ -10,9 +10,7 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { green } from "@mui/material/colors";
-
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { AddBox, ArrowRight, Edit, OpenInNew, Park } from "@mui/icons-material";
 import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import { useState } from "react";
@@ -20,8 +18,6 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectGardenById } from "../../app/api/gardensApiSlice";
 import { useEffect } from "react";
-import Kebun from "../../Pages/Kebun";
-import { retry } from "@reduxjs/toolkit/query";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -39,7 +35,7 @@ const KebunCard = ({ gardenId }) => {
 
   const [expanded, setExpanded] = useState(false);
   const garden = useSelector((state) => selectGardenById(state, gardenId));
-  // console.log(gardenId, garden);
+  // eslint-disable-next-line
   const [notes, setNotes] = useState([]);
   const formatDateTime = (date) => {
     const monthNames = [
@@ -77,7 +73,7 @@ const KebunCard = ({ gardenId }) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const hectare = garden?.area ? garden.area / 10000 : 0;
+
   let title = "";
   let subheader = "";
   let address = " ";

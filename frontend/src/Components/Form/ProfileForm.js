@@ -147,7 +147,6 @@ const EditUserForm = ({ user }) => {
           },
         }
       );
-      console.log(cloudinaryResponse.data);
       const photoData = {
         public_id: cloudinaryResponse.data.public_id,
         version: cloudinaryResponse.data.version,
@@ -157,16 +156,11 @@ const EditUserForm = ({ user }) => {
       await axios
         .post("http://localhost:3500/do-something-with-photo", photoData)
         .then((response) => {
-          const imageID = response.data.imageID;
           imageHttps = response.data.imageHttps;
-          console.log(`Image ID: ${imageID}`);
-          console.log(`Image HTTPS: ${imageHttps}`);
-          // You can use the imageID here
         })
         .catch((error) => {
           console.error(error);
         });
-      console.log(imageHttps);
       await updateUser({
         id: user.id,
         name,
@@ -206,7 +200,7 @@ const EditUserForm = ({ user }) => {
           },
         }
       );
-      console.log(cloudinaryResponse.data);
+
       const photoData = {
         public_id: cloudinaryResponse.data.public_id,
         version: cloudinaryResponse.data.version,
@@ -216,16 +210,11 @@ const EditUserForm = ({ user }) => {
       await axios
         .post("http://localhost:3500/do-something-with-photo", photoData)
         .then((response) => {
-          const imageID = response.data.imageID;
           imageHttps = response.data.imageHttps;
-          console.log(`Image ID: ${imageID}`);
-          console.log(`Image HTTPS: ${imageHttps}`);
-          // You can use the imageID here
         })
         .catch((error) => {
           console.error(error);
         });
-      console.log(imageHttps);
       await updateUser({
         id: user.id,
         name,
@@ -247,7 +236,7 @@ const EditUserForm = ({ user }) => {
         active: user.active,
         image: user.image,
       }).then((response) => {
-        console.log("Update User Response: ", response);
+        console.log(response);
       });
     }
   };

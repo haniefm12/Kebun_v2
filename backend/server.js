@@ -22,8 +22,6 @@ cloudinary.config({
 
 const PORT = process.env.PORT || 3500;
 
-console.log(process.env.NODE_ENV);
-
 connectDB();
 
 app.use(logger);
@@ -54,22 +52,8 @@ app.get("/get-signature", (req, res) => {
 });
 
 app.post("/do-something-with-photo", (req, res) => {
-  console.log("req.body:", req.body);
-  // const expectedSignature = cloudinary.utils.api_sign_request(
-  //   {
-  //     public_id: req.body.public_id,
-  //     version: req.body.version,
-  //     secure_url: req.body.secure_url,
-  //   },
-  //   cloudinary.config().api_secret
-  // );
-
   const imageID = req.body.public_id;
   const imageHttps = req.body.secure_url;
-  console.log(imageHttps, imageID);
-  // Call the createGarden function with imageID
-
-  // Send the imageID back to the client
   res.json({
     imageHttps: imageHttps,
     imageID: imageID,

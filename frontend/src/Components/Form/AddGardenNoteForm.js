@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAddNewGardenNoteMutation } from "../../app/api/gardensApiSlice";
 import {
@@ -14,13 +14,9 @@ import {
 } from "@mui/material";
 
 const AddNewGardenNoteForm = ({ garden }) => {
-  const [addNewGardenNote, { isLoading, isSuccess, isError, error }] =
-    useAddNewGardenNoteMutation();
+  const [addNewGardenNote, { isLoading }] = useAddNewGardenNoteMutation();
   const navigate = useNavigate();
   const [note, setNote] = useState("");
-
-  console.log(garden);
-  console.log(garden.id);
 
   const canSave = [note].every(Boolean) && !isLoading;
 
@@ -31,11 +27,11 @@ const AddNewGardenNoteForm = ({ garden }) => {
           id: garden.id,
           note,
         }).then((response) => {
-          console.log("Update User Response: ", response);
+          console.log(response);
           navigate("/kebun");
         });
       } catch (err) {
-        console.error("Failed to save the note: ", err);
+        console.error(err);
       }
     }
   };
