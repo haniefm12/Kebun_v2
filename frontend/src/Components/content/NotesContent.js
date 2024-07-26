@@ -1,4 +1,3 @@
-// NotesContent.js
 import React from "react";
 import { Card, CardContent, Checkbox, Stack, Typography } from "@mui/material";
 import { useNotes } from "../../app/api/api";
@@ -46,7 +45,7 @@ function NotesContent() {
               mt: 1,
               mb: 2,
               mr: 2,
-              border: "1px solid #FFFFFF", // add white border
+              border: "1px solid #FFFFFF",
               boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
             }}
           >

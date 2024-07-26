@@ -174,7 +174,6 @@ const EditGardenForm = ({ garden }) => {
           .post("http://localhost:3500/do-something-with-photo", photoData)
           .then((response) => {
             imageHttps = response.data.imageHttps;
-            // You can use the imageID here
           })
           .catch((error) => {
             console.error(error);
@@ -193,7 +192,6 @@ const EditGardenForm = ({ garden }) => {
       }
     }
   };
-  // ... (rest of the code remains the same)
 
   const content = (
     <>
@@ -343,7 +341,6 @@ const EditGardenForm = ({ garden }) => {
                   type="submit"
                   fullWidth
                   title="Save"
-                  //   disabled={!canSave}
                   onClick={onDeleteGardenClicked}
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}

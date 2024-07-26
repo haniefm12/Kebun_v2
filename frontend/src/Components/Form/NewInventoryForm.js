@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAddNewInventoryMutation } from "../../app/api/inventorysApiSlice";
-
-import {
-  selectGardenById,
-  useGetGardensQuery,
-} from "../../app/api/gardensApiSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useGetGardensQuery } from "../../app/api/gardensApiSlice";
+import { useNavigate } from "react-router-dom";
 import {
   Avatar,
   Box,
@@ -20,7 +16,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Description, Inventory2 } from "@mui/icons-material";
+import { Inventory2 } from "@mui/icons-material";
 
 const INVENTORY_ITEM_REGEX = /^[A-z\s\d+]{3,50}$/;
 const categories = [
@@ -37,7 +33,7 @@ const categories = [
 ];
 
 const NewInventoryForm = () => {
-  const [addNewInventory, { isLoading, isSuccess, isError, error }] =
+  const [addNewInventory, { isLoading, isSuccess }] =
     useAddNewInventoryMutation();
   const navigate = useNavigate();
 
@@ -56,19 +52,6 @@ const NewInventoryForm = () => {
   const [itemType, setItemType] = useState("");
   const [validItemType, setValidItemType] = useState(false);
   const [quantity, setQuantity] = useState("");
-  const [validQuantity, setValidQuantity] = useState(false);
-
-  //   useEffect(() => {
-  //     if (users && users.length > 0) {
-  //       setUserId(users[0].id);
-  //     }
-  //   }, [users]);
-
-  //   useEffect(() => {
-  //     if (gardens && gardens.length > 0) {
-  //       setGardenId(gardens[0].id);
-  //     }
-  //   }, [gardens]);
 
   useEffect(() => {
     setValidItem(INVENTORY_ITEM_REGEX.test(item));

@@ -1,16 +1,9 @@
-// FinanceContent.js
 import React from "react";
-import { Card, CardContent, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { useFinances } from "../../app/api/api";
 
 function FinanceContent() {
-  const {
-    data: finances,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useFinances();
+  const { data: finances, isLoading, isSuccess, isError } = useFinances();
 
   if (isLoading) {
     return <Typography variant="h5">Loading...</Typography>;

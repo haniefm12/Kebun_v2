@@ -8,7 +8,7 @@ import { selectGardenById } from "../../../app/api/gardensApiSlice";
 const Finance = ({ financeId, serialNumber }) => {
   const finance = useSelector((state) => selectFinanceById(state, financeId));
   const navigate = useNavigate();
-  const gardenId = finance ? finance.garden : null; // Add a check for note
+  const gardenId = finance ? finance.garden : null;
   const garden = useSelector((state) => selectGardenById(state, gardenId));
   const formatDateTime = (date) => {
     const monthNames = [

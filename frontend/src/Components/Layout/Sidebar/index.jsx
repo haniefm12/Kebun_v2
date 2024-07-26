@@ -12,11 +12,7 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import {
-  ChevronLeft,
-  ChevronRightOutlined,
-  //   ParkIcon,
-} from "@mui/icons-material";
+import { ChevronLeft, ChevronRightOutlined } from "@mui/icons-material";
 import ParkIcon from "@mui/icons-material/Park";
 import { grey } from "@mui/material/colors";
 import useSidebar from "./index.hooks";

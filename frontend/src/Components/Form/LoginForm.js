@@ -1,4 +1,3 @@
-// components/Form.js
 import {
   Box,
   Button,

@@ -277,7 +277,6 @@ const EditUserForm = ({ user }) => {
             type="submit"
             fullWidth
             title="Save"
-            // disabled={!canSave}
             onClick={onDeleteUserClicked}
             variant="contained"
             sx={{ mt: 3, mb: 2 }}

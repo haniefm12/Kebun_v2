@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {
-  useAddNewNoteMutation,
   useDeleteNoteMutation,
   useUpdateNoteMutation,
 } from "../../app/api/notesApiSlice";
-import { useGetUsersQuery, selectUserById } from "../../app/api/usersApiSlice";
-import {
-  selectGardenById,
-  useGetGardensQuery,
-} from "../../app/api/gardensApiSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useGetUsersQuery } from "../../app/api/usersApiSlice";
+import { useGetGardensQuery } from "../../app/api/gardensApiSlice";
+import { useNavigate } from "react-router-dom";
 import {
   Avatar,
   Box,
@@ -33,16 +29,12 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import moment from "moment-timezone";
 
 const NOTE_TITLE_REGEX = /^[A-z\s\d+]{3,50}$/;
-const NOTE_TEXT_REGEX = /^[A-z\s,\.\d+]{3,1000}$/;
+const NOTE_TEXT_REGEX = /^[A-z\s,.\d+]{3,1000}$/;
 
 const EditNoteForm = ({ note }) => {
-  const [updateNote, { isLoading, isSuccess, isError, error }] =
-    useUpdateNoteMutation();
+  const [updateNote, { isLoading, isSuccess }] = useUpdateNoteMutation();
 
-  const [
-    deleteNote,
-    { isSuccess: isDelSuccess, isError: isDelError, error: delerror },
-  ] = useDeleteNoteMutation();
+  const [deleteNote, { isSuccess: isDelSuccess }] = useDeleteNoteMutation();
   const navigate = useNavigate();
 
   const { users, isLoading: isUsersLoading } = useGetUsersQuery("usersList", {
@@ -103,7 +95,6 @@ const EditNoteForm = ({ note }) => {
     setSchedule(utcDate);
   };
 
-  // Helper function to pad zero
   const padZero = (num) => {
     return (num < 10 ? "0" : "") + num;
   };
@@ -263,7 +254,6 @@ const EditNoteForm = ({ note }) => {
                     type="submit"
                     fullWidth
                     title="Save"
-                    // disabled={!canSave}
                     onClick={onDeleteNoteClicked}
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}

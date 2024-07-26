@@ -4,11 +4,8 @@ import {
   useUpdateFinanceMutation,
 } from "../../app/api/financesApiSlice";
 
-import {
-  selectGardenById,
-  useGetGardensQuery,
-} from "../../app/api/gardensApiSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useGetGardensQuery } from "../../app/api/gardensApiSlice";
+import { useNavigate } from "react-router-dom";
 import {
   Avatar,
   Box,
@@ -23,11 +20,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {
-  Description,
-  ReceiptLong,
-  ReceiptLongTwoTone,
-} from "@mui/icons-material";
+import { ReceiptLongTwoTone } from "@mui/icons-material";
 
 const FINANCE_ITEM_REGEX = /^[A-z\s\d+]{3,50}$/;
 const categories = [
@@ -44,12 +37,9 @@ const categories = [
 ];
 
 const EditFinanceForm = ({ finance }) => {
-  const [updateFinance, { isLoading, isSuccess, isError, error }] =
-    useUpdateFinanceMutation();
-  const [
-    deleteFinance,
-    { isSuccess: isDelSuccess, isError: isDelError, error: delerror },
-  ] = useDeleteFinanceMutation();
+  const [updateFinance, { isLoading, isSuccess }] = useUpdateFinanceMutation();
+  const [deleteFinance, { isSuccess: isDelSuccess }] =
+    useDeleteFinanceMutation();
   const navigate = useNavigate();
 
   const { gardens, isLoading: isGardensLoading } = useGetGardensQuery(
@@ -67,22 +57,9 @@ const EditFinanceForm = ({ finance }) => {
   const [itemType, setItemType] = useState(finance.itemType);
   const [validItemType, setValidItemType] = useState(false);
   const [quantity, setQuantity] = useState(finance.quantity);
-  const [validQuantity, setValidQuantity] = useState(false);
   const [supplier, setSupplier] = useState(finance.supplier);
   const [validSupplier, setValidSupplier] = useState(false);
   const [unitPrice, setUnitPrice] = useState(finance.unitPrice);
-
-  //   useEffect(() => {
-  //     if (users && users.length > 0) {
-  //       setUserId(users[0].id);
-  //     }
-  //   }, [users]);
-
-  //   useEffect(() => {
-  //     if (gardens && gardens.length > 0) {
-  //       setGardenId(gardens[0].id);
-  //     }
-  //   }, [gardens]);
 
   useEffect(() => {
     setValidItem(FINANCE_ITEM_REGEX.test(item));
@@ -276,7 +253,6 @@ const EditFinanceForm = ({ finance }) => {
               type="submit"
               fullWidth
               title="Save"
-              //   disabled={!canSave}
               onClick={onDeleteFinanceClicked}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}

@@ -1,4 +1,3 @@
-// utils/formatDateTime.js
 const monthNames = [
   "January",
   "February",

@@ -182,7 +182,6 @@ const NewGardenForm = () => {
       }
     }
   };
-  // ... (rest of the code remains the same)
 
   const content = (
     <>

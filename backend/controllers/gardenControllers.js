@@ -29,7 +29,6 @@ const createGarden = asyncHandler(async (req, res) => {
     area,
     description,
     image,
-    // Use the passed imageID here
   });
   res.status(201).json({ message: "Garden created successfully", garden });
 });

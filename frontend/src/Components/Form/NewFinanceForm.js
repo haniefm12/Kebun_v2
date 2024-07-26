@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAddNewFinanceMutation } from "../../app/api/financesApiSlice";
-
-import {
-  selectGardenById,
-  useGetGardensQuery,
-} from "../../app/api/gardensApiSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useGetGardensQuery } from "../../app/api/gardensApiSlice";
+import { useNavigate } from "react-router-dom";
 import {
   Avatar,
   Box,
@@ -20,11 +16,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {
-  Description,
-  ReceiptLong,
-  ReceiptLongTwoTone,
-} from "@mui/icons-material";
+import { ReceiptLongTwoTone } from "@mui/icons-material";
 
 const FINANCE_ITEM_REGEX = /^[A-z\s\d+]{3,50}$/;
 const categories = [
@@ -41,8 +33,7 @@ const categories = [
 ];
 
 const NewFinanceForm = () => {
-  const [addNewFinance, { isLoading, isSuccess, isError, error }] =
-    useAddNewFinanceMutation();
+  const [addNewFinance, { isLoading, isSuccess }] = useAddNewFinanceMutation();
   const navigate = useNavigate();
 
   const { gardens, isLoading: isGardensLoading } = useGetGardensQuery(
@@ -60,22 +51,9 @@ const NewFinanceForm = () => {
   const [itemType, setItemType] = useState("");
   const [validItemType, setValidItemType] = useState(false);
   const [quantity, setQuantity] = useState("");
-  const [validQuantity, setValidQuantity] = useState(false);
   const [supplier, setSupplier] = useState("");
   const [validSupplier, setValidSupplier] = useState(false);
   const [unitPrice, setUnitPrice] = useState("");
-
-  //   useEffect(() => {
-  //     if (users && users.length > 0) {
-  //       setUserId(users[0].id);
-  //     }
-  //   }, [users]);
-
-  //   useEffect(() => {
-  //     if (gardens && gardens.length > 0) {
-  //       setGardenId(gardens[0].id);
-  //     }
-  //   }, [gardens]);
 
   useEffect(() => {
     setValidItem(FINANCE_ITEM_REGEX.test(item));

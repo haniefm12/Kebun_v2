@@ -1,4 +1,3 @@
-// GardenContent.js
 import React from "react";
 import {
   Grid,
@@ -38,17 +37,17 @@ function GardenContent() {
                 gardens.entities[a].updatedAt
               );
             } else {
-              return 0; // or some other default value
+              return 0;
             }
           })
-          .slice(0, 4) // limit to 4 most updated gardens
+          .slice(0, 4)
           .map((gardenId, index) => (
             <Grid item key={gardenId} xs={12} sm={12} md={12} lg={6}>
               <Card
                 sx={{
                   minHeight: 300,
-                  border: "1px solid #FFFFFF", // add white border
-                  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)", // add grey shadow
+                  border: "1px solid #FFFFFF",
+                  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
                 }}
               >
                 <Grid container>
