@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useAddNewGardenNoteMutation } from "../../../app/api/gardensApiSlice";
+import { useAddNewGardenNoteMutation } from "../../app/api/gardensApiSlice";
 import {
   Box,
   Button,

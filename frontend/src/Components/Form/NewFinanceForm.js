@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  useAddNewInventoryMutation,
-  useDeleteInventoryMutation,
-  useUpdateInventoryMutation,
-} from "../../../app/api/inventorysApiSlice";
+import { useAddNewFinanceMutation } from "../../app/api/financesApiSlice";
 
 import {
   selectGardenById,
   useGetGardensQuery,
-} from "../../../app/api/gardensApiSlice";
+} from "../../app/api/gardensApiSlice";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Avatar,
@@ -24,9 +20,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Description, Inventory2 } from "@mui/icons-material";
+import {
+  Description,
+  ReceiptLong,
+  ReceiptLongTwoTone,
+} from "@mui/icons-material";
 
-const INVENTORY_ITEM_REGEX = /^[A-z\s\d+]{3,50}$/;
+const FINANCE_ITEM_REGEX = /^[A-z\s\d+]{3,50}$/;
 const categories = [
   { value: "Bibit dan Biji", label: "Bibit dan Biji" },
   { value: "Peralatan Berkebun", label: "Peralatan Berkebun" },
@@ -40,13 +40,9 @@ const categories = [
   },
 ];
 
-const EditInventoryForm = ({ inventory }) => {
-  const [updateInventory, { isLoading, isSuccess, isError, error }] =
-    useUpdateInventoryMutation();
-  const [
-    deleteInventory,
-    { isSuccess: isDelSuccess, isError: isDelError, error: delerror },
-  ] = useDeleteInventoryMutation();
+const NewFinanceForm = () => {
+  const [addNewFinance, { isLoading, isSuccess, isError, error }] =
+    useAddNewFinanceMutation();
   const navigate = useNavigate();
 
   const { gardens, isLoading: isGardensLoading } = useGetGardensQuery(
@@ -58,13 +54,16 @@ const EditInventoryForm = ({ inventory }) => {
     }
   );
 
-  const [gardenId, setGardenId] = useState(inventory.garden);
-  const [item, setItem] = useState(inventory.item);
+  const [gardenId, setGardenId] = useState("");
+  const [item, setItem] = useState("");
   const [validItem, setValidItem] = useState(false);
-  const [itemType, setItemType] = useState(inventory.itemType);
+  const [itemType, setItemType] = useState("");
   const [validItemType, setValidItemType] = useState(false);
-  const [quantity, setQuantity] = useState(inventory.quantity);
+  const [quantity, setQuantity] = useState("");
   const [validQuantity, setValidQuantity] = useState(false);
+  const [supplier, setSupplier] = useState("");
+  const [validSupplier, setValidSupplier] = useState(false);
+  const [unitPrice, setUnitPrice] = useState("");
 
   //   useEffect(() => {
   //     if (users && users.length > 0) {
@@ -79,49 +78,47 @@ const EditInventoryForm = ({ inventory }) => {
   //   }, [gardens]);
 
   useEffect(() => {
-    setValidItem(INVENTORY_ITEM_REGEX.test(item));
+    setValidItem(FINANCE_ITEM_REGEX.test(item));
   }, [item]);
 
   useEffect(() => {
-    setValidItemType(INVENTORY_ITEM_REGEX.test(itemType));
+    setValidItemType(FINANCE_ITEM_REGEX.test(itemType));
   }, [itemType]);
-  //   useEffect(() => {
-  //     if (gardens) {
-  //       const foundGarden = gardens.find(
-  //         (garden) => garden.id === inventory.garden
-  //       );
-  //       if (foundGarden) {
-  //         setGardenId(foundGarden.id);
-  //       }
-  //     }
-  //   }, [gardens, inventory.garden]);
   useEffect(() => {
-    if (isSuccess || isDelSuccess) {
+    setValidSupplier(FINANCE_ITEM_REGEX.test(supplier));
+  }, [supplier]);
+
+  useEffect(() => {
+    if (isSuccess) {
       setGardenId("");
+      setUnitPrice("");
+      setSupplier("");
       setItem("");
       setItemType("");
       setQuantity("");
-      navigate("/inventaris");
+      navigate("/keuangan");
     }
-  }, [isSuccess, isDelSuccess, navigate]);
+  }, [isSuccess, navigate]);
 
   const onGardenIdChanged = (e) => setGardenId(e.target.value);
   const onItemChanged = (e) => setItem(e.target.value);
   const onItemTypeChanged = (e) => setItemType(e.target.value);
   const onQuantityChanged = (e) => setQuantity(e.target.value);
+  const onUnitPriceChanged = (e) => setUnitPrice(e.target.value);
+  const onSupplierChanged = (e) => setSupplier(e.target.value);
 
-  const canSave = [validItem, validItemType].every(Boolean) && !isLoading;
-  const onDeleteInventoryClicked = async () => {
-    await deleteInventory({ id: inventory.id });
-  };
+  const canSave =
+    [validItem, validItemType, validSupplier].every(Boolean) && !isLoading;
 
-  const onSaveInventoryClicked = async (e) => {
+  const onSaveFinanceClicked = async (e) => {
     e.preventDefault();
     if (canSave) {
       try {
-        await updateInventory({
-          id: inventory.id,
+        await addNewFinance({
           garden: gardenId,
+          supplier,
+          unitPrice,
+          totalCost: unitPrice * quantity,
           itemType,
           item,
           quantity,
@@ -149,15 +146,15 @@ const EditInventoryForm = ({ inventory }) => {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-            <Inventory2 />
+            <ReceiptLongTwoTone />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Ubah Detail Barang
+            Tambah Transaksi Baru
           </Typography>
           <Box
             component="form"
             noValidate
-            onSubmit={onSaveInventoryClicked}
+            onSubmit={onSaveFinanceClicked}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
@@ -172,7 +169,7 @@ const EditInventoryForm = ({ inventory }) => {
                     onChange={onGardenIdChanged}
                     fullWidth
                     id="gardenId"
-                    name="invengarden"
+                    name="gardenId"
                     label="Tugas di "
                   >
                     {gardens &&
@@ -199,6 +196,18 @@ const EditInventoryForm = ({ inventory }) => {
               <Grid item xs={12}>
                 <TextField
                   required
+                  type="text"
+                  value={supplier}
+                  onChange={onSupplierChanged}
+                  fullWidth
+                  id="supplier"
+                  label="Supplier"
+                  name="supplier"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
                   type="number"
                   value={quantity}
                   onChange={onQuantityChanged}
@@ -206,6 +215,18 @@ const EditInventoryForm = ({ inventory }) => {
                   id="quantity"
                   label="Jumlah Barang"
                   name="quantity"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  type="number"
+                  value={unitPrice}
+                  onChange={onUnitPriceChanged}
+                  fullWidth
+                  id="unitPrice"
+                  label="Harga Satuan"
+                  name="unitPrice"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -238,18 +259,7 @@ const EditInventoryForm = ({ inventory }) => {
               sx={{ mt: 3, mb: 2 }}
               disabled={!canSave}
             >
-              Simpan Perubahan
-            </Button>
-            <Button
-              type="submit"
-              fullWidth
-              title="Save"
-              //   disabled={!canSave}
-              onClick={onDeleteInventoryClicked}
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Hapus Data Barang
+              Tambah Barang
             </Button>
           </Box>
         </Box>
@@ -259,4 +269,4 @@ const EditInventoryForm = ({ inventory }) => {
 
   return content;
 };
-export default EditInventoryForm;
+export default NewFinanceForm;

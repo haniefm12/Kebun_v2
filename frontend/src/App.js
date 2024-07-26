@@ -12,19 +12,11 @@ import Keuangan from "./Pages/Keuangan.jsx";
 import Tugas from "./Pages/Tugas.jsx";
 import Profile from "./Pages/Profile.jsx";
 import EditUser from "./Components/features/user/EditUser.js";
-import NewUserForm from "./Components/features/user/NewUserForm.js";
+
 import Prefetch from "./Components/features/auth/Prefetch.js";
 import PersistLogin from "./Components/features/auth/PersistLogin.js";
 import RequireAuth from "./Components/features/auth/RequireAuth.js";
 import { ROLES } from "./config/roles.js";
-import { selectCurrentUser } from "./app/api/authSlice.js";
-import { useSelector } from "react-redux";
-import useAuth from "./hooks/useAuth.js";
-import NewGardenForm from "./Components/features/garden/NewGardenForm.js";
-import NewNoteForm from "./Components/features/note/NewNoteForm.js";
-import NewInventoryForm from "./Components/features/inventory/NewInventoryForm.js";
-import NewFinanceForm from "./Components/features/finance/NewFinanceForm.js";
-import AddNewGardenNoteForm from "./Components/features/garden/AddGardenNoteForm";
 import AddGardenNote from "./Components/features/garden/AddGardenNote.js";
 import GardenDetails from "./Components/features/garden/GardenDetails.js";
 import EditGarden from "./Components/features/garden/EditGarden.js";
@@ -32,10 +24,14 @@ import EditInventory from "./Components/features/inventory/EditInventory.js";
 import EditFinance from "./Components/features/finance/EditFinance.js";
 import NoteDetail from "./Components/features/note/NoteDetails.js";
 import EditNote from "./Components/features/note/EditNote.js";
+import NewFinanceForm from "./Components/Form/NewFinanceForm.js";
+import NewGardenForm from "./Components/Form/NewGardenForm.js";
+import NewInventoryForm from "./Components/Form/NewInventoryForm.js";
+import NewNoteForm from "./Components/Form/NewNoteForm.js";
+import NewUserForm from "./Components/Form/NewUserForm.js";
 
 function App() {
   const [mode, setMode] = useState("light");
-  const user = useSelector(selectCurrentUser);
 
   const theme = createTheme({
     palette: {

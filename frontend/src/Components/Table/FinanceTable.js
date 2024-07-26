@@ -1,0 +1,41 @@
+// components/Table.js
+import React from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Finance from "../features/finance/Finance";
+
+const FinanceTable = ({ finances }) => {
+  const { ids } = finances;
+  const tableContent = ids?.map((financeId, index) => (
+    <Finance key={financeId} financeId={financeId} serialNumber={index + 1} />
+  ));
+
+  return (
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 580 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell width={5}>No.</TableCell>
+            <TableCell align="left">Supplier</TableCell>
+            <TableCell align="left">Nama Barang</TableCell>
+            <TableCell align="left">Tipe Barang</TableCell>
+            <TableCell align="left">Jumlah Barang</TableCell>
+            <TableCell align="left">Harga Satuan</TableCell>
+            <TableCell align="left">Jumlah Harga</TableCell>
+            <TableCell align="left">Nama Kebun</TableCell>
+            <TableCell align="left">Tanggal</TableCell>
+            <TableCell align="center">Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{tableContent}</TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
+
+export default FinanceTable;

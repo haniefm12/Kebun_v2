@@ -1,11 +1,8 @@
 import { useState, useEffect } from "react";
 import { MuiTelInput } from "mui-tel-input";
-import {
-  useUpdateUserMutation,
-  useDeleteUserMutation,
-} from "../../../app/api/usersApiSlice";
+import { useUpdateUserMutation } from "../../app/api/usersApiSlice";
 import { useNavigate } from "react-router-dom";
-import { ROLES } from "../../../config/roles";
+
 import {
   Alert,
   Avatar,
@@ -13,16 +10,10 @@ import {
   Button,
   Container,
   CssBaseline,
-  FormControl,
-  FormControlLabel,
   Grid,
   IconButton,
   InputAdornment,
-  InputLabel,
   LinearProgress,
-  MenuItem,
-  Select,
-  Switch,
   TextField,
   Typography,
 } from "@mui/material";
@@ -33,7 +24,6 @@ import {
 } from "@mui/icons-material";
 import axios from "axios";
 
-const USER_REGEX = /[A-z0-9]{3,20}$/;
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
 const NAME_REGEX = /^[A-z0-9\s]{3,36}$/;
 const api_key = "989773282234796";
@@ -48,12 +38,9 @@ const EditUserForm = ({ user }) => {
   const [name, setName] = useState(user.name);
   const [image, setImage] = useState(user.image);
   const [validName, setValidName] = useState("");
-  const [username, setUsername] = useState(user.username);
-  const [validUsername, setValidUsername] = useState(false);
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
-  const [role, setRole] = useState(user.role);
-  const [active, setActive] = useState(user.active);
+
   const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -117,19 +104,13 @@ const EditUserForm = ({ user }) => {
   }, [name]);
 
   useEffect(() => {
-    setValidUsername(USER_REGEX.test(username));
-  }, [username]);
-
-  useEffect(() => {
     setValidPassword(PWD_REGEX.test(password));
   }, [password]);
 
   useEffect(() => {
-    console.log(isSuccess);
     if (isSuccess) {
-      setUsername("");
       setPassword("");
-      setRole("");
+
       setImage(null);
       setImageUrl("");
       setPhoneNumber("");
@@ -138,12 +119,9 @@ const EditUserForm = ({ user }) => {
   }, [isSuccess, navigate]);
 
   const onNameChanged = (e) => setName(e.target.value);
-  const onUsernameChanged = (e) => setUsername(e.target.value);
+
   const onPasswordChanged = (e) => setPassword(e.target.value);
   const onPhoneNumberChanged = (value) => setPhoneNumber(value);
-  const onRolesChanged = (e) => {
-    setRole(e.target.value);
-  };
 
   const onSaveUserClicked = async (e) => {
     e.preventDefault();
@@ -281,16 +259,13 @@ const EditUserForm = ({ user }) => {
   let canSave;
   if (password && image) {
     canSave =
-      [validUsername, validPassword, validName, validImage].every(Boolean) &&
-      !isLoading;
+      [validPassword, validName, validImage].every(Boolean) && !isLoading;
   } else if (password) {
-    canSave =
-      [validUsername, validPassword, validName].every(Boolean) && !isLoading;
+    canSave = [validPassword, validName].every(Boolean) && !isLoading;
   } else if (image) {
-    canSave =
-      [validUsername, validName, validImage].every(Boolean) && !isLoading;
+    canSave = [validName, validImage].every(Boolean) && !isLoading;
   } else {
-    canSave = [validUsername, validName].every(Boolean) && !isLoading;
+    canSave = [validName].every(Boolean) && !isLoading;
   }
   const errContent = error?.data?.message;
 

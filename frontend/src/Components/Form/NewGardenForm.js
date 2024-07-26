@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAddNewGardenMutation } from "../../../app/api/gardensApiSlice";
+import { useAddNewGardenMutation } from "../../app/api/gardensApiSlice";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Alert,

@@ -3,8 +3,7 @@ import { useSelector } from "react-redux";
 
 import { Box, CircularProgress } from "@mui/material";
 import { selectInventoryById } from "../../../app/api/inventorysApiSlice";
-
-import EditInventoryForm from "./EditInventoryForm";
+import EditInventoryForm from "../../Form/EditInventoryForm";
 
 const EditInventory = () => {
   const { id } = useParams();

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import { Box, CircularProgress } from "@mui/material";
 import { selectGardenById } from "../../../app/api/gardensApiSlice";
-import AddNewGardenNoteForm from "./AddGardenNoteForm";
+import AddNewGardenNoteForm from "../../Form/AddGardenNoteForm";
 
 const AddGardenNote = () => {
   const { id } = useParams();

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useAddNewInventoryMutation } from "../../../app/api/inventorysApiSlice";
+import {
+  useDeleteFinanceMutation,
+  useUpdateFinanceMutation,
+} from "../../app/api/financesApiSlice";
 
 import {
   selectGardenById,
   useGetGardensQuery,
-} from "../../../app/api/gardensApiSlice";
+} from "../../app/api/gardensApiSlice";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Avatar,
@@ -20,9 +23,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Description, Inventory2 } from "@mui/icons-material";
+import {
+  Description,
+  ReceiptLong,
+  ReceiptLongTwoTone,
+} from "@mui/icons-material";
 
-const INVENTORY_ITEM_REGEX = /^[A-z\s\d+]{3,50}$/;
+const FINANCE_ITEM_REGEX = /^[A-z\s\d+]{3,50}$/;
 const categories = [
   { value: "Bibit dan Biji", label: "Bibit dan Biji" },
   { value: "Peralatan Berkebun", label: "Peralatan Berkebun" },
@@ -36,9 +43,13 @@ const categories = [
   },
 ];
 
-const NewInventoryForm = () => {
-  const [addNewInventory, { isLoading, isSuccess, isError, error }] =
-    useAddNewInventoryMutation();
+const EditFinanceForm = ({ finance }) => {
+  const [updateFinance, { isLoading, isSuccess, isError, error }] =
+    useUpdateFinanceMutation();
+  const [
+    deleteFinance,
+    { isSuccess: isDelSuccess, isError: isDelError, error: delerror },
+  ] = useDeleteFinanceMutation();
   const navigate = useNavigate();
 
   const { gardens, isLoading: isGardensLoading } = useGetGardensQuery(
@@ -50,13 +61,16 @@ const NewInventoryForm = () => {
     }
   );
 
-  const [gardenId, setGardenId] = useState("");
-  const [item, setItem] = useState("");
+  const [gardenId, setGardenId] = useState(finance.garden);
+  const [item, setItem] = useState(finance.item);
   const [validItem, setValidItem] = useState(false);
-  const [itemType, setItemType] = useState("");
+  const [itemType, setItemType] = useState(finance.itemType);
   const [validItemType, setValidItemType] = useState(false);
-  const [quantity, setQuantity] = useState("");
+  const [quantity, setQuantity] = useState(finance.quantity);
   const [validQuantity, setValidQuantity] = useState(false);
+  const [supplier, setSupplier] = useState(finance.supplier);
+  const [validSupplier, setValidSupplier] = useState(false);
+  const [unitPrice, setUnitPrice] = useState(finance.unitPrice);
 
   //   useEffect(() => {
   //     if (users && users.length > 0) {
@@ -71,36 +85,51 @@ const NewInventoryForm = () => {
   //   }, [gardens]);
 
   useEffect(() => {
-    setValidItem(INVENTORY_ITEM_REGEX.test(item));
+    setValidItem(FINANCE_ITEM_REGEX.test(item));
   }, [item]);
 
   useEffect(() => {
-    setValidItemType(INVENTORY_ITEM_REGEX.test(itemType));
+    setValidItemType(FINANCE_ITEM_REGEX.test(itemType));
   }, [itemType]);
+  useEffect(() => {
+    setValidSupplier(FINANCE_ITEM_REGEX.test(supplier));
+  }, [supplier]);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess || isDelSuccess) {
       setGardenId("");
+      setUnitPrice("");
+      setSupplier("");
       setItem("");
       setItemType("");
       setQuantity("");
-      navigate("/inventaris");
+      navigate("/keuangan");
     }
-  }, [isSuccess, navigate]);
+  }, [isSuccess, isDelSuccess, navigate]);
 
   const onGardenIdChanged = (e) => setGardenId(e.target.value);
   const onItemChanged = (e) => setItem(e.target.value);
   const onItemTypeChanged = (e) => setItemType(e.target.value);
   const onQuantityChanged = (e) => setQuantity(e.target.value);
+  const onUnitPriceChanged = (e) => setUnitPrice(e.target.value);
+  const onSupplierChanged = (e) => setSupplier(e.target.value);
 
-  const canSave = [validItem, validItemType].every(Boolean) && !isLoading;
+  const canSave =
+    [validItem, validItemType, validSupplier].every(Boolean) && !isLoading;
+  const onDeleteFinanceClicked = async () => {
+    await deleteFinance({ id: finance.id });
+  };
 
-  const onSaveInventoryClicked = async (e) => {
+  const onSaveFinanceClicked = async (e) => {
     e.preventDefault();
     if (canSave) {
       try {
-        await addNewInventory({
+        await updateFinance({
           garden: gardenId,
+          id: finance.id,
+          supplier,
+          unitPrice,
+          totalCost: unitPrice * quantity,
           itemType,
           item,
           quantity,
@@ -128,15 +157,15 @@ const NewInventoryForm = () => {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-            <Inventory2 />
+            <ReceiptLongTwoTone />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Tambah Barang Baru
+            Ubah Detail Transaksi
           </Typography>
           <Box
             component="form"
             noValidate
-            onSubmit={onSaveInventoryClicked}
+            onSubmit={onSaveFinanceClicked}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
@@ -178,6 +207,18 @@ const NewInventoryForm = () => {
               <Grid item xs={12}>
                 <TextField
                   required
+                  type="text"
+                  value={supplier}
+                  onChange={onSupplierChanged}
+                  fullWidth
+                  id="supplier"
+                  label="Supplier"
+                  name="supplier"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
                   type="number"
                   value={quantity}
                   onChange={onQuantityChanged}
@@ -185,6 +226,18 @@ const NewInventoryForm = () => {
                   id="quantity"
                   label="Jumlah Barang"
                   name="quantity"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  type="number"
+                  value={unitPrice}
+                  onChange={onUnitPriceChanged}
+                  fullWidth
+                  id="unitPrice"
+                  label="Harga Satuan"
+                  name="unitPrice"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -217,7 +270,18 @@ const NewInventoryForm = () => {
               sx={{ mt: 3, mb: 2 }}
               disabled={!canSave}
             >
-              Tambah Barang
+              Simpan Perubahan
+            </Button>
+            <Button
+              type="submit"
+              fullWidth
+              title="Save"
+              //   disabled={!canSave}
+              onClick={onDeleteFinanceClicked}
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Hapus Transaksi
             </Button>
           </Box>
         </Box>
@@ -227,4 +291,4 @@ const NewInventoryForm = () => {
 
   return content;
 };
-export default NewInventoryForm;
+export default EditFinanceForm;

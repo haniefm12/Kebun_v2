@@ -3,7 +3,7 @@ import {
   useAddNewGardenMutation,
   useDeleteGardenMutation,
   useUpdateGardenMutation,
-} from "../../../app/api/gardensApiSlice";
+} from "../../app/api/gardensApiSlice";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Alert,

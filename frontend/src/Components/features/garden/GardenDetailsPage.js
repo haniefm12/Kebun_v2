@@ -9,9 +9,8 @@ import {
   CardActions,
   Button,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 
-const GardenPage = ({ garden }) => {
+const GardenDetailsPage = ({ garden }) => {
   return (
     <Container maxWidth="lg" sx={{ pl: 1, mt: 4, mb: 4, ml: 3 }}>
       <Typography gutterBottom variant="h4" component="div">
@@ -107,4 +106,4 @@ const GardenPage = ({ garden }) => {
   );
 };
 
-export default GardenPage;
+export default GardenDetailsPage;

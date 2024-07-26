@@ -66,8 +66,8 @@ const Finance = ({ financeId, serialNumber }) => {
         </TableCell>
         <TableCell align="left">{formatDateTime(finance.createdAt)}</TableCell>
         <TableCell align="center">
-          <IconButton>
-            <EditNoteIcon fontSize="small" onClick={handleEdit} />
+          <IconButton onClick={handleEdit}>
+            <EditNoteIcon fontSize="small" />
           </IconButton>
         </TableCell>
       </TableRow>

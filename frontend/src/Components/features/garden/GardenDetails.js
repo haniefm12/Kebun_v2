@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 
 import { Box, CircularProgress } from "@mui/material";
 import { selectGardenById } from "../../../app/api/gardensApiSlice";
-import GardenPage from "./GardenPage";
+
+import GardenDetailsPage from "./GardenDetailsPage";
 
 const GardenDetails = () => {
   const { id } = useParams();
@@ -11,7 +12,7 @@ const GardenDetails = () => {
   const garden = useSelector((state) => selectGardenById(state, id));
 
   const content = garden ? (
-    <GardenPage garden={garden} />
+    <GardenDetailsPage garden={garden} />
   ) : (
     <Box sx={{ display: "flex", marginTop: 8, alignItems: "center" }}>
       <CircularProgress />

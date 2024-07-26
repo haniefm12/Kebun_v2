@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUserById } from "../../../app/api/usersApiSlice";
-import EditUserForm from "./EditUserForm";
+import EditUserForm from "../../Form/EditUserForm";
 import { Box, CircularProgress } from "@mui/material";
 
 const EditUser = () => {

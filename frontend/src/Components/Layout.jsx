@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, useMediaQuery } from "@mui/material";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 // import { useSelector } from "react-redux";
-import Navbar from "./Layout/Navbar";
+import Navbar from "./Layout/Navbar/Navbar";
 import Sidebar from "./Layout/Sidebar";
 import { selectCurrentUser } from "../app/api/authSlice";
 import { useSelector } from "react-redux";

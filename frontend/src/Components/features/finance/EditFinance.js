@@ -3,8 +3,7 @@ import { useSelector } from "react-redux";
 
 import { Box, CircularProgress } from "@mui/material";
 import { selectFinanceById } from "../../../app/api/financesApiSlice";
-
-import EditFinanceForm from "./EditFinanceForm";
+import EditFinanceForm from "../../Form/EditFinanceForm";
 
 const EditFinance = () => {
   const { id } = useParams();

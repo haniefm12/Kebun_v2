@@ -38,12 +38,7 @@ const Sidebar = ({
   const { active, handleNavigate } = useSidebar();
 
   return (
-    <Box
-      // sx={{
-      //   borderRightColor: grey[100],
-      // }}
-      component="nav"
-    >
+    <Box component="nav">
       {isSidebarOpen && (
         <Drawer
           open={isSidebarOpen}

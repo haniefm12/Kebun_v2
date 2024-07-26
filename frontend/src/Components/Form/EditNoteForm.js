@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useAddNewNoteMutation } from "../../../app/api/notesApiSlice";
 import {
-  useGetUsersQuery,
-  selectUserById,
-} from "../../../app/api/usersApiSlice";
+  useAddNewNoteMutation,
+  useDeleteNoteMutation,
+  useUpdateNoteMutation,
+} from "../../app/api/notesApiSlice";
+import { useGetUsersQuery, selectUserById } from "../../app/api/usersApiSlice";
 import {
   selectGardenById,
   useGetGardensQuery,
-} from "../../../app/api/gardensApiSlice";
+} from "../../app/api/gardensApiSlice";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Avatar,
@@ -16,10 +17,12 @@ import {
   Container,
   CssBaseline,
   FormControl,
+  FormControlLabel,
   Grid,
   InputLabel,
   MenuItem,
   Select,
+  Switch,
   TextField,
   Typography,
 } from "@mui/material";
@@ -32,9 +35,14 @@ import moment from "moment-timezone";
 const NOTE_TITLE_REGEX = /^[A-z\s\d+]{3,50}$/;
 const NOTE_TEXT_REGEX = /^[A-z\s,\.\d+]{3,1000}$/;
 
-const NewNoteForm = () => {
-  const [addNewNote, { isLoading, isSuccess, isError, error }] =
-    useAddNewNoteMutation();
+const EditNoteForm = ({ note }) => {
+  const [updateNote, { isLoading, isSuccess, isError, error }] =
+    useUpdateNoteMutation();
+
+  const [
+    deleteNote,
+    { isSuccess: isDelSuccess, isError: isDelError, error: delerror },
+  ] = useDeleteNoteMutation();
   const navigate = useNavigate();
 
   const { users, isLoading: isUsersLoading } = useGetUsersQuery("usersList", {
@@ -50,14 +58,16 @@ const NewNoteForm = () => {
       }),
     }
   );
-
-  const [gardenId, setGardenId] = useState("");
-  const [userId, setUserId] = useState("");
-  const [title, setTitle] = useState("");
+  const scheduleDate = moment(note.schedule).toDate();
+  const [gardenId, setGardenId] = useState(note.garden);
+  const [userId, setUserId] = useState(note.user);
+  const [title, setTitle] = useState(note.title);
   const [validTitle, setValidTitle] = useState(false);
-  const [text, setText] = useState("");
+  const [text, setText] = useState(note.text);
   const [validText, setValidText] = useState(false);
-  const [schedule, setSchedule] = useState(null);
+
+  const [schedule, setSchedule] = useState(scheduleDate);
+  const [active, setActive] = useState(note.completed);
 
   useEffect(() => {
     setValidTitle(NOTE_TITLE_REGEX.test(title));
@@ -68,7 +78,7 @@ const NewNoteForm = () => {
   }, [text]);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess || isDelSuccess) {
       setGardenId("");
       setUserId("");
       setTitle("");
@@ -76,12 +86,13 @@ const NewNoteForm = () => {
       setSchedule(null);
       navigate("/tugas");
     }
-  }, [isSuccess, navigate]);
+  }, [isSuccess, isDelSuccess, navigate]);
 
   const onGardenIdChanged = (e) => setGardenId(e.target.value);
   const onUserIdChanged = (e) => setUserId(e.target.value);
   const onTitleChanged = (e) => setTitle(e.target.value);
   const onTextChanged = (e) => setText(e.target.value);
+  const onActiveChanged = () => setActive((prev) => !prev);
 
   const onScheduleChanged = (newDate) => {
     const utcDate = new Date(
@@ -102,17 +113,22 @@ const NewNoteForm = () => {
     e.preventDefault();
     if (canSave) {
       try {
-        await addNewNote({
+        await updateNote({
+          id: note.id,
           garden: gardenId,
           user: userId,
           title,
           text,
           schedule,
+          completed: active,
         });
       } catch (error) {
         console.error("Error submitting form:", error);
       }
     }
+  };
+  const onDeleteNoteClicked = async () => {
+    await deleteNote({ id: note.id });
   };
 
   if (isUsersLoading || isGardensLoading) {
@@ -137,7 +153,7 @@ const NewNoteForm = () => {
               <Description />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Tambah Tugas Baru
+              Ubah Detail Tugas
             </Typography>
             <Box
               component="form"
@@ -169,7 +185,6 @@ const NewNoteForm = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-
                 <Grid item xs={12}>
                   <FormControl fullWidth>
                     <InputLabel outlined="true" required>
@@ -193,7 +208,6 @@ const NewNoteForm = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -206,7 +220,6 @@ const NewNoteForm = () => {
                     name="title"
                   />
                 </Grid>
-
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -219,7 +232,6 @@ const NewNoteForm = () => {
                     name="text"
                   />
                 </Grid>
-
                 <Grid item xs={12}>
                   <DatePicker
                     label="Pilih jadwal tugas"
@@ -228,8 +240,15 @@ const NewNoteForm = () => {
                   >
                     {(params) => <TextField {...params} />}
                   </DatePicker>
-                </Grid>
-
+                </Grid>{" "}
+                <FormControlLabel
+                  control={
+                    <Switch checked={active} onChange={onActiveChanged} />
+                  }
+                  label="Status Tugas"
+                  id="user-active"
+                  name="user-active"
+                ></FormControlLabel>
                 <Grid item xs={12}>
                   <Button
                     type="submit"
@@ -238,7 +257,18 @@ const NewNoteForm = () => {
                     sx={{ mt: 3, mb: 2 }}
                     disabled={!canSave}
                   >
-                    Tambah Tugas
+                    Simpan Perubahan
+                  </Button>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    title="Save"
+                    // disabled={!canSave}
+                    onClick={onDeleteNoteClicked}
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Hapus Tugas
                   </Button>
                 </Grid>
               </Grid>
@@ -251,4 +281,4 @@ const NewNoteForm = () => {
 
   return content;
 };
-export default NewNoteForm;
+export default EditNoteForm;

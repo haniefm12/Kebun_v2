@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import {
-  useDeleteFinanceMutation,
-  useUpdateFinanceMutation,
-} from "../../../app/api/financesApiSlice";
+  useAddNewInventoryMutation,
+  useDeleteInventoryMutation,
+  useUpdateInventoryMutation,
+} from "../../app/api/inventorysApiSlice";
 
 import {
   selectGardenById,
   useGetGardensQuery,
-} from "../../../app/api/gardensApiSlice";
+} from "../../app/api/gardensApiSlice";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Avatar,
@@ -23,13 +24,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {
-  Description,
-  ReceiptLong,
-  ReceiptLongTwoTone,
-} from "@mui/icons-material";
+import { Description, Inventory2 } from "@mui/icons-material";
 
-const FINANCE_ITEM_REGEX = /^[A-z\s\d+]{3,50}$/;
+const INVENTORY_ITEM_REGEX = /^[A-z\s\d+]{3,50}$/;
 const categories = [
   { value: "Bibit dan Biji", label: "Bibit dan Biji" },
   { value: "Peralatan Berkebun", label: "Peralatan Berkebun" },
@@ -43,13 +40,13 @@ const categories = [
   },
 ];
 
-const EditFinanceForm = ({ finance }) => {
-  const [updateFinance, { isLoading, isSuccess, isError, error }] =
-    useUpdateFinanceMutation();
+const EditInventoryForm = ({ inventory }) => {
+  const [updateInventory, { isLoading, isSuccess, isError, error }] =
+    useUpdateInventoryMutation();
   const [
-    deleteFinance,
+    deleteInventory,
     { isSuccess: isDelSuccess, isError: isDelError, error: delerror },
-  ] = useDeleteFinanceMutation();
+  ] = useDeleteInventoryMutation();
   const navigate = useNavigate();
 
   const { gardens, isLoading: isGardensLoading } = useGetGardensQuery(
@@ -61,16 +58,13 @@ const EditFinanceForm = ({ finance }) => {
     }
   );
 
-  const [gardenId, setGardenId] = useState(finance.garden);
-  const [item, setItem] = useState(finance.item);
+  const [gardenId, setGardenId] = useState(inventory.garden);
+  const [item, setItem] = useState(inventory.item);
   const [validItem, setValidItem] = useState(false);
-  const [itemType, setItemType] = useState(finance.itemType);
+  const [itemType, setItemType] = useState(inventory.itemType);
   const [validItemType, setValidItemType] = useState(false);
-  const [quantity, setQuantity] = useState(finance.quantity);
+  const [quantity, setQuantity] = useState(inventory.quantity);
   const [validQuantity, setValidQuantity] = useState(false);
-  const [supplier, setSupplier] = useState(finance.supplier);
-  const [validSupplier, setValidSupplier] = useState(false);
-  const [unitPrice, setUnitPrice] = useState(finance.unitPrice);
 
   //   useEffect(() => {
   //     if (users && users.length > 0) {
@@ -85,25 +79,29 @@ const EditFinanceForm = ({ finance }) => {
   //   }, [gardens]);
 
   useEffect(() => {
-    setValidItem(FINANCE_ITEM_REGEX.test(item));
+    setValidItem(INVENTORY_ITEM_REGEX.test(item));
   }, [item]);
 
   useEffect(() => {
-    setValidItemType(FINANCE_ITEM_REGEX.test(itemType));
+    setValidItemType(INVENTORY_ITEM_REGEX.test(itemType));
   }, [itemType]);
-  useEffect(() => {
-    setValidSupplier(FINANCE_ITEM_REGEX.test(supplier));
-  }, [supplier]);
-
+  //   useEffect(() => {
+  //     if (gardens) {
+  //       const foundGarden = gardens.find(
+  //         (garden) => garden.id === inventory.garden
+  //       );
+  //       if (foundGarden) {
+  //         setGardenId(foundGarden.id);
+  //       }
+  //     }
+  //   }, [gardens, inventory.garden]);
   useEffect(() => {
     if (isSuccess || isDelSuccess) {
       setGardenId("");
-      setUnitPrice("");
-      setSupplier("");
       setItem("");
       setItemType("");
       setQuantity("");
-      navigate("/keuangan");
+      navigate("/inventaris");
     }
   }, [isSuccess, isDelSuccess, navigate]);
 
@@ -111,25 +109,19 @@ const EditFinanceForm = ({ finance }) => {
   const onItemChanged = (e) => setItem(e.target.value);
   const onItemTypeChanged = (e) => setItemType(e.target.value);
   const onQuantityChanged = (e) => setQuantity(e.target.value);
-  const onUnitPriceChanged = (e) => setUnitPrice(e.target.value);
-  const onSupplierChanged = (e) => setSupplier(e.target.value);
 
-  const canSave =
-    [validItem, validItemType, validSupplier].every(Boolean) && !isLoading;
-  const onDeleteFinanceClicked = async () => {
-    await deleteFinance({ id: finance.id });
+  const canSave = [validItem, validItemType].every(Boolean) && !isLoading;
+  const onDeleteInventoryClicked = async () => {
+    await deleteInventory({ id: inventory.id });
   };
 
-  const onSaveFinanceClicked = async (e) => {
+  const onSaveInventoryClicked = async (e) => {
     e.preventDefault();
     if (canSave) {
       try {
-        await updateFinance({
+        await updateInventory({
+          id: inventory.id,
           garden: gardenId,
-          id: finance.id,
-          supplier,
-          unitPrice,
-          totalCost: unitPrice * quantity,
           itemType,
           item,
           quantity,
@@ -157,15 +149,15 @@ const EditFinanceForm = ({ finance }) => {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-            <ReceiptLongTwoTone />
+            <Inventory2 />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Ubah Detail Transaksi
+            Ubah Detail Barang
           </Typography>
           <Box
             component="form"
             noValidate
-            onSubmit={onSaveFinanceClicked}
+            onSubmit={onSaveInventoryClicked}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
@@ -180,7 +172,7 @@ const EditFinanceForm = ({ finance }) => {
                     onChange={onGardenIdChanged}
                     fullWidth
                     id="gardenId"
-                    name="gardenId"
+                    name="invengarden"
                     label="Tugas di "
                   >
                     {gardens &&
@@ -207,18 +199,6 @@ const EditFinanceForm = ({ finance }) => {
               <Grid item xs={12}>
                 <TextField
                   required
-                  type="text"
-                  value={supplier}
-                  onChange={onSupplierChanged}
-                  fullWidth
-                  id="supplier"
-                  label="Supplier"
-                  name="supplier"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
                   type="number"
                   value={quantity}
                   onChange={onQuantityChanged}
@@ -226,18 +206,6 @@ const EditFinanceForm = ({ finance }) => {
                   id="quantity"
                   label="Jumlah Barang"
                   name="quantity"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  type="number"
-                  value={unitPrice}
-                  onChange={onUnitPriceChanged}
-                  fullWidth
-                  id="unitPrice"
-                  label="Harga Satuan"
-                  name="unitPrice"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -277,11 +245,11 @@ const EditFinanceForm = ({ finance }) => {
               fullWidth
               title="Save"
               //   disabled={!canSave}
-              onClick={onDeleteFinanceClicked}
+              onClick={onDeleteInventoryClicked}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Hapus Transaksi
+              Hapus Data Barang
             </Button>
           </Box>
         </Box>
@@ -291,4 +259,4 @@ const EditFinanceForm = ({ finance }) => {
 
   return content;
 };
-export default EditFinanceForm;
+export default EditInventoryForm;

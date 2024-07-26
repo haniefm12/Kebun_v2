@@ -3,9 +3,9 @@ import { MuiTelInput } from "mui-tel-input";
 import {
   useUpdateUserMutation,
   useDeleteUserMutation,
-} from "../../../app/api/usersApiSlice";
+} from "../../app/api/usersApiSlice";
 import { useNavigate } from "react-router-dom";
-import { ROLES } from "../../../config/roles";
+import { ROLES } from "../../config/roles";
 import {
   Avatar,
   Box,

@@ -1,22 +1,17 @@
 import { useRef, useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../app/api/authSlice";
 import { useLoginMutation } from "../app/api/authApiSlice";
 import usePersist from "../hooks/usePersist";
 
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import LoadingState from "../Components/state/LoadingState";
+
+import { Container, CssBaseline, Box, Avatar, Typography } from "@mui/material";
+
+import LoginForm from "../Components/Form/LoginForm";
+import LockOpenOutlined from "@mui/icons-material/LockOpenOutlined";
 
 const Login = () => {
   const userRef = useRef();
@@ -49,11 +44,11 @@ const Login = () => {
       navigate("/dashboard");
     } catch (err) {
       if (!err.status) {
-        setErrMsg("No Server Response");
+        setErrMsg("Server tidak ada respon!");
       } else if (err.status === 400) {
-        setErrMsg("Missing Username or Password");
+        setErrMsg("Lengkapi Username or Password!");
       } else if (err.status === 401) {
-        setErrMsg("Unauthorized");
+        setErrMsg("Username atau password tidak valid!");
       } else {
         setErrMsg(err.data?.message);
       }
@@ -67,11 +62,9 @@ const Login = () => {
   const handlePwdInput = (e) => setPassword(e.target.value);
   const handleToggle = () => setPersist((prev) => !prev);
 
-  const errClass = errMsg ? "errmsg" : "offscreen";
+  if (isLoading) return <LoadingState />;
 
-  if (isLoading) return <p>Loading...</p>;
-
-  const content = (
+  return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
@@ -83,66 +76,25 @@ const Login = () => {
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
+          <LockOpenOutlined />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            autoComplete="username"
-            autoFocus
-            onChange={handleUserInput}
-            value={username}
-            ref={userRef}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="off"
-            onChange={handlePwdInput}
-            value={password}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                id="persist"
-                onChange={handleToggle}
-                checked={persist}
-                value="persist"
-                color="primary"
-              />
-            }
-            label="Remember me"
-          />
-          <p ref={errRef} className={errClass} aria-live="assertive">
-            {errMsg}
-          </p>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
-          </Button>
-        </Box>
+        <LoginForm
+          username={username}
+          password={password}
+          handleUserInput={handleUserInput}
+          handlePwdInput={handlePwdInput}
+          handleSubmit={handleSubmit}
+          handleToggle={handleToggle}
+          persist={persist}
+          errMsg={errMsg}
+          userRef={userRef}
+        />
       </Box>
     </Container>
   );
-
-  return content;
 };
 
 export default Login;

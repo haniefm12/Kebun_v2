@@ -8,17 +8,12 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-// import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { Divider, Switch, styled } from "@mui/material";
 import MaterialUISwitch from "../../Switch";
-import useNavbar from "./index.hooks";
-import { ChevronLeft } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/MenuOutlined";
 import { useState } from "react";
-import { useEffect } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSendLogoutMutation } from "../../../app/api/authApiSlice";
 import useAuth from "../../../hooks/useAuth";
 import { useSelector } from "react-redux";
@@ -28,31 +23,28 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
   const { name, username, status } = useAuth();
   const user = useSelector((state) => selectUserByUsername(state, username));
   const [anchorEl, setAnchorEl] = useState(null);
-  const [tooltipOpen, setTooltipOpen] = useState(true);
   const open = Boolean(anchorEl);
 
   const profileImage = user ? user.image : "";
+
   const handleAvatarClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const [sendLogout, { isLoading, isSuccess, isError, error }] =
-    useSendLogoutMutation();
-  const handleLogout = async () => {
-    await sendLogout();
+
+  const [sendLogout, { isLoading, isError, error }] = useSendLogoutMutation();
+
+  const handleLogout = () => {
+    sendLogout().then(() => {
+      navigate("/login", { replace: true }); // Navigate to a different page after logging out
+    });
   };
   const handleProfile = () => navigate(`/profile/${username}`);
-  useEffect(() => {
-    if (isSuccess) {
-      console.log("Navigating to /login");
-      navigate("/login", { replace: true });
-    }
-  }, [isSuccess, navigate]);
 
   if (isLoading) return <p>Logging Out...</p>;
 
@@ -67,7 +59,7 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
               <MenuIcon sx={{ color: "#ffff" }} />
             </IconButton>
           )}
-          {isSidebarOpen ? null : (
+          {!isSidebarOpen && (
             <>
               <ParkIcon
                 sx={{
@@ -83,7 +75,6 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
                 sx={{
                   mr: 2,
                   display: { xs: "none", md: "flex" },
-                  // fontFamily: 'monospace',
                   fontWeight: 700,
                   letterSpacing: ".3rem",
                   color: "inherit",
@@ -95,7 +86,7 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
             </>
           )}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}></Box>
-          {isSidebarOpen ? null : (
+          {!isSidebarOpen && (
             <>
               <ParkIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
               <Typography
@@ -107,7 +98,6 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
                   mr: 2,
                   display: { xs: "flex", md: "none" },
                   flexGrow: 1,
-                  // fontFamily: 'monospace',
                   fontWeight: 700,
                   letterSpacing: ".3rem",
                   color: "inherit",
@@ -127,12 +117,7 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
               />
             </Tooltip>
 
-            <IconButton
-              onMouseEnter={() => setTooltipOpen(true)}
-              onMouseLeave={() => setTooltipOpen(false)}
-              onClick={handleAvatarClick}
-              sx={{ p: 0 }}
-            >
+            <IconButton onClick={handleAvatarClick} sx={{ p: 0 }}>
               <Tooltip title="Open settings" arrow>
                 <Avatar src={profileImage} />
               </Tooltip>
@@ -150,13 +135,10 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
                 </Box>
               </MenuItem>
 
-              <Divider></Divider>
-              <MenuItem>
-                <Typography textAlign="center" onClick={handleProfile}>
-                  Profile
-                </Typography>
+              <MenuItem onClick={handleProfile}>
+                <Typography textAlign="center">Profile</Typography>
               </MenuItem>
-              <MenuItem title="Logout" onClick={handleLogout}>
+              <MenuItem onClick={handleLogout}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
             </Menu>
