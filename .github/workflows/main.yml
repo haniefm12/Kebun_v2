@@ -16,14 +16,15 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:       
     - name: Deploy using ssh
-      uses: haniefm12/kebun_v2@main
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          cd /var/www/kebun_v2/
+          cd /var/www/youtube.com/
           git pull origin main
           git status
-          npm install --only=prod
+          npm install
+          npm start
