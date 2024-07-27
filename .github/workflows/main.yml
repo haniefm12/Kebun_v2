@@ -28,3 +28,4 @@ jobs:
           git status
           npm install
           npm start
+        debug: true
