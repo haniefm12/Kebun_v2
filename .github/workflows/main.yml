@@ -27,5 +27,6 @@ jobs:
           cd /var/www/kebun_v2/
           git pull origin main
           git status
+          cd /var/www/kebun_v2/backend
           npm install
           npm start
