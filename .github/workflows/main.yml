@@ -20,7 +20,7 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        passwoed: 123qweASD
+        password: 123qweASD
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
