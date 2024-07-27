@@ -41,8 +41,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route path="/" element={<Layout setMode={setMode} mode={mode} />}>
-          <Route element={<PersistLogin />}>
+        <Route element={<PersistLogin />}>
+          <Route path="/" element={<Layout setMode={setMode} mode={mode} />}>
             <Route
               element={
                 <RequireAuth
