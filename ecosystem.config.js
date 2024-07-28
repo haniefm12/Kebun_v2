@@ -10,8 +10,7 @@ module.exports = {
     },
     {
       name: "frontend",
-      script: "serve",
-      args: ["build", "8080"],
+      script: "serve -s build",
       cwd: "./frontend",
       watch: true,
       ignore_watch: ["frontend/node_modules"],
