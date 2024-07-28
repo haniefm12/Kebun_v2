@@ -1,5 +1,6 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
+import { API_URLS } from "../../config/urls";
 
 const usersAdapter = createEntityAdapter({});
 
@@ -30,7 +31,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
     addNewUser: builder.mutation({
       query: (initialUserData) => ({
-        url: "/user",
+        url: API_URLS.USER,
         method: "POST",
         body: {
           ...initialUserData,
@@ -40,7 +41,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
     updateUser: builder.mutation({
       query: (initialUserData) => ({
-        url: "/user",
+        url: API_URLS.USER,
         method: "PATCH",
         body: {
           ...initialUserData,
@@ -50,7 +51,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
     deleteUser: builder.mutation({
       query: ({ id }) => ({
-        url: `/user`,
+        url: API_URLS.USER,
         method: "DELETE",
         body: { id },
       }),

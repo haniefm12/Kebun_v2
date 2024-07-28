@@ -1,5 +1,6 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
+import { API_URLS } from "../../config/urls";
 
 const financesAdapter = createEntityAdapter();
 
@@ -9,7 +10,7 @@ export const financesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getFinances: builder.query({
       query: () => ({
-        url: "/finances",
+        url: API_URLS.FINANCE,
         validateStatus: (response, result) => {
           return response.status === 200 && !result.isError;
         },
@@ -32,7 +33,7 @@ export const financesApiSlice = apiSlice.injectEndpoints({
     }),
     addNewFinance: builder.mutation({
       query: (initialFinance) => ({
-        url: "/finances",
+        url: API_URLS.FINANCE,
         method: "POST",
         body: {
           ...initialFinance,
@@ -42,7 +43,7 @@ export const financesApiSlice = apiSlice.injectEndpoints({
     }),
     updateFinance: builder.mutation({
       query: (initialFinance) => ({
-        url: "/finances",
+        url: API_URLS.FINANCE,
         method: "PATCH",
         body: {
           ...initialFinance,
@@ -54,7 +55,7 @@ export const financesApiSlice = apiSlice.injectEndpoints({
     }),
     deleteFinance: builder.mutation({
       query: ({ id }) => ({
-        url: `/finances`,
+        url: API_URLS.FINANCE,
         method: "DELETE",
         body: { id },
       }),

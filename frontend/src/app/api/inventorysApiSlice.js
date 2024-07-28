@@ -1,5 +1,6 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
+import { API_URLS } from "../../config/urls";
 
 const inventorysAdapter = createEntityAdapter();
 
@@ -9,7 +10,7 @@ export const inventorysApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getInventorys: builder.query({
       query: () => ({
-        url: "/inventorys",
+        url: API_URLS.INVENTORY,
         validateStatus: (response, result) => {
           return response.status === 200 && !result.isError;
         },
@@ -32,7 +33,7 @@ export const inventorysApiSlice = apiSlice.injectEndpoints({
     }),
     addNewInventory: builder.mutation({
       query: (initialInventory) => ({
-        url: "/inventorys",
+        url: API_URLS.INVENTORY,
         method: "POST",
         body: {
           ...initialInventory,
@@ -42,7 +43,7 @@ export const inventorysApiSlice = apiSlice.injectEndpoints({
     }),
     updateInventory: builder.mutation({
       query: (initialInventory) => ({
-        url: "/inventorys",
+        url: API_URLS.INVENTORY,
         method: "PATCH",
         body: {
           ...initialInventory,
@@ -54,7 +55,7 @@ export const inventorysApiSlice = apiSlice.injectEndpoints({
     }),
     deleteInventory: builder.mutation({
       query: ({ id }) => ({
-        url: `/inventorys`,
+        url: API_URLS.INVENTORY,
         method: "DELETE",
         body: { id },
       }),

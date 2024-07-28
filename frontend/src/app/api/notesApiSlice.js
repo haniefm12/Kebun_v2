@@ -1,5 +1,6 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
+import { API_URLS } from "../../config/urls";
 
 const notesAdapter = createEntityAdapter();
 
@@ -9,7 +10,7 @@ export const notesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getNotes: builder.query({
       query: () => ({
-        url: "/notes",
+        url: API_URLS.NOTE,
         validateStatus: (response, result) => {
           return response.status === 200 && !result.isError;
         },
@@ -32,7 +33,7 @@ export const notesApiSlice = apiSlice.injectEndpoints({
     }),
     addNewNote: builder.mutation({
       query: (initialNote) => ({
-        url: "/notes",
+        url: API_URLS.NOTE,
         method: "POST",
         body: {
           ...initialNote,
@@ -42,7 +43,7 @@ export const notesApiSlice = apiSlice.injectEndpoints({
     }),
     updateNote: builder.mutation({
       query: (initialNote) => ({
-        url: "/notes",
+        url: API_URLS.NOTE,
         method: "PATCH",
         body: {
           ...initialNote,
@@ -52,7 +53,7 @@ export const notesApiSlice = apiSlice.injectEndpoints({
     }),
     deleteNote: builder.mutation({
       query: ({ id }) => ({
-        url: `/notes`,
+        url: API_URLS.NOTE,
         method: "DELETE",
         body: { id },
       }),

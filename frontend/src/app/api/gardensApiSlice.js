@@ -1,5 +1,6 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
+import { API_URLS } from "../../config/urls";
 
 const gardensAdapter = createEntityAdapter({});
 
@@ -8,7 +9,7 @@ const initialState = gardensAdapter.getInitialState();
 export const gardensApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getGardens: builder.query({
-      query: () => "/garden",
+      query: () => API_URLS.GARDEN,
       validateStatus: (response, result) => {
         return response.status === 200 && !result.isError;
       },
@@ -30,7 +31,7 @@ export const gardensApiSlice = apiSlice.injectEndpoints({
     }),
     addNewGarden: builder.mutation({
       query: (initialGardenData) => ({
-        url: "/garden",
+        url: API_URLS.GARDEN,
         method: "POST",
         body: {
           ...initialGardenData,
@@ -40,7 +41,7 @@ export const gardensApiSlice = apiSlice.injectEndpoints({
     }),
     updateGarden: builder.mutation({
       query: (initialGardenData) => ({
-        url: "/garden",
+        url: API_URLS.GARDEN,
         method: "PATCH",
         body: {
           ...initialGardenData,
@@ -50,7 +51,7 @@ export const gardensApiSlice = apiSlice.injectEndpoints({
     }),
     deleteGarden: builder.mutation({
       query: ({ id }) => ({
-        url: `/garden`,
+        url: API_URLS.GARDEN,
         method: "DELETE",
         body: { id },
       }),

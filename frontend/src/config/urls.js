@@ -4,9 +4,16 @@ export const BASE_URLS = {
 };
 
 export const API_URLS = {
+  LOGIN: "/auth",
+  LOGOUT: "/auth/logout",
   REFRESH_TOKEN: "/auth/refresh",
   GET_SIGNATURE: "/get-signature",
   PHOTO_DATA: "/do-something-with-photo",
+  FINANCE: "/finances",
+  INVENTORY: "/inventorys",
+  NOTE: "/notes",
+  USER: "/user",
+  GARDEN: "/garden",
 
   // Add other API URLs here
 };
