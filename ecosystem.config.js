@@ -1,22 +1,20 @@
+// ecosystem.config.js
 module.exports = {
   apps: [
     {
       name: "backend",
-      script: "backend/server.js",
-      watch: ["backend"],
+      script: "npm run build",
+      cwd: "./backend",
+      watch: true,
       ignore_watch: ["backend/node_modules", "backend/logs", "backend/uploads"],
-      env: {
-        PORT: 3000,
-      },
     },
     {
       name: "frontend",
-      script: "frontend/src/index.js",
-      watch: ["frontend"],
+      script: "serve",
+      args: ["build", "8080"],
+      cwd: "./frontend",
+      watch: true,
       ignore_watch: ["frontend/node_modules"],
-      env: {
-        PORT: 80,
-      },
     },
   ],
 };
