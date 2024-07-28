@@ -7,6 +7,10 @@ const allowedOrigins = [
   "kebunapp.online/",
   "https://kebunapp.online/",
   "www.kebunapp.online",
+  "http://103.134.154.6:80",
+  "http://localhost:80",
+  "http://localhost:3500",
+
   //put future web url here
 ];
 module.exports = allowedOrigins;
