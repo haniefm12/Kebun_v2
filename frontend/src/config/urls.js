@@ -1,6 +1,6 @@
 export const BASE_URLS = {
   DEVELOPMENT: "http://localhost:3500",
-  PRODUCTION: "kebunapp.online/api",
+  PRODUCTION: "/api",
 };
 
 export const API_URLS = {
