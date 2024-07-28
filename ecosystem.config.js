@@ -1,4 +1,3 @@
-// ecosystem.config.js
 module.exports = {
   apps: [
     {
@@ -10,7 +9,7 @@ module.exports = {
     },
     {
       name: "frontend",
-      script: "serve -s build",
+      script: "npm run build && serve -s build",
       cwd: "./frontend",
       watch: true,
       ignore_watch: ["frontend/node_modules"],
