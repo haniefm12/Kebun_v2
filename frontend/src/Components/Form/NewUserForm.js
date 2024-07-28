@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   Avatar,
   Box,
   Button,
-  Checkbox,
   Container,
   CssBaseline,
   FormControl,
-  FormControlLabel,
   Grid,
   InputLabel,
   MenuItem,
@@ -20,12 +18,7 @@ import {
   IconButton,
   InputAdornment,
 } from "@mui/material";
-import {
-  Copyright,
-  ParkOutlined,
-  Visibility,
-  VisibilityOff,
-} from "@mui/icons-material";
+import { ParkOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useAddNewUserMutation } from "../../app/api/usersApiSlice";
 import { ROLES } from "../../config/roles";
 
@@ -34,8 +27,7 @@ const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
 const NAME_REGEX = /^[A-z\s]{3,20}$/;
 
 const NewUserForm = () => {
-  const [addNewUser, { isLoading, isSuccess, isError, error }] =
-    useAddNewUserMutation();
+  const [addNewUser, { isLoading, isSuccess }] = useAddNewUserMutation();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");

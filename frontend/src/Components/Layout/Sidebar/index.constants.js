@@ -4,8 +4,6 @@ import {
   Inventory2Outlined,
   PaymentsOutlined,
   FolderSharedOutlined,
-  ChevronLeft,
-  ChevronRightOutlined,
   HomeOutlined,
 } from "@mui/icons-material";
 

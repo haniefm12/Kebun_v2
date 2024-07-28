@@ -1,14 +1,12 @@
 import { ParkRounded } from "@mui/icons-material";
 import {
   Typography,
-  Link,
   Card,
   CardContent,
   Box,
   Button,
   CircularProgress,
 } from "@mui/material";
-import { red } from "@mui/material/colors";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 

@@ -22,7 +22,7 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
-import axios from "axios";
+
 import {
   doSomethingWithPhoto,
   getSignature,
@@ -32,8 +32,6 @@ import { CLOUDINARY_URL } from "../../config/urls";
 
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
 const NAME_REGEX = /^[A-z0-9\s]{3,36}$/;
-const api_key = "989773282234796";
-const cloud_name = "kebunv2";
 
 const EditUserForm = ({ user }) => {
   const [updateUser, { isLoading, isSuccess, isError, error }] =
@@ -180,7 +178,7 @@ const EditUserForm = ({ user }) => {
     } else if (image) {
       const data = new FormData();
       data.append("file", image);
-      data.append("api_key", api_key);
+      data.append("api_key", CLOUDINARY_URL.KEY);
       data.append("signature", signatureResponse.signature);
       data.append("timestamp", signatureResponse.timestamp);
       let imageHttps;

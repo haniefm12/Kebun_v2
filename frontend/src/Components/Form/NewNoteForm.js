@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useAddNewNoteMutation } from "../../app/api/notesApiSlice";
-import { useGetUsersQuery, selectUserById } from "../../app/api/usersApiSlice";
-import {
-  selectGardenById,
-  useGetGardensQuery,
-} from "../../app/api/gardensApiSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useGetUsersQuery } from "../../app/api/usersApiSlice";
+import { useGetGardensQuery } from "../../app/api/gardensApiSlice";
+import { useNavigate } from "react-router-dom";
 import {
   Avatar,
   Box,
@@ -24,14 +21,12 @@ import { Description } from "@mui/icons-material";
 
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import moment from "moment-timezone";
 
 const NOTE_TITLE_REGEX = /^[A-z\s\d+]{3,50}$/;
-const NOTE_TEXT_REGEX = /^[A-z\s,\.\d+]{3,1000}$/;
+const NOTE_TEXT_REGEX = /^[A-z\s,.\d+]{3,1000}$/;
 
 const NewNoteForm = () => {
-  const [addNewNote, { isLoading, isSuccess, isError, error }] =
-    useAddNewNoteMutation();
+  const [addNewNote, { isLoading, isSuccess }] = useAddNewNoteMutation();
   const navigate = useNavigate();
 
   const { users, isLoading: isUsersLoading } = useGetUsersQuery("usersList", {

@@ -12,26 +12,18 @@ import {
   TableCell,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import {
   selectNoteById,
   useUpdateNoteMutation,
 } from "../../../app/api/notesApiSlice";
-import {
-  selectUserById,
-  useGetUsersQuery,
-} from "../../../app/api/usersApiSlice";
-import {
-  selectGardenById,
-  useGetGardensQuery,
-} from "../../../app/api/gardensApiSlice";
+import { selectUserById } from "../../../app/api/usersApiSlice";
+import { selectGardenById } from "../../../app/api/gardensApiSlice";
 
 const NoteDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [updateNote, { isLoading, isSuccess, isError, error }] =
-    useUpdateNoteMutation();
+  const [updateNote, { isSuccess }] = useUpdateNoteMutation();
 
   const note = useSelector((state) => selectNoteById(state, id));
   const garden = useSelector((state) => selectGardenById(state, note?.garden));
