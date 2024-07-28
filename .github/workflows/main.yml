@@ -27,6 +27,8 @@ jobs:
           cd /var/www/kebun_v2/
           git pull origin main
           git status
+          cd /var/www/kebun_v2/frontend
+          npm run build
 
           # Check if package.json or package-lock.json have changed in backend
           cd /var/www/kebun_v2/backend
