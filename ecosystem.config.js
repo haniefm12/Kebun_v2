@@ -9,7 +9,7 @@ module.exports = {
     },
     {
       name: "frontend",
-      script: "npm run build",
+      script: "serve -s build",
       cwd: "./frontend",
       watch: true,
       ignore_watch: ["frontend/node_modules"],
