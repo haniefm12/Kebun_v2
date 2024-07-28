@@ -24,3 +24,10 @@ export function formatDateTime(date) {
     .toString()
     .padStart(2, "0")})  ${month} ${day}, ${year} `;
 }
+export function formatDateOnly(date) {
+  const dateObj = new Date(date);
+  const month = monthNames[dateObj.getMonth()];
+  const day = dateObj.getDate();
+  const year = dateObj.getFullYear();
+  return `${day} ${month} ${year} `;
+}

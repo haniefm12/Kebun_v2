@@ -9,6 +9,7 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectNoteById } from "../../app/api/notesApiSlice";
+import { formatDateTime } from "../../utils/formatDateTime";
 
 export default function NoteCard({ noteId }) {
   const note = useSelector((state) => selectNoteById(state, noteId));
@@ -16,32 +17,6 @@ export default function NoteCard({ noteId }) {
   const user = useSelector((state) => selectUserById(state, userId));
   const gardenId = note ? note.garden : null; // Add a check for note
   const garden = useSelector((state) => selectGardenById(state, gardenId));
-  const formatDateTime = (date) => {
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    const dateObj = new Date(date);
-    const month = monthNames[dateObj.getMonth()];
-    const day = dateObj.getDate();
-    const year = dateObj.getFullYear();
-    const hour = dateObj.getHours();
-    const minute = dateObj.getMinutes();
-    return `(${hour.toString().padStart(2, "0")}:${minute
-      .toString()
-      .padStart(2, "0")})  ${month} ${day}, ${year} `;
-  };
-
   const navigate = useNavigate();
   const handleDetail = () => navigate(`/tugas/detail/${noteId}`);
   return (

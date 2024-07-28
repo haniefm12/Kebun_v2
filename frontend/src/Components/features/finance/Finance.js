@@ -4,33 +4,13 @@ import { selectFinanceById } from "../../../app/api/financesApiSlice";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import { IconButton, TableCell, TableRow } from "@mui/material";
 import { selectGardenById } from "../../../app/api/gardensApiSlice";
+import { formatDateOnly } from "../../../utils/formatDateTime";
 
 const Finance = ({ financeId, serialNumber }) => {
   const finance = useSelector((state) => selectFinanceById(state, financeId));
   const navigate = useNavigate();
   const gardenId = finance ? finance.garden : null;
   const garden = useSelector((state) => selectGardenById(state, gardenId));
-  const formatDateTime = (date) => {
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    const dateObj = new Date(date);
-    const month = monthNames[dateObj.getMonth()];
-    const day = dateObj.getDate();
-    const year = dateObj.getFullYear();
-    return `${day} ${month} ${year} `;
-  };
 
   if (finance) {
     const handleEdit = () => navigate(`/keuangan/edit/${financeId}`);
@@ -59,7 +39,7 @@ const Finance = ({ financeId, serialNumber }) => {
         <TableCell align="left">
           {garden ? garden.name : "Unknown garden"}
         </TableCell>
-        <TableCell align="left">{formatDateTime(finance.createdAt)}</TableCell>
+        <TableCell align="left">{formatDateOnly(finance.createdAt)}</TableCell>
         <TableCell align="center">
           <IconButton onClick={handleEdit}>
             <EditNoteIcon fontSize="small" />

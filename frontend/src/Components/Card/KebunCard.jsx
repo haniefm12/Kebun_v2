@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import { selectGardenById } from "../../app/api/gardensApiSlice";
 import { useEffect } from "react";
 import { DEFAULT_IMAGE } from "../../config/urls";
+import { formatDateTime } from "../../utils/formatDateTime";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -38,32 +39,6 @@ const KebunCard = ({ gardenId }) => {
   const garden = useSelector((state) => selectGardenById(state, gardenId));
   // eslint-disable-next-line
   const [notes, setNotes] = useState([]);
-  const formatDateTime = (date) => {
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    const dateObj = new Date(date);
-    const month = monthNames[dateObj.getMonth()];
-    const day = dateObj.getDate();
-    const year = dateObj.getFullYear();
-    const hour = dateObj.getHours();
-    const minute = dateObj.getMinutes();
-    return `(${hour.toString().padStart(2, "0")}:${minute
-      .toString()
-      .padStart(2, "0")})  ${month} ${day}, ${year} `;
-  };
-
   useEffect(() => {
     if (garden?.notes) {
       const notesArray = garden.notes.filter((note) => note.note && note.date);
