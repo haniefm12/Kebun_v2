@@ -12,6 +12,7 @@ import {
 
 import { formatDateTime } from "../../utils/formatDateTime";
 import { useGardens } from "../../app/api/api";
+import { DEFAULT_IMAGE } from "../../config/urls";
 
 function GardenContent() {
   const { data: gardens, isLoading, isSuccess, isError, error } = useGardens();
@@ -60,7 +61,7 @@ function GardenContent() {
                         gardens.entities[gardenId] &&
                         gardens.entities[gardenId].image
                           ? gardens.entities[gardenId].image
-                          : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/390px-No-Image-Placeholder.svg.png"
+                          : DEFAULT_IMAGE.KEBUN
                       }
                       alt="No Image"
                     />

@@ -17,10 +17,13 @@ import {
   Typography,
 } from "@mui/material";
 import { ParkOutlined } from "@mui/icons-material";
-import axios from "axios";
 
-const api_key = "989773282234796";
-const cloud_name = "kebunv2";
+import {
+  doSomethingWithPhoto,
+  getSignature,
+  uploadImageToCloudinary,
+} from "../../app/api/imageUpload";
+import { CLOUDINARY_URL } from "../../config/urls";
 
 const GARDEN_NAME_REGEX = /^[A-z\s\d]{3,50}$/;
 const GARDEN_ADDRESS_REGEX = /^[A-z\s\d,.]{3,100}$/;
@@ -29,11 +32,8 @@ const GARDEN_AREA_REGEX = /^\d+(\.\d+)?$/;
 const EditGardenForm = ({ garden }) => {
   const [updateGarden, { isLoading, isSuccess, isError }] =
     useUpdateGardenMutation();
-
   const [deleteGarden, { isSuccess: isDelSuccess }] = useDeleteGardenMutation();
-
   const navigate = useNavigate();
-
   const [name, setName] = useState(garden.name);
   const [validName, setValidName] = useState(false);
   const [address, setAddress] = useState(garden.address);
@@ -48,7 +48,6 @@ const EditGardenForm = ({ garden }) => {
   const [filename, setFilename] = useState("");
   const [pageRefresh, setPageRefresh] = useState(false);
   const [countdown, setCountdown] = useState(5);
-
   const [image, setImage] = useState(garden.image);
   const [imageUrl, setImageUrl] = useState(garden.image);
   const [open, setOpen] = useState(false);
@@ -142,42 +141,31 @@ const EditGardenForm = ({ garden }) => {
   const onSaveGardenClicked = async (e) => {
     e.preventDefault();
     setLoad(true);
-    const signatureResponse = await axios.get(
-      "http://localhost:3500/get-signature"
-    );
-    if (canSave) {
-      try {
+    try {
+      const signatureResponse = await getSignature();
+      if (canSave) {
         const data = new FormData();
         data.append("file", image);
-        data.append("api_key", api_key);
-        data.append("signature", signatureResponse.data.signature);
-        data.append("timestamp", signatureResponse.data.timestamp);
+        data.append("api_key", CLOUDINARY_URL.KEY);
+        data.append("signature", signatureResponse.signature);
+        data.append("timestamp", signatureResponse.timestamp);
         let imageHttps;
-        const cloudinaryResponse = await axios.post(
-          `https://api.cloudinary.com/v1_1/${cloud_name}/auto/upload`,
+        const onUploadProgress = (e) => {
+          const percentage = Math.round((e.loaded / e.total) * 100);
+          setUploadProgress(percentage);
+        };
+        const cloudinaryResponse = await uploadImageToCloudinary(
           data,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-            onUploadProgress: function (e) {
-              const percentage = Math.round((e.loaded / e.total) * 100);
-              setUploadProgress(percentage);
-            },
-          }
+          onUploadProgress
         );
         const photoData = {
-          public_id: cloudinaryResponse.data.public_id,
-          version: cloudinaryResponse.data.version,
-          signature: cloudinaryResponse.data.signature,
-          secure_url: cloudinaryResponse.data.secure_url,
+          public_id: cloudinaryResponse.public_id,
+          version: cloudinaryResponse.version,
+          signature: cloudinaryResponse.signature,
+          secure_url: cloudinaryResponse.secure_url,
         };
-        await axios
-          .post("http://localhost:3500/do-something-with-photo", photoData)
-          .then((response) => {
-            imageHttps = response.data.imageHttps;
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        const response = await doSomethingWithPhoto(photoData);
+        imageHttps = response.imageHttps;
         await updateGarden({
           id: garden.id,
           name,
@@ -187,12 +175,11 @@ const EditGardenForm = ({ garden }) => {
           image: imageHttps,
           status: true,
         });
-      } catch (error) {
-        console.error("Error submitting form:", error);
       }
+    } catch (error) {
+      console.error("Error submitting form:", error);
     }
   };
-
   const content = (
     <>
       <Container component="main" maxWidth="xs">

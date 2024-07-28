@@ -31,6 +31,7 @@ import NewUserForm from "./Components/Form/NewUserForm.js";
 
 function App() {
   const [mode, setMode] = useState("light");
+  console.log(process.env.NODE_ENV);
 
   const theme = createTheme({
     palette: {

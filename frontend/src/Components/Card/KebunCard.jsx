@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectGardenById } from "../../app/api/gardensApiSlice";
 import { useEffect } from "react";
+import { DEFAULT_IMAGE } from "../../config/urls";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -107,8 +108,8 @@ const KebunCard = ({ gardenId }) => {
             </Avatar>
           }
           action={
-            <IconButton aria-label="settings">
-              <OpenInNew onClick={handleViewClick}></OpenInNew>
+            <IconButton aria-label="settings" onClick={handleViewClick}>
+              <OpenInNew />
             </IconButton>
           }
           title={title}
@@ -117,11 +118,7 @@ const KebunCard = ({ gardenId }) => {
         <CardMedia
           component="img"
           height="194"
-          image={
-            image
-              ? image
-              : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/390px-No-Image-Placeholder.svg.png "
-          }
+          image={image ? image : DEFAULT_IMAGE.KEBUN}
           alt="Paella dish"
         />
         <CardContent>
