@@ -28,14 +28,20 @@ jobs:
           git pull origin main
           git status
 
-          # Check if package.json or package-lock.json have changed
+          # Check if package.json or package-lock.json have changed in backend
+          cd /var/www/kebun_v2/backend
           if git diff --quiet HEAD~1 HEAD package.json package-lock.json; then
-            echo "No changes in package.json or package-lock.json, skipping npm install"
+            echo "No changes in backend package.json or package-lock.json, skipping npm install"
           else
-            echo "Changes detected in package.json or package-lock.json, running npm install"
-            cd /var/www/kebun_v2/backend
+            echo "Changes detected in backend package.json or package-lock.json, running npm install"
             npm install
-            cd ..
-            cd /var/www/kebun_v2/frontend
+          fi
+
+          # Check if package.json or package-lock.json have changed in frontend
+          cd /var/www/kebun_v2/frontend
+          if git diff --quiet HEAD~1 HEAD package.json package-lock.json; then
+            echo "No changes in frontend package.json or package-lock.json, skipping npm install"
+          else
+            echo "Changes detected in frontend package.json or package-lock.json, running npm install"
             npm install
           fi
