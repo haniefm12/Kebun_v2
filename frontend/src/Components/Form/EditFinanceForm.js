@@ -21,8 +21,8 @@ import {
   Typography,
 } from "@mui/material";
 import { ReceiptLongTwoTone } from "@mui/icons-material";
+import { REGEX } from "../../config/regex";
 
-const FINANCE_ITEM_REGEX = /^[A-z\s\d+]{3,50}$/;
 const categories = [
   { value: "Bibit dan Biji", label: "Bibit dan Biji" },
   { value: "Peralatan Berkebun", label: "Peralatan Berkebun" },
@@ -62,14 +62,14 @@ const EditFinanceForm = ({ finance }) => {
   const [unitPrice, setUnitPrice] = useState(finance.unitPrice);
 
   useEffect(() => {
-    setValidItem(FINANCE_ITEM_REGEX.test(item));
+    setValidItem(REGEX.ITEM.test(item));
   }, [item]);
 
   useEffect(() => {
-    setValidItemType(FINANCE_ITEM_REGEX.test(itemType));
+    setValidItemType(REGEX.ITEM.test(itemType));
   }, [itemType]);
   useEffect(() => {
-    setValidSupplier(FINANCE_ITEM_REGEX.test(supplier));
+    setValidSupplier(REGEX.SUPPLIER.test(supplier));
   }, [supplier]);
 
   useEffect(() => {

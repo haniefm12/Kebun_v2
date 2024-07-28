@@ -17,8 +17,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Inventory2 } from "@mui/icons-material";
+import { REGEX } from "../../config/regex";
 
-const INVENTORY_ITEM_REGEX = /^[A-z\s\d+]{3,50}$/;
 const categories = [
   { value: "Bibit dan Biji", label: "Bibit dan Biji" },
   { value: "Peralatan Berkebun", label: "Peralatan Berkebun" },
@@ -54,11 +54,11 @@ const NewInventoryForm = () => {
   const [quantity, setQuantity] = useState("");
 
   useEffect(() => {
-    setValidItem(INVENTORY_ITEM_REGEX.test(item));
+    setValidItem(REGEX.ITEM.test(item));
   }, [item]);
 
   useEffect(() => {
-    setValidItemType(INVENTORY_ITEM_REGEX.test(itemType));
+    setValidItemType(REGEX.ITEM.test(itemType));
   }, [itemType]);
 
   useEffect(() => {

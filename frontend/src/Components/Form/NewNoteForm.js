@@ -21,9 +21,7 @@ import { Description } from "@mui/icons-material";
 
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-
-const NOTE_TITLE_REGEX = /^[A-z\s\d+]{3,50}$/;
-const NOTE_TEXT_REGEX = /^[A-z\s,.\d+]{3,1000}$/;
+import { REGEX } from "../../config/regex";
 
 const NewNoteForm = () => {
   const [addNewNote, { isLoading, isSuccess }] = useAddNewNoteMutation();
@@ -52,11 +50,11 @@ const NewNoteForm = () => {
   const [schedule, setSchedule] = useState(null);
 
   useEffect(() => {
-    setValidTitle(NOTE_TITLE_REGEX.test(title));
+    setValidTitle(REGEX.TITLE.test(title));
   }, [title]);
 
   useEffect(() => {
-    setValidText(NOTE_TEXT_REGEX.test(text));
+    setValidText(REGEX.TEXT.test(text));
   }, [text]);
 
   useEffect(() => {
@@ -88,7 +86,14 @@ const NewNoteForm = () => {
   const padZero = (num) => {
     return (num < 10 ? "0" : "") + num;
   };
-  const canSave = [validTitle, validText].every(Boolean) && !isLoading;
+  const canSave =
+    [
+      validTitle,
+      validText,
+      userId !== "",
+      schedule !== null,
+      gardenId !== "",
+    ].every(Boolean) && !isLoading;
 
   const onSaveNoteClicked = async (e) => {
     e.preventDefault();

@@ -21,10 +21,7 @@ import {
 import { ParkOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useAddNewUserMutation } from "../../app/api/usersApiSlice";
 import { ROLES } from "../../config/roles";
-
-const USER_REGEX = /^[A-z]{3,20}$/;
-const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
-const NAME_REGEX = /^[A-z\s]{3,20}$/;
+import { REGEX } from "../../config/regex";
 
 const NewUserForm = () => {
   const [addNewUser, { isLoading, isSuccess }] = useAddNewUserMutation();
@@ -43,15 +40,15 @@ const NewUserForm = () => {
   const [showRetypePassword, setShowRetypePassword] = useState(false);
 
   useEffect(() => {
-    setValidName(NAME_REGEX.test(name));
+    setValidName(REGEX.NAME.test(name));
   }, [name]);
 
   useEffect(() => {
-    setValidUsername(USER_REGEX.test(username));
+    setValidUsername(REGEX.USER.test(username.trim()));
   }, [username]);
 
   useEffect(() => {
-    setValidPassword(PWD_REGEX.test(password));
+    setValidPassword(REGEX.PWD.test(password));
   }, [password]);
 
   useEffect(() => {

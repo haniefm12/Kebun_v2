@@ -29,9 +29,7 @@ import {
   uploadImageToCloudinary,
 } from "../../app/api/imageUpload";
 import { CLOUDINARY_URL } from "../../config/urls";
-
-const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
-const NAME_REGEX = /^[A-z0-9\s]{3,36}$/;
+import { REGEX } from "../../config/regex";
 
 const EditUserForm = ({ user }) => {
   const [updateUser, { isLoading, isSuccess, isError, error }] =
@@ -104,11 +102,11 @@ const EditUserForm = ({ user }) => {
   }, [image]);
 
   useEffect(() => {
-    setValidName(NAME_REGEX.test(name));
+    setValidName(REGEX.NAME.test(name));
   }, [name]);
 
   useEffect(() => {
-    setValidPassword(PWD_REGEX.test(password));
+    setValidPassword(REGEX.PWD.test(password));
   }, [password]);
 
   useEffect(() => {

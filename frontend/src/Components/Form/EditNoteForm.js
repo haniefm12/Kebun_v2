@@ -27,9 +27,7 @@ import { Description } from "@mui/icons-material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import moment from "moment-timezone";
-
-const NOTE_TITLE_REGEX = /^[A-z\s\d+]{3,50}$/;
-const NOTE_TEXT_REGEX = /^[A-z\s,.\d+]{3,1000}$/;
+import { REGEX } from "../../config/regex";
 
 const EditNoteForm = ({ note }) => {
   const [updateNote, { isLoading, isSuccess }] = useUpdateNoteMutation();
@@ -62,11 +60,11 @@ const EditNoteForm = ({ note }) => {
   const [active, setActive] = useState(note.completed);
 
   useEffect(() => {
-    setValidTitle(NOTE_TITLE_REGEX.test(title));
+    setValidTitle(REGEX.TITLE.test(title));
   }, [title]);
 
   useEffect(() => {
-    setValidText(NOTE_TEXT_REGEX.test(text));
+    setValidText(REGEX.TEXT.test(text));
   }, [text]);
 
   useEffect(() => {

@@ -24,11 +24,8 @@ import {
   uploadImageToCloudinary,
 } from "../../app/api/imageUpload";
 import { CLOUDINARY_URL } from "../../config/urls";
+import { REGEX } from "../../config/regex";
 
-const GARDEN_NAME_REGEX = /^[A-z\s\d]{3,50}$/;
-const GARDEN_ADDRESS_REGEX = /^[A-z\s\d,.]{3,100}$/;
-const GARDEN_DESCRIPTION_REGEX = /^[A-z\s\d,.]{3,500}$/;
-const GARDEN_AREA_REGEX = /^\d+(\.\d+)?$/;
 const EditGardenForm = ({ garden }) => {
   const [updateGarden, { isLoading, isSuccess, isError }] =
     useUpdateGardenMutation();
@@ -98,19 +95,19 @@ const EditGardenForm = ({ garden }) => {
     }
   }, [image]);
   useEffect(() => {
-    setValidDescription(GARDEN_DESCRIPTION_REGEX.test(description));
+    setValidDescription(REGEX.DESCRIPTION.test(description));
   }, [description]);
 
   useEffect(() => {
-    setValidName(GARDEN_NAME_REGEX.test(name));
+    setValidName(REGEX.GARDEN.test(name));
   }, [name]);
 
   useEffect(() => {
-    setValidAddress(GARDEN_ADDRESS_REGEX.test(address));
+    setValidAddress(REGEX.ADDRESS.test(address));
   }, [address]);
 
   useEffect(() => {
-    setValidArea(GARDEN_AREA_REGEX.test(area));
+    setValidArea(REGEX.AREA.test(area));
   }, [area]);
 
   useEffect(() => {
