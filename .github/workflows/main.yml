@@ -47,7 +47,7 @@ jobs:
           fi
 
            # Check if frontend has changes
-          if git diff --quiet HEAD~1 HEAD frontend; then
+          if git diff --quiet HEAD~1 HEAD -- frontend/; then
             echo "No changes in frontend, skipping npm run build"
           else
             echo "Changes detected in frontend, running npm run build"
