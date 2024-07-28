@@ -9,9 +9,7 @@ module.exports = {
     },
     {
       name: "frontend",
-      exec_mode: "cluster",
-      exec_command: "npm",
-      args: "run build && serve -s build",
+      script: "npm run build",
       cwd: "./frontend",
       watch: true,
       ignore_watch: ["frontend/node_modules"],
