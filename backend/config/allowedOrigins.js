@@ -2,7 +2,6 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:8080",
   "http://kebunapp.online",
-
-  //put future web url here
+  "https://kebunapp.online",
 ];
 module.exports = allowedOrigins;
