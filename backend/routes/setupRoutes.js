@@ -38,7 +38,10 @@ const setupRoutes = (app) => {
       message: "Image processed successfully",
     });
   });
-
+  app.get("*", (req, res) => {
+    // Send the index.html file from the public directory
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+  });
   app.all("*", (req, res) => {
     res.status(404);
     if (req.accepts("html")) {

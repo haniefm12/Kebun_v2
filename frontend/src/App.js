@@ -50,7 +50,7 @@ function App() {
                 />
               }
             >
-              <Route path="/" element={<Navigate to="/dashboard" />} />
+              <Route path="/" element={<Dashboard />} />
               <Route element={<Prefetch />}>
                 <Route path="dashboard" element={<Dashboard />} />
 
