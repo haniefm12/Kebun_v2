@@ -4,8 +4,10 @@ import { useRefreshMutation } from "../../../app/api/authApiSlice";
 import usePersist from "../../../hooks/usePersist";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "../../../app/api/authSlice";
+import React from "react";
 
 import UnauthorizedPage from "./UnauthorizedPage";
+import LoadingState from "../../state/LoadingState";
 
 const PersistLogin = () => {
   const [persist] = usePersist();
@@ -43,7 +45,7 @@ const PersistLogin = () => {
   if (!persist) {
     content = <Outlet />;
   } else if (isLoading) {
-    content = <p>Loading...</p>;
+    content = <LoadingState />;
   } else if (isError) {
     content = <UnauthorizedPage />;
   } else if (isSuccess && trueSuccess) {

@@ -22,6 +22,7 @@ import { Description } from "@mui/icons-material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { REGEX } from "../../config/regex";
+import LoadingState from "../state/LoadingState";
 
 const NewNoteForm = () => {
   const [addNewNote, { isLoading, isSuccess }] = useAddNewNoteMutation();
@@ -113,7 +114,7 @@ const NewNoteForm = () => {
   };
 
   if (isUsersLoading || isGardensLoading) {
-    return <div>Loading...</div>;
+    return <LoadingState />;
   }
 
   const content = (

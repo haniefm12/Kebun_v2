@@ -18,6 +18,7 @@ import { useSendLogoutMutation } from "../../../app/api/authApiSlice";
 import useAuth from "../../../hooks/useAuth";
 import { useSelector } from "react-redux";
 import { selectUserByUsername } from "../../../app/api/usersApiSlice";
+import LoadingState from "../../state/LoadingState";
 
 const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
   const { name, username, status } = useAuth();
@@ -46,7 +47,7 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
   };
   const handleProfile = () => navigate(`/profile/${username}`);
 
-  if (isLoading) return <p>Logging Out...</p>;
+  if (isLoading) return <LoadingState />;
 
   if (isError) return <p>Error: {error.data?.message}</p>;
 

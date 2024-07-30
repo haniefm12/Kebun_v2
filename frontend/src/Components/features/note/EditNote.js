@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectNoteById } from "../../../app/api/notesApiSlice";
+import React from "react";
 
 import { Box, CircularProgress } from "@mui/material";
 import EditNoteForm from "../../Form/EditNoteForm";

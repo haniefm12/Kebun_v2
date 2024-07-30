@@ -1,12 +1,13 @@
 import React from "react";
 import { Card, CardContent, Checkbox, Stack, Typography } from "@mui/material";
 import { useNotes } from "../../app/api/api";
+import LoadingState from "../state/LoadingState";
 
 function NotesContent() {
   const { data: notes, isLoading, isSuccess, isError } = useNotes();
 
   if (isLoading) {
-    return <Typography variant="h5">Loading...</Typography>;
+    return <LoadingState />;
   }
 
   if (isError) {

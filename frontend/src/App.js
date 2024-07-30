@@ -1,37 +1,101 @@
-import { createTheme } from "@mui/material";
-import Layout from "./Components/Layout.jsx";
-import { useState } from "react";
+import React, { useState } from "react";
 import { ThemeProvider } from "@emotion/react";
-import { Navigate, Route, Routes } from "react-router-dom";
-import Dashboard from "./Pages/Dashboard.jsx";
-import Login from "./Pages/Login.jsx";
-import Inventaris from "./Pages/Inventaris.jsx";
-import Kebun from "./Pages/Kebun.jsx";
-import KelolaAkun from "./Pages/KelolaAkun.jsx";
-import Keuangan from "./Pages/Keuangan.jsx";
-import Tugas from "./Pages/Tugas.jsx";
-import Profile from "./Pages/Profile.jsx";
-import EditUser from "./Components/features/user/EditUser.js";
+import { createTheme } from "@mui/material";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Loadable from "react-loadable";
+import Layout from "./Components/Layout.jsx";
 import Prefetch from "./Components/features/auth/Prefetch.js";
 import PersistLogin from "./Components/features/auth/PersistLogin.js";
 import RequireAuth from "./Components/features/auth/RequireAuth.js";
 import { ROLES } from "./config/roles.js";
-import AddGardenNote from "./Components/features/garden/AddGardenNote.js";
-import GardenDetails from "./Components/features/garden/GardenDetails.js";
-import EditGarden from "./Components/features/garden/EditGarden.js";
-import EditInventory from "./Components/features/inventory/EditInventory.js";
-import EditFinance from "./Components/features/finance/EditFinance.js";
-import NoteDetail from "./Components/features/note/NoteDetails.js";
-import EditNote from "./Components/features/note/EditNote.js";
-import NewFinanceForm from "./Components/Form/NewFinanceForm.js";
-import NewGardenForm from "./Components/Form/NewGardenForm.js";
-import NewInventoryForm from "./Components/Form/NewInventoryForm.js";
-import NewNoteForm from "./Components/Form/NewNoteForm.js";
-import NewUserForm from "./Components/Form/NewUserForm.js";
+import LoadingState from "./Components/state/LoadingState.js";
+const Dashboard = Loadable({
+  loader: () => import("./Pages/Dashboard.jsx"),
+  loading: () => <LoadingState />,
+});
+const Inventaris = Loadable({
+  loader: () => import("./Pages/Inventaris.jsx"),
+  loading: () => <LoadingState />,
+});
+const Kebun = Loadable({
+  loader: () => import("./Pages/Kebun.jsx"),
+  loading: () => <LoadingState />,
+});
+const KelolaAkun = Loadable({
+  loader: () => import("./Pages/KelolaAkun.jsx"),
+  loading: () => <LoadingState />,
+});
+const Keuangan = Loadable({
+  loader: () => import("./Pages/Keuangan.jsx"),
+  loading: () => <LoadingState />,
+});
+const Tugas = Loadable({
+  loader: () => import("./Pages/Tugas.jsx"),
+  loading: () => <LoadingState />,
+});
+const Profile = Loadable({
+  loader: () => import("./Pages/Profile.jsx"),
+  loading: () => <LoadingState />,
+});
+const EditUser = Loadable({
+  loader: () => import("./Components/features/user/EditUser.js"),
+  loading: () => <LoadingState />,
+});
+const AddGardenNote = Loadable({
+  loader: () => import("./Components/features/garden/AddGardenNote.js"),
+  loading: () => <LoadingState />,
+});
+const GardenDetails = Loadable({
+  loader: () => import("./Components/features/garden/GardenDetails.js"),
+  loading: () => <LoadingState />,
+});
+const EditGarden = Loadable({
+  loader: () => import("./Components/features/garden/EditGarden.js"),
+  loading: () => <LoadingState />,
+});
+const EditInventory = Loadable({
+  loader: () => import("./Components/features/inventory/EditInventory.js"),
+  loading: () => <LoadingState />,
+});
+const EditFinance = Loadable({
+  loader: () => import("./Components/features/finance/EditFinance.js"),
+  loading: () => <LoadingState />,
+});
+const NoteDetail = Loadable({
+  loader: () => import("./Components/features/note/NoteDetails.js"),
+  loading: () => <LoadingState />,
+});
+const EditNote = Loadable({
+  loader: () => import("./Components/features/note/EditNote.js"),
+  loading: () => <LoadingState />,
+});
+const NewFinanceForm = Loadable({
+  loader: () => import("./Components/Form/NewFinanceForm.js"),
+  loading: () => <LoadingState />,
+});
+const NewGardenForm = Loadable({
+  loader: () => import("./Components/Form/NewGardenForm.js"),
+  loading: () => <LoadingState />,
+});
+const NewInventoryForm = Loadable({
+  loader: () => import("./Components/Form/NewInventoryForm.js"),
+  loading: () => <LoadingState />,
+});
+const NewNoteForm = Loadable({
+  loader: () => import("./Components/Form/NewNoteForm.js"),
+  loading: () => <LoadingState />,
+});
+const NewUserForm = Loadable({
+  loader: () => import("./Components/Form/NewUserForm.js"),
+  loading: () => <LoadingState />,
+});
+const Login = Loadable({
+  loader: () => import("./Pages/Login.jsx"),
+  loading: () => <LoadingState />,
+});
 
 function App() {
   const [mode, setMode] = useState("light");
-
   const theme = createTheme({
     palette: {
       mode: mode,
@@ -50,7 +114,7 @@ function App() {
                 />
               }
             >
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/" element={<Navigate to="/dashboard" />} />
               <Route element={<Prefetch />}>
                 <Route path="dashboard" element={<Dashboard />} />
 

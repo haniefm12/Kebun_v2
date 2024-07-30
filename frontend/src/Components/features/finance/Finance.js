@@ -5,7 +5,7 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import { IconButton, TableCell, TableRow } from "@mui/material";
 import { selectGardenById } from "../../../app/api/gardensApiSlice";
 import { formatDateOnly } from "../../../utils/formatDateTime";
-
+import React from "react";
 const Finance = ({ financeId, serialNumber }) => {
   const finance = useSelector((state) => selectFinanceById(state, financeId));
   const navigate = useNavigate();

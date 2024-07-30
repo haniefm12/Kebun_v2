@@ -4,6 +4,7 @@ import { selectInventoryById } from "../../../app/api/inventorysApiSlice";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import { IconButton, TableCell, TableRow } from "@mui/material";
 import { selectGardenById } from "../../../app/api/gardensApiSlice";
+import React from "react";
 
 const Inventory = ({ inventoryId, serialNumber }) => {
   const inventory = useSelector((state) =>

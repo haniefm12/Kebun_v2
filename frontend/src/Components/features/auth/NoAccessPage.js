@@ -1,4 +1,5 @@
 import { Container, Typography, Button } from "@mui/material";
+import React from "react";
 
 const NoAccessPage = () => {
   return (

@@ -1,12 +1,13 @@
 import React from "react";
 import { Grid, Typography } from "@mui/material";
 import { useFinances } from "../../app/api/api";
+import LoadingState from "../state/LoadingState";
 
 function FinanceContent() {
   const { data: finances, isLoading, isSuccess, isError } = useFinances();
 
   if (isLoading) {
-    return <Typography variant="h5">Loading...</Typography>;
+    return <LoadingState />;
   }
 
   if (isError) {

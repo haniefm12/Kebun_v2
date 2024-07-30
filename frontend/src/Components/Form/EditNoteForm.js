@@ -28,6 +28,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import moment from "moment-timezone";
 import { REGEX } from "../../config/regex";
+import LoadingState from "../state/LoadingState";
 
 const EditNoteForm = ({ note }) => {
   const [updateNote, { isLoading, isSuccess }] = useUpdateNoteMutation();
@@ -121,7 +122,7 @@ const EditNoteForm = ({ note }) => {
   };
 
   if (isUsersLoading || isGardensLoading) {
-    return <div>Loading...</div>;
+    return <LoadingState />;
   }
 
   const content = (

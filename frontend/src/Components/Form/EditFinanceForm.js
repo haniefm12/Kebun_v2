@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import { ReceiptLongTwoTone } from "@mui/icons-material";
 import { REGEX } from "../../config/regex";
+import LoadingState from "../state/LoadingState";
 
 const categories = [
   { value: "Bibit dan Biji", label: "Bibit dan Biji" },
@@ -118,7 +119,7 @@ const EditFinanceForm = ({ finance }) => {
   };
 
   if (isGardensLoading) {
-    return <div>Loading...</div>;
+    return <LoadingState />;
   }
 
   const content = (

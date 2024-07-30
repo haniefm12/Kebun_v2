@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { selectUserByUsername } from "../app/api/usersApiSlice";
 import { Box, CircularProgress } from "@mui/material";
 import ProfileForm from "../Components/Form/ProfileForm";
+import React from "react";
 
 const Profile = () => {
   const { username } = useParams();

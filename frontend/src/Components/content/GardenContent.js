@@ -13,12 +13,13 @@ import {
 import { formatDateTime } from "../../utils/formatDateTime";
 import { useGardens } from "../../app/api/api";
 import { DEFAULT_IMAGE } from "../../config/urls";
+import LoadingState from "../state/LoadingState";
 
 function GardenContent() {
   const { data: gardens, isLoading, isSuccess, isError, error } = useGardens();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingState />;
   }
 
   if (isError) {
