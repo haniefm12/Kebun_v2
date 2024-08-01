@@ -5,8 +5,11 @@ import LoadingState from "../Components/state/LoadingState";
 import ErrorNoData from "../Components/state/ErrorNoData";
 import FinanceTable from "../Components/Table/FinanceTable";
 import NewData from "../Components/FloatButton/NewData";
+import useAuth from "../hooks/useAuth";
+import NoAccessPage from "../Components/features/auth/NoAccessPage";
 
 const Keuangan = () => {
+  const { isManager, isAdmin } = useAuth();
   const [totalExpenses, setTotalExpenses] = useState(0);
   const {
     data: finances,
@@ -29,19 +32,22 @@ const Keuangan = () => {
 
   if (isLoading) return <LoadingState />;
   if (isError) return <ErrorNoData error={error} />;
-
-  return (
-    <Box pl={4} pb={2} pt={2} pr={2}>
-      <Typography pl={2} pb={0} variant="h4">
-        Keuangan
-      </Typography>
-      <Typography variant="h6" sx={{ mt: 0, textAlign: "right" }}>
-        Total Pengeluaran: Rp. {totalExpenses.toLocaleString("id-ID")},-
-      </Typography>
-      <FinanceTable finances={finances} />
-      <NewData />
-    </Box>
-  );
+  if (isAdmin || isManager) {
+    return (
+      <Box pl={4} pb={2} pt={2} pr={2}>
+        <Typography pl={2} pb={0} variant="h4">
+          Keuangan
+        </Typography>
+        <Typography variant="h6" sx={{ mt: 0, textAlign: "right" }}>
+          Total Pengeluaran: Rp. {totalExpenses.toLocaleString("id-ID")},-
+        </Typography>
+        <FinanceTable finances={finances} />
+        <NewData />
+      </Box>
+    );
+  } else {
+    return <NoAccessPage />;
+  }
 };
 
 export default Keuangan;

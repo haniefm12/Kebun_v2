@@ -6,10 +6,21 @@ import { useInventorys } from "../app/api/api";
 import LoadingState from "../Components/state/LoadingState";
 import ErrorNoData from "../Components/state/ErrorNoData";
 import InventoryTable from "../Components/Table/InventoryTable";
+import useAuth from "../hooks/useAuth";
 
 const Inventaris = () => {
   const { data: inventorys, isLoading, isError, error } = useInventorys();
+  const { isManager, isAdmin } = useAuth();
+  let tombolTambah;
+  let auth;
 
+  if (isManager || isAdmin) {
+    tombolTambah = <NewData />;
+    auth = true;
+  } else {
+    tombolTambah = null;
+    auth = false;
+  }
   if (isLoading) {
     return <LoadingState />;
   }
@@ -23,8 +34,8 @@ const Inventaris = () => {
       <Typography pl={2} pb={1} variant="h4">
         Inventaris
       </Typography>
-      <InventoryTable inventorys={inventorys} />
-      <NewData />
+      <InventoryTable inventorys={inventorys} auth={auth} />
+      {tombolTambah}
     </Box>
   );
 };

@@ -15,10 +15,15 @@ const Tugas = () => {
 
   const { data: notes, isLoading, isError, error } = useNotes();
 
+  let tombolTambah;
+
   const getFilteredIds = () => {
     if (isManager || isAdmin) {
+      tombolTambah = <NewData />;
+
       return [...notes.ids];
     } else {
+      tombolTambah = null;
       return notes.ids.filter(
         (noteId) => notes.entities[noteId].user === user.id
       );
@@ -50,7 +55,7 @@ const Tugas = () => {
           ))}
         </Grid>
       </Box>
-      <NewData />
+      {tombolTambah}
     </Container>
   );
 };

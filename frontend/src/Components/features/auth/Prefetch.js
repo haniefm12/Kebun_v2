@@ -1,6 +1,5 @@
 import { store } from "../../../app/store";
 import React from "react";
-
 import { usersApiSlice } from "../../../app/api/usersApiSlice";
 import { gardensApiSlice } from "../../../app/api/gardensApiSlice";
 import { notesApiSlice } from "../../../app/api/notesApiSlice";
@@ -8,7 +7,6 @@ import { inventorysApiSlice } from "../../../app/api/inventorysApiSlice";
 import { financesApiSlice } from "../../../app/api/financesApiSlice";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-
 const Prefetch = () => {
   useEffect(() => {
     const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate());
@@ -22,7 +20,6 @@ const Prefetch = () => {
     const finances = store.dispatch(
       financesApiSlice.endpoints.getFinances.initiate()
     );
-
     return () => {
       users.unsubscribe();
       gardens.unsubscribe();
@@ -31,7 +28,6 @@ const Prefetch = () => {
       finances.unsubscribe();
     };
   }, []);
-
   return <Outlet />;
 };
 export default Prefetch;

@@ -32,7 +32,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const KebunCard = ({ gardenId }) => {
+const KebunCard = ({ gardenId, auth }) => {
   const navigate = useNavigate();
 
   const [expanded, setExpanded] = useState(false);
@@ -49,7 +49,19 @@ const KebunCard = ({ gardenId }) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
+  const handleAddNoteClick = () => navigate(`/kebun/${gardenId}/notes/`);
+  const handleViewClick = () => navigate(`/kebun/${gardenId}/`);
+  const handleEdit = () => navigate(`/kebun/edit/${gardenId}/`);
+  let edit;
+  if (auth === true) {
+    edit = (
+      <IconButton aria-label="add to favorites" onClick={handleEdit}>
+        <Edit />
+      </IconButton>
+    );
+  } else {
+    edit = null;
+  }
   let title = "";
   let subheader = "";
   let address = " ";
@@ -61,9 +73,6 @@ const KebunCard = ({ gardenId }) => {
     description = garden.description;
     subheader = `${garden.area} m² (${garden.area / 10000} ha)`;
     image = garden.image;
-    const handleAddNoteClick = () => navigate(`/kebun/${gardenId}/notes/`);
-    const handleViewClick = () => navigate(`/kebun/${gardenId}/`);
-    const handleEdit = () => navigate(`/kebun/edit/${gardenId}/`);
 
     return (
       <Card
@@ -74,8 +83,6 @@ const KebunCard = ({ gardenId }) => {
             md: 500,
             xl: 400,
           },
-          // minHeight: 420,
-          // maxHeight: 420,
         }}
       >
         <CardHeader
@@ -125,9 +132,7 @@ const KebunCard = ({ gardenId }) => {
           )}
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites" onClick={handleEdit}>
-            <Edit />
-          </IconButton>
+          {edit}
           <IconButton aria-label="add note" onClick={handleAddNoteClick}>
             <AddBox />
           </IconButton>

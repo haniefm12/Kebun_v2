@@ -7,17 +7,29 @@ import { selectGardenById } from "../../../app/api/gardensApiSlice";
 import React from "react";
 import { formatDateTime } from "../../../utils/formatDateTime";
 
-const Inventory = ({ inventoryId, serialNumber }) => {
+const Inventory = ({ inventoryId, serialNumber, auth }) => {
   const inventory = useSelector((state) =>
     selectInventoryById(state, inventoryId)
   );
   const navigate = useNavigate();
   const gardenId = inventory ? inventory.garden : null; // Add a check for note
   const garden = useSelector((state) => selectGardenById(state, gardenId));
+  const handleEdit = () => navigate(`/inventaris/edit/${inventoryId}`);
 
+  let edit;
+
+  if (auth === true) {
+    edit = (
+      <TableCell align="center">
+        <IconButton onClick={handleEdit}>
+          <EditNoteIcon fontSize="small" />
+        </IconButton>
+      </TableCell>
+    );
+  } else {
+    edit = null;
+  }
   if (inventory) {
-    const handleEdit = () => navigate(`/inventaris/edit/${inventoryId}`);
-
     return (
       <TableRow>
         <TableCell sx={{ maxWidth: 10 }}>{serialNumber}</TableCell>
@@ -35,11 +47,7 @@ const Inventory = ({ inventoryId, serialNumber }) => {
             ? "-"
             : formatDateTime(inventory.updatedAt)}
         </TableCell>
-        <TableCell align="center">
-          <IconButton onClick={handleEdit}>
-            <EditNoteIcon fontSize="small" />
-          </IconButton>
-        </TableCell>
+        {edit}
       </TableRow>
     );
   } else return null;

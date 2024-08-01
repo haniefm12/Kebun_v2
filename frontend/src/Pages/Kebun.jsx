@@ -6,17 +6,28 @@ import NewData from "../Components/FloatButton/NewData";
 import { useGardens } from "../app/api/api";
 import LoadingState from "../Components/state/LoadingState";
 import ErrorNoData from "../Components/state/ErrorNoData";
+import useAuth from "../hooks/useAuth";
 
 const Kebun = () => {
   const { data: gardens, isLoading, isError, error } = useGardens();
+  const { isManager, isAdmin } = useAuth();
+  let tombolTambah;
+  let auth;
 
+  if (isAdmin || isManager) {
+    tombolTambah = <NewData />;
+    auth = true;
+  } else {
+    tombolTambah = null;
+    auth = false;
+  }
   if (isLoading) return <LoadingState />;
   if (isError) return <ErrorNoData error={error} />;
 
   const { ids } = gardens;
   const cardContent = ids?.map((gardenId) => (
     <Grid item xs={12} sm={6} md={4} xl={3} key={gardenId}>
-      <KebunCard gardenId={gardenId.toString()} />
+      <KebunCard auth={auth} gardenId={gardenId.toString()} />
     </Grid>
   ));
 
@@ -32,7 +43,7 @@ const Kebun = () => {
           {cardContent}
         </Grid>
       </Box>
-      <NewData />
+      {tombolTambah}
     </Container>
   );
 };

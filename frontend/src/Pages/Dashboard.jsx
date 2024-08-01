@@ -4,8 +4,31 @@ import { Grid, Typography, Card, CardContent } from "@mui/material";
 import GardenContent from "../Components/content/GardenContent";
 import FinanceContent from "../Components/content/FinanceContent";
 import NotesContent from "../Components/content/NotesContent";
+import useAuth from "../hooks/useAuth";
 
 function Dashboard() {
+  const { isManager, isAdmin } = useAuth();
+  let total;
+  if (isManager || isAdmin) {
+    total = (
+      <Card sx={{ mt: 0, mb: 1 }}>
+        <CardContent
+          sx={{
+            mt: 0,
+            mb: 0,
+            p: 0,
+            pl: 1,
+            pt: 3,
+            alignContent: "center",
+          }}
+        >
+          <FinanceContent />
+        </CardContent>
+      </Card>
+    );
+  } else {
+    total = null;
+  }
   return (
     <Grid container spacing={2} sx={{ pl: 4, pt: 2 }}>
       <Grid item xs={12} md={6} lg={7} xl={8}>
@@ -25,20 +48,7 @@ function Dashboard() {
       </Grid>
 
       <Grid item xs={12} sm={12} md={4} sx={{ pr: 4 }}>
-        <Card sx={{ mt: 0, mb: 1 }}>
-          <CardContent
-            sx={{
-              mt: 0,
-              mb: 0,
-              p: 0,
-              pl: 1,
-              pt: 3,
-              alignContent: "center",
-            }}
-          >
-            <FinanceContent />
-          </CardContent>
-        </Card>
+        {total}
         <Card sx={{ mt: 0 }}>
           <CardContent sx={{ mr: 0, pr: 0 }}>
             <NotesContent />

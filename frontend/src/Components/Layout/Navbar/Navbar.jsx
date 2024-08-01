@@ -45,7 +45,10 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
       navigate("/login", { replace: true }); // Navigate to a different page after logging out
     });
   };
-  const handleProfile = () => navigate(`/profile/${username}`);
+  const handleProfile = () => {
+    navigate(`/profile/${username}`);
+    setAnchorEl(null);
+  };
 
   if (isLoading) return <LoadingState />;
 
@@ -123,26 +126,33 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
                 <Avatar src={profileImage} />
               </Tooltip>
             </IconButton>
-            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-              <MenuItem>
-                <Avatar src={profileImage}></Avatar>
-                <Box flexDirection="column" alignItems="start" ml="10px">
-                  <Typography variant="body1" textAlign="center">
-                    {name}
-                  </Typography>
-                  <Typography variant="caption" textAlign="center">
-                    {status}
-                  </Typography>
-                </Box>
-              </MenuItem>
+            {anchorEl && (
+              <Menu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                disableScrollLock
+              >
+                <MenuItem>
+                  <Avatar src={profileImage}></Avatar>
+                  <Box flexDirection="column" alignItems="start" ml="10px">
+                    <Typography variant="body1" textAlign="center">
+                      {name}
+                    </Typography>
+                    <Typography variant="caption" textAlign="center">
+                      {status}
+                    </Typography>
+                  </Box>
+                </MenuItem>
 
-              <MenuItem onClick={handleProfile}>
-                <Typography textAlign="center">Profile</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleLogout}>
-                <Typography textAlign="center">Logout</Typography>
-              </MenuItem>
-            </Menu>
+                <MenuItem onClick={handleProfile}>
+                  <Typography textAlign="center">Profile</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleLogout}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              </Menu>
+            )}
           </Box>
         </Toolbar>
       </Container>

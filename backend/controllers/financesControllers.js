@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Garden = require("../models/Garden");
 const Finance = require("../models/Finance");
-
 const getAllFinances = asyncHandler(async (req, res) => {
   const finances = await Finance.find().lean();
   if (!finances?.length) {
@@ -20,7 +19,6 @@ const getAllFinancesUser = asyncHandler(async (req, res) => {
       return { ...finance, username: user.username };
     })
   );
-
   res.json(financesWithUser);
 });
 const getAllFinancesGarden = asyncHandler(async (req, res) => {
@@ -37,7 +35,6 @@ const getAllFinancesGarden = asyncHandler(async (req, res) => {
 
   res.json(financesWithGarden);
 });
-
 const getAllFinancesPopulate = asyncHandler(async (req, res) => {
   const finances = await Finance.find()
     .populate("user", "username")
@@ -48,11 +45,9 @@ const getAllFinancesPopulate = asyncHandler(async (req, res) => {
   }
   res.json(finances);
 });
-
 const createNewFinance = asyncHandler(async (req, res) => {
   const { garden, supplier, item, quantity, unitPrice, totalCost, itemType } =
     req.body;
-
   if (
     !garden ||
     !supplier ||
@@ -64,7 +59,6 @@ const createNewFinance = asyncHandler(async (req, res) => {
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
-
   const finance = await Finance.create({
     garden,
     supplier,
@@ -74,14 +68,12 @@ const createNewFinance = asyncHandler(async (req, res) => {
     totalCost,
     itemType,
   });
-
   if (finance) {
     return res.status(201).json({ message: "New finance created" });
   } else {
     return res.status(400).json({ message: "Invalid finance data received" });
   }
 });
-
 const updateFinance = asyncHandler(async (req, res) => {
   const {
     id,
@@ -93,7 +85,6 @@ const updateFinance = asyncHandler(async (req, res) => {
     totalCost,
     itemType,
   } = req.body;
-
   if (
     !id ||
     !supplier ||
@@ -105,13 +96,10 @@ const updateFinance = asyncHandler(async (req, res) => {
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
-
   const finance = await Finance.findById(id).exec();
-
   if (!finance) {
     return res.status(400).json({ message: "Finance not found" });
   }
-
   finance.garden = garden;
   finance.item = item;
   finance.itemType = itemType;
@@ -119,32 +107,22 @@ const updateFinance = asyncHandler(async (req, res) => {
   finance.unitPrice = unitPrice;
   finance.totalCost = totalCost;
   finance.supplier = supplier;
-
   const updatedFinance = await finance.save();
-
   res.json(`'${updatedFinance.id}' updated`);
 });
-
 const deleteFinance = asyncHandler(async (req, res) => {
   const { id } = req.body;
-
   if (!id) {
     return res.status(400).json({ message: "Finance ID required" });
   }
-
   const finance = await Finance.findById(id).exec();
-
   if (!finance) {
     return res.status(400).json({ message: "Finance not found" });
   }
-
   const result = await finance.deleteOne();
-
   const reply = `Finance '${result.title}' with ID ${result._id} deleted`;
-
   res.json(reply);
 });
-
 module.exports = {
   getAllFinances,
   getAllFinancesGarden,

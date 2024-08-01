@@ -19,8 +19,12 @@ import {
 } from "../../../app/api/notesApiSlice";
 import { selectUserById } from "../../../app/api/usersApiSlice";
 import { selectGardenById } from "../../../app/api/gardensApiSlice";
+import useAuth from "../../../hooks/useAuth";
 
 const NoteDetails = () => {
+  let checkAuth;
+  const { isManager, isAdmin } = useAuth();
+
   const { id } = useParams();
   const navigate = useNavigate();
   const [updateNote, { isSuccess }] = useUpdateNoteMutation();
@@ -58,6 +62,15 @@ const NoteDetails = () => {
       }
     }
   };
+  if (isAdmin || isManager) {
+    checkAuth = (
+      <Button variant="contained" color="primary" onClick={handleEditClick}>
+        Ubah tugas
+      </Button>
+    );
+  } else {
+    checkAuth = <></>;
+  }
 
   return (
     <>
@@ -126,13 +139,7 @@ const NoteDetails = () => {
             </Table>
           </TableContainer>
           <Box sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleEditClick}
-            >
-              Ubah tugas
-            </Button>
+            {checkAuth}
             <Button
               variant="contained"
               color="primary"

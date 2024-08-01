@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 const authSlice = createSlice({
   name: "auth",
   initialState: { user: null, token: null },
@@ -15,10 +14,7 @@ const authSlice = createSlice({
     },
   },
 });
-
 export const { setCredentials, logOut } = authSlice.actions;
-
 export default authSlice.reducer;
-
 export const selectCurrentToken = (state) => state.auth.token;
 export const selectCurrentUser = (state) => state.auth.user;

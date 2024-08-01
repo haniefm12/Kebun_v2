@@ -1,6 +1,5 @@
 const cloudinary = require("cloudinary").v2;
 require("dotenv").config();
-
 const cloudinaryConfig = () => {
   cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -9,5 +8,4 @@ const cloudinaryConfig = () => {
     secure: true,
   });
 };
-
 module.exports = { cloudinaryConfig };

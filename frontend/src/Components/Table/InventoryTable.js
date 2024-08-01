@@ -8,10 +8,18 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Inventory from "../features/inventory/Inventory";
 
-const InventoryTable = ({ inventorys }) => {
+const InventoryTable = ({ inventorys, auth }) => {
   const { ids } = inventorys;
+  let action;
+  if (auth === true) {
+    action = <TableCell align="center">Actions</TableCell>;
+  } else {
+    action = null;
+  }
+
   const tableContent = ids?.map((inventoryId, index) => (
     <Inventory
+      auth={auth}
       key={inventoryId}
       inventoryId={inventoryId}
       serialNumber={index + 1}
@@ -30,7 +38,7 @@ const InventoryTable = ({ inventorys }) => {
             <TableCell align="left">Jumlah Barang</TableCell>
             <TableCell align="left">Tanggal Barang Masuk</TableCell>
             <TableCell align="left">Tanggal Diperbaharui</TableCell>
-            <TableCell align="center">Actions</TableCell>
+            {action}
           </TableRow>
         </TableHead>
         <TableBody>{tableContent}</TableBody>
