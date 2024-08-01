@@ -74,6 +74,8 @@ const KebunCard = ({ gardenId }) => {
             md: 500,
             xl: 400,
           },
+          // minHeight: 420,
+          // maxHeight: 420,
         }}
       >
         <CardHeader
@@ -96,7 +98,13 @@ const KebunCard = ({ gardenId }) => {
           image={image ? image : DEFAULT_IMAGE.KEBUN}
           alt="Paella dish"
         />
-        <CardContent>
+        <CardContent
+          sx={{
+            minHeight: 80,
+            maxHeight: 80,
+            overflowY: "auto",
+          }}
+        >
           {address ? (
             <Typography variant="body2" color="text.secondary">
               {address}

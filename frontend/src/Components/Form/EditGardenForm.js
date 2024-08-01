@@ -9,6 +9,7 @@ import {
   Avatar,
   Box,
   Button,
+  CardMedia,
   Container,
   CssBaseline,
   Grid,
@@ -52,6 +53,7 @@ const EditGardenForm = ({ garden }) => {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
+    if (!file) return;
     if (file.size > 10 * 1024 * 1024) {
       setErrorMessage(
         "Image size exceeds 10MB. Please upload a smaller image."
@@ -127,10 +129,18 @@ const EditGardenForm = ({ garden }) => {
   const onGardenAreaChanged = (e) => setArea(e.target.value);
   const onGardenDescriptionChanged = (e) => setDescription(e.target.value);
 
-  const canSave =
-    [validName, validAddress, validArea, validDescription, validImage].every(
-      Boolean
-    ) && !isLoading;
+  let canSave;
+  if (filename === "") {
+    canSave =
+      [validName, validAddress, validArea, validDescription].every(Boolean) &&
+      !isLoading;
+  } else {
+    canSave =
+      [validName, validAddress, validArea, validDescription, validImage].every(
+        Boolean
+      ) && !isLoading;
+  }
+
   const onDeleteGardenClicked = async () => {
     await deleteGarden({ id: garden.id });
   };
@@ -162,7 +172,12 @@ const EditGardenForm = ({ garden }) => {
           secure_url: cloudinaryResponse.secure_url,
         };
         const response = await doSomethingWithPhoto(photoData);
-        imageHttps = response.imageHttps;
+        if (filename === "") {
+          imageHttps = garden.image;
+        } else {
+          imageHttps = response.imageHttps;
+        }
+
         await updateGarden({
           id: garden.id,
           name,
@@ -260,6 +275,7 @@ const EditGardenForm = ({ garden }) => {
               </Grid>
               <Grid item xs={12}>
                 <Button
+                  sx={{ mb: 1 }}
                   variant="contained"
                   component="label"
                   htmlFor="image-upload"
@@ -274,17 +290,26 @@ const EditGardenForm = ({ garden }) => {
                   />
                 </Button>
                 {filename && (
-                  <Typography variant="body1">{filename}</Typography>
+                  <>
+                    <br />
+                    <Typography color="primary" variant="caption">
+                      Nama File : {filename}
+                    </Typography>
+                  </>
                 )}
                 {imageUrl && (
-                  <div
-                    style={{
-                      marginLeft: "60px",
-                      width: "70%",
-                      height: "200px",
-                      backgroundImage: `url(${imageUrl})`,
-                      backgroundSize: "100% 100%",
-                      backgroundPosition: "center",
+                  <CardMedia
+                    component="img"
+                    image={imageUrl}
+                    alt=""
+                    sx={{
+                      maxWidth: "100%",
+                      margin: "0 auto",
+                      height: "auto",
+                      display: "block",
+                      objectFit: "contain",
+                      border: `1px solid skyblue`,
+                      borderRadius: "5px",
                     }}
                   />
                 )}

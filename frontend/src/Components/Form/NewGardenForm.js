@@ -6,6 +6,7 @@ import {
   Avatar,
   Box,
   Button,
+  CardMedia,
   Container,
   CssBaseline,
   Grid,
@@ -49,6 +50,7 @@ const NewGardenForm = () => {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
+    if (!file) return;
     if (file.size > 10 * 1024 * 1024) {
       setErrorMessage(
         "Image size exceeds 10MB. Please upload a smaller image."
@@ -190,6 +192,7 @@ const NewGardenForm = () => {
           <Typography component="h1" variant="h5">
             Tambah Kebun Baru
           </Typography>
+          <Grid container spacing={2}></Grid>
           <Box
             component="form"
             noValidate
@@ -269,17 +272,26 @@ const NewGardenForm = () => {
                   />
                 </Button>
                 {filename && (
-                  <Typography variant="body1">{filename}</Typography>
+                  <>
+                    <br />
+                    <Typography color="primary" variant="caption">
+                      Nama File : {filename}
+                    </Typography>
+                  </>
                 )}
                 {imageUrl && (
-                  <div
-                    style={{
-                      marginLeft: "60px",
-                      width: "70%",
-                      height: "200px",
-                      backgroundImage: `url(${imageUrl})`,
-                      backgroundSize: "100% 100%",
-                      backgroundPosition: "center",
+                  <CardMedia
+                    component="img"
+                    image={imageUrl}
+                    alt=""
+                    sx={{
+                      maxWidth: "100%",
+                      margin: "0 auto",
+                      height: "auto",
+                      display: "block",
+                      objectFit: "contain",
+                      border: `1px solid skyblue`,
+                      borderRadius: "5px",
                     }}
                   />
                 )}

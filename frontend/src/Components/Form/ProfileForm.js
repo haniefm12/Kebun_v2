@@ -9,6 +9,7 @@ import {
   Avatar,
   Box,
   Button,
+  CardMedia,
   Container,
   CssBaseline,
   Grid,
@@ -59,6 +60,7 @@ const EditUserForm = ({ user }) => {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
+    if (!file) return;
     if (file.size > 10 * 1024 * 1024) {
       setErrorMessage(
         "Image size exceeds 10MB. Please upload a smaller image."
@@ -125,102 +127,113 @@ const EditUserForm = ({ user }) => {
 
   const onPasswordChanged = (e) => setPassword(e.target.value);
   const onPhoneNumberChanged = (value) => setPhoneNumber(value);
+  let canSave;
+  if (password === "" && filename === "") {
+    canSave = [validName].every(Boolean) && !isLoading;
+  } else if (password === "") {
+    canSave = [validName, validImage].every(Boolean) && !isLoading;
+  } else if (filename === "") {
+    canSave = [validPassword, validName].every(Boolean) && !isLoading;
+  } else {
+    canSave =
+      [validPassword, validName, validImage].every(Boolean) && !isLoading;
+  }
 
   const onSaveUserClicked = async (e) => {
     e.preventDefault();
     setLoad(true);
-    const signatureResponse = await getSignature();
-    if (password && image) {
-      const data = new FormData();
-      data.append("file", image);
-      data.append("api_key", CLOUDINARY_URL.KEY);
-      data.append("signature", signatureResponse.signature);
-      data.append("timestamp", signatureResponse.timestamp);
-      let imageHttps;
-      const onUploadProgress = (e) => {
-        const percentage = Math.round((e.loaded / e.total) * 100);
-        setUploadProgress(percentage);
-      };
-      const cloudinaryResponse = await uploadImageToCloudinary(
-        data,
-        onUploadProgress
-      );
-      const photoData = {
-        public_id: cloudinaryResponse.public_id,
-        version: cloudinaryResponse.version,
-        signature: cloudinaryResponse.signature,
-        secure_url: cloudinaryResponse.secure_url,
-      };
-      const response = await doSomethingWithPhoto(photoData);
-      imageHttps = response.imageHttps;
-      await updateUser({
-        id: user.id,
-        name,
-        username: user.username,
-        phoneNumber,
-        password,
-        role: user.role,
-        active: user.active,
-        image: imageHttps,
-      });
-    } else if (password) {
-      await updateUser({
-        id: user.id,
-        name,
-        username: user.username,
-        phoneNumber,
-        password,
-        role: user.role,
-        active: user.active,
-        image: user.image,
-      });
-    } else if (image) {
-      const data = new FormData();
-      data.append("file", image);
-      data.append("api_key", CLOUDINARY_URL.KEY);
-      data.append("signature", signatureResponse.signature);
-      data.append("timestamp", signatureResponse.timestamp);
-      let imageHttps;
-      const onUploadProgress = (e) => {
-        const percentage = Math.round((e.loaded / e.total) * 100);
-        setUploadProgress(percentage);
-      };
-      const cloudinaryResponse = await uploadImageToCloudinary(
-        data,
-        onUploadProgress
-      );
+    try {
+      const signatureResponse = await getSignature();
+      if (canSave) {
+        if (password !== "") {
+          const data = new FormData();
+          data.append("file", image);
+          data.append("api_key", CLOUDINARY_URL.KEY);
+          data.append("signature", signatureResponse.signature);
+          data.append("timestamp", signatureResponse.timestamp);
+          let imageHttps;
 
-      const photoData = {
-        public_id: cloudinaryResponse.public_id,
-        version: cloudinaryResponse.version,
-        signature: cloudinaryResponse.signature,
-        secure_url: cloudinaryResponse.secure_url,
-      };
-      const response = await doSomethingWithPhoto(photoData);
-      imageHttps = response.imageHttps;
-      await updateUser({
-        id: user.id,
-        name,
-        username: user.username,
-        phoneNumber,
-
-        role: user.role,
-        active: user.active,
-        image: imageHttps,
-      });
-    } else {
-      await updateUser({
-        id: user.id,
-        name,
-        username: user.username,
-        phoneNumber,
-
-        role: user.role,
-        active: user.active,
-        image: user.image,
-      }).then((response) => {
-        console.log(response);
-      });
+          const onUploadProgress = (e) => {
+            const percentage = Math.round((e.loaded / e.total) * 100);
+            setUploadProgress(percentage);
+          };
+          const cloudinaryResponse = await uploadImageToCloudinary(
+            data,
+            onUploadProgress
+          );
+          const photoData = {
+            public_id: cloudinaryResponse.public_id,
+            version: cloudinaryResponse.version,
+            signature: cloudinaryResponse.signature,
+            secure_url: cloudinaryResponse.secure_url,
+          };
+          const response = await doSomethingWithPhoto(photoData);
+          if (filename !== "") {
+            imageHttps = user.image;
+          } else {
+            imageHttps = response.imageHttps;
+          }
+          await updateUser({
+            id: user.id,
+            name,
+            username: user.username,
+            phoneNumber,
+            password,
+            role: user.role,
+            active: user.active,
+            image: imageHttps,
+          });
+        } else if (password) {
+          await updateUser({
+            id: user.id,
+            name,
+            username: user.username,
+            phoneNumber,
+            password,
+            role: user.role,
+            active: user.active,
+            image: user.image,
+          });
+        } else {
+          const data = new FormData();
+          data.append("file", image);
+          data.append("api_key", CLOUDINARY_URL.KEY);
+          data.append("signature", signatureResponse.signature);
+          data.append("timestamp", signatureResponse.timestamp);
+          let imageHttps;
+          const onUploadProgress = (e) => {
+            const percentage = Math.round((e.loaded / e.total) * 100);
+            setUploadProgress(percentage);
+          };
+          const cloudinaryResponse = await uploadImageToCloudinary(
+            data,
+            onUploadProgress
+          );
+          const photoData = {
+            public_id: cloudinaryResponse.public_id,
+            version: cloudinaryResponse.version,
+            signature: cloudinaryResponse.signature,
+            secure_url: cloudinaryResponse.secure_url,
+          };
+          const response = await doSomethingWithPhoto(photoData);
+          if (filename === "") {
+            imageHttps = user.image;
+          } else {
+            imageHttps = response.imageHttps;
+          }
+          await updateUser({
+            id: user.id,
+            name,
+            username: user.username,
+            phoneNumber,
+            role: user.role,
+            active: user.active,
+            image: imageHttps,
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
     }
   };
 
@@ -228,17 +241,6 @@ const EditUserForm = ({ user }) => {
     setShowPassword(!showPassword);
   };
 
-  let canSave;
-  if (password && image) {
-    canSave =
-      [validPassword, validName, validImage].every(Boolean) && !isLoading;
-  } else if (password) {
-    canSave = [validPassword, validName].every(Boolean) && !isLoading;
-  } else if (image) {
-    canSave = [validName, validImage].every(Boolean) && !isLoading;
-  } else {
-    canSave = [validName].every(Boolean) && !isLoading;
-  }
   const errContent = error?.data?.message;
 
   const content = (
@@ -324,12 +326,13 @@ const EditUserForm = ({ user }) => {
               </Grid>
               <Grid item xs={12}>
                 <Button
+                  sx={{ mb: 1 }}
                   variant="contained"
                   component="label"
                   htmlFor="image-upload"
                   onChange={handleImageChange}
                 >
-                  Pilih Gambar
+                  ganti gambar
                   <input
                     accept="image/*"
                     type="file"
@@ -338,17 +341,26 @@ const EditUserForm = ({ user }) => {
                   />
                 </Button>
                 {filename && (
-                  <Typography variant="body1">{filename}</Typography>
+                  <>
+                    <br />
+                    <Typography color="primary" variant="caption">
+                      Nama File : {filename}
+                    </Typography>
+                  </>
                 )}
                 {imageUrl && (
-                  <div
-                    style={{
-                      marginLeft: "60px",
-                      width: "70%",
-                      height: "200px",
-                      backgroundImage: `url(${imageUrl})`,
-                      backgroundSize: "100% 100%",
-                      backgroundPosition: "center",
+                  <CardMedia
+                    component="img"
+                    image={imageUrl}
+                    alt=""
+                    sx={{
+                      maxWidth: "100%",
+                      margin: "0 auto",
+                      height: "auto",
+                      display: "block",
+                      objectFit: "contain",
+                      border: `1px solid skyblue`,
+                      borderRadius: "5px",
                     }}
                   />
                 )}

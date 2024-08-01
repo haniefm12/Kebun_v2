@@ -2,96 +2,108 @@ import React, { useState } from "react";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Loadable from "react-loadable";
+import loadable from "@loadable/component";
 import Layout from "./Components/Layout.jsx";
 import Prefetch from "./Components/features/auth/Prefetch.js";
 import PersistLogin from "./Components/features/auth/PersistLogin.js";
 import RequireAuth from "./Components/features/auth/RequireAuth.js";
 import { ROLES } from "./config/roles.js";
 import LoadingState from "./Components/state/LoadingState.js";
-const Dashboard = Loadable({
-  loader: () => import("./Pages/Dashboard.jsx"),
-  loading: () => <LoadingState />,
+const Dashboard = loadable(() => import("./Pages/Dashboard.jsx"), {
+  fallback: <LoadingState />,
 });
-const Inventaris = Loadable({
-  loader: () => import("./Pages/Inventaris.jsx"),
-  loading: () => <LoadingState />,
+const Inventaris = loadable(() => import("./Pages/Inventaris.jsx"), {
+  fallback: <LoadingState />,
 });
-const Kebun = Loadable({
-  loader: () => import("./Pages/Kebun.jsx"),
-  loading: () => <LoadingState />,
+const Kebun = loadable(() => import("./Pages/Kebun.jsx"), {
+  fallback: <LoadingState />,
 });
-const KelolaAkun = Loadable({
-  loader: () => import("./Pages/KelolaAkun.jsx"),
-  loading: () => <LoadingState />,
+const KelolaAkun = loadable(() => import("./Pages/KelolaAkun.jsx"), {
+  fallback: <LoadingState />,
 });
-const Keuangan = Loadable({
-  loader: () => import("./Pages/Keuangan.jsx"),
-  loading: () => <LoadingState />,
+const Keuangan = loadable(() => import("./Pages/Keuangan.jsx"), {
+  fallback: <LoadingState />,
 });
-const Tugas = Loadable({
-  loader: () => import("./Pages/Tugas.jsx"),
-  loading: () => <LoadingState />,
+const Tugas = loadable(() => import("./Pages/Tugas.jsx"), {
+  fallback: <LoadingState />,
 });
-const Profile = Loadable({
-  loader: () => import("./Pages/Profile.jsx"),
-  loading: () => <LoadingState />,
+const Profile = loadable(() => import("./Pages/Profile.jsx"), {
+  fallback: <LoadingState />,
 });
-const EditUser = Loadable({
-  loader: () => import("./Components/features/user/EditUser.js"),
-  loading: () => <LoadingState />,
+const EditUser = loadable(
+  () => import("./Components/features/user/EditUser.js"),
+  {
+    fallback: <LoadingState />,
+  }
+);
+const AddGardenNote = loadable(
+  () => import("./Components/features/garden/AddGardenNote.js"),
+  {
+    fallback: <LoadingState />,
+  }
+);
+const GardenDetails = loadable(
+  () => import("./Components/features/garden/GardenDetails.js"),
+  {
+    fallback: <LoadingState />,
+  }
+);
+const EditGarden = loadable(
+  () => import("./Components/features/garden/EditGarden.js"),
+  {
+    fallback: <LoadingState />,
+  }
+);
+const EditInventory = loadable(
+  () => import("./Components/features/inventory/EditInventory.js"),
+  {
+    fallback: <LoadingState />,
+  }
+);
+const EditFinance = loadable(
+  () => import("./Components/features/finance/EditFinance.js"),
+  {
+    fallback: <LoadingState />,
+  }
+);
+const NoteDetail = loadable(
+  () => import("./Components/features/note/NoteDetails.js"),
+  {
+    fallback: <LoadingState />,
+  }
+);
+const EditNote = loadable(
+  () => import("./Components/features/note/EditNote.js"),
+  {
+    fallback: <LoadingState />,
+  }
+);
+const NewFinanceForm = loadable(
+  () => import("./Components/Form/NewFinanceForm.js"),
+  {
+    fallback: <LoadingState />,
+  }
+);
+const NewGardenForm = loadable(
+  () => import("./Components/Form/NewGardenForm.js"),
+  {
+    fallback: <LoadingState />,
+  }
+);
+const NewInventoryForm = loadable(
+  () => import("./Components/Form/NewInventoryForm.js"),
+  {
+    fallback: <LoadingState />,
+  }
+);
+const NewNoteForm = loadable(() => import("./Components/Form/NewNoteForm.js"), {
+  fallback: <LoadingState />,
 });
-const AddGardenNote = Loadable({
-  loader: () => import("./Components/features/garden/AddGardenNote.js"),
-  loading: () => <LoadingState />,
+const NewUserForm = loadable(() => import("./Components/Form/NewUserForm.js"), {
+  fallback: <LoadingState />,
 });
-const GardenDetails = Loadable({
-  loader: () => import("./Components/features/garden/GardenDetails.js"),
-  loading: () => <LoadingState />,
-});
-const EditGarden = Loadable({
-  loader: () => import("./Components/features/garden/EditGarden.js"),
-  loading: () => <LoadingState />,
-});
-const EditInventory = Loadable({
-  loader: () => import("./Components/features/inventory/EditInventory.js"),
-  loading: () => <LoadingState />,
-});
-const EditFinance = Loadable({
-  loader: () => import("./Components/features/finance/EditFinance.js"),
-  loading: () => <LoadingState />,
-});
-const NoteDetail = Loadable({
-  loader: () => import("./Components/features/note/NoteDetails.js"),
-  loading: () => <LoadingState />,
-});
-const EditNote = Loadable({
-  loader: () => import("./Components/features/note/EditNote.js"),
-  loading: () => <LoadingState />,
-});
-const NewFinanceForm = Loadable({
-  loader: () => import("./Components/Form/NewFinanceForm.js"),
-  loading: () => <LoadingState />,
-});
-const NewGardenForm = Loadable({
-  loader: () => import("./Components/Form/NewGardenForm.js"),
-  loading: () => <LoadingState />,
-});
-const NewInventoryForm = Loadable({
-  loader: () => import("./Components/Form/NewInventoryForm.js"),
-  loading: () => <LoadingState />,
-});
-const NewNoteForm = Loadable({
-  loader: () => import("./Components/Form/NewNoteForm.js"),
-  loading: () => <LoadingState />,
-});
-const NewUserForm = Loadable({
-  loader: () => import("./Components/Form/NewUserForm.js"),
-  loading: () => <LoadingState />,
-});
-const Login = Loadable({
-  loader: () => import("./Pages/Login.jsx"),
-  loading: () => <LoadingState />,
+const Login = loadable(() => import("./Pages/Login.jsx"), {
+  fallback: <LoadingState />,
 });
 
 function App() {

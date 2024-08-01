@@ -30,7 +30,13 @@ export default function NoteCard({ noteId }) {
         },
       }}
     >
-      <CardContent>
+      <CardContent
+        sx={{
+          minHeight: 200,
+          maxHeight: 200,
+          overflowY: "auto",
+        }}
+      >
         {note && (
           <>
             <Typography

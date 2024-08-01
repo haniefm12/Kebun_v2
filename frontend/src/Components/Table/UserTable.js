@@ -15,17 +15,32 @@ const UserTable = ({ users }) => {
   ));
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 580 }} aria-label="simple table">
+    <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
+      <Table
+        sx={{ minWidth: 580, tableLayout: "fixed" }}
+        aria-label="simple table"
+      >
         <TableHead>
           <TableRow>
-            <TableCell width={5}>No.</TableCell>
-            <TableCell align="center">Username</TableCell>
-            <TableCell align="center">Name</TableCell>
-            <TableCell align="center">Role</TableCell>
-            <TableCell align="center">Phone Number</TableCell>
-            <TableCell align="center">Status</TableCell>
-            <TableCell align="center">Actions</TableCell>
+            <TableCell sx={{ width: "5%" }}>No.</TableCell>
+            <TableCell align="center" sx={{ width: "20%" }}>
+              Username
+            </TableCell>
+            <TableCell align="center" sx={{ width: "20%" }}>
+              Name
+            </TableCell>
+            <TableCell align="center" sx={{ width: "15%" }}>
+              Role
+            </TableCell>
+            <TableCell align="center" sx={{ width: "20%" }}>
+              Phone Number
+            </TableCell>
+            <TableCell align="center" sx={{ width: "10%" }}>
+              Status
+            </TableCell>
+            <TableCell align="center" sx={{ width: "10%" }}>
+              Actions
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>{tableContent}</TableBody>

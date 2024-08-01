@@ -47,15 +47,17 @@ function GardenContent() {
             <Grid item key={gardenId} xs={12} sm={12} md={12} lg={6}>
               <Card
                 sx={{
-                  minHeight: 300,
+                  minHeight: 320,
+                  maxHeight: 320,
                   border: "1px solid #FFFFFF",
                   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+                  overflowY: "auto", // tambahkan overflowY
                 }}
               >
                 <Grid container>
                   <Grid item xs={12} sm={6} md={5}>
                     <CardMedia
-                      sx={{ mt: 1, ml: 1 }}
+                      sx={{ mt: 1, ml: 1, borderRadius: 1 }}
                       component="img"
                       height="200"
                       image={
@@ -95,15 +97,15 @@ function GardenContent() {
                 <div>
                   {gardens.entities[gardenId].notes &&
                   gardens.entities[gardenId].notes.length > 0 ? (
-                    [...gardens.entities[gardenId].notes] // create a copy of the notes array
+                    [...gardens.entities[gardenId].notes]
                       .sort((a, b) => {
                         if (a.date && b.date) {
-                          return b.date.localeCompare(a.date); // sort by date in descending order
+                          return b.date.localeCompare(a.date);
                         } else {
-                          return 0; // or some other default value
+                          return 0;
                         }
                       })
-                      .slice(1, 3) // limit to 3 newest notes
+                      .slice(1, 3)
                       .map((note, index) => (
                         <ListItem key={index}>
                           <ListItemText>

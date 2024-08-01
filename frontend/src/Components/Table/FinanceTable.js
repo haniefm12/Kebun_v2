@@ -15,20 +15,41 @@ const FinanceTable = ({ finances }) => {
   ));
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 580 }} aria-label="simple table">
+    <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
+      <Table
+        sx={{ minWidth: 580, tableLayout: "fixed" }}
+        aria-label="simple table"
+      >
         <TableHead>
           <TableRow>
-            <TableCell width={5}>No.</TableCell>
-            <TableCell align="left">Supplier</TableCell>
-            <TableCell align="left">Nama Barang</TableCell>
-            <TableCell align="left">Tipe Barang</TableCell>
-            <TableCell align="left">Jumlah Barang</TableCell>
-            <TableCell align="left">Harga Satuan</TableCell>
-            <TableCell align="left">Jumlah Harga</TableCell>
-            <TableCell align="left">Nama Kebun</TableCell>
-            <TableCell align="left">Tanggal</TableCell>
-            <TableCell align="center">Actions</TableCell>
+            <TableCell sx={{ width: "5%" }}>No.</TableCell>
+            <TableCell align="left" sx={{ width: "10%" }}>
+              Supplier
+            </TableCell>
+            <TableCell align="left" sx={{ width: "15%" }}>
+              Nama Barang
+            </TableCell>
+            <TableCell align="left" sx={{ width: "10%" }}>
+              Tipe Barang
+            </TableCell>
+            <TableCell align="left" sx={{ width: "10%" }}>
+              Jumlah Barang
+            </TableCell>
+            <TableCell align="left" sx={{ width: "10%" }}>
+              Harga Satuan
+            </TableCell>
+            <TableCell align="left" sx={{ width: "10%" }}>
+              Jumlah Harga
+            </TableCell>
+            <TableCell align="left" sx={{ width: "15%" }}>
+              Nama Kebun
+            </TableCell>
+            <TableCell align="left" sx={{ width: "10%" }}>
+              Tanggal
+            </TableCell>
+            <TableCell align="center" sx={{ width: "10%" }}>
+              Actions
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>{tableContent}</TableBody>
