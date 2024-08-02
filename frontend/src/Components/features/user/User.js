@@ -9,10 +9,8 @@ import React from "react";
 const User = ({ userId, serialNumber }) => {
   const user = useSelector((state) => selectUserById(state, userId));
   const navigate = useNavigate();
-
   if (user) {
     const handleEdit = () => navigate(`/kelola-akun/${userId}`);
-
     return (
       <TableRow>
         <TableCell sx={{ maxWidth: 10 }}>{serialNumber}</TableCell>
@@ -50,5 +48,4 @@ const User = ({ userId, serialNumber }) => {
     );
   } else return null;
 };
-
 export default User;

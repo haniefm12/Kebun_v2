@@ -12,15 +12,11 @@ import NewData from "../Components/FloatButton/NewData";
 const Tugas = () => {
   const { username, isManager, isAdmin } = useAuth();
   const user = useSelector((state) => selectUserByUsername(state, username));
-
   const { data: notes, isLoading, isError, error } = useNotes();
-
   let tombolTambah;
-
   const getFilteredIds = () => {
     if (isManager || isAdmin) {
       tombolTambah = <NewData />;
-
       return [...notes.ids];
     } else {
       tombolTambah = null;
@@ -29,15 +25,12 @@ const Tugas = () => {
       );
     }
   };
-
   if (isLoading) {
     return <LoadingState />;
   }
-
   if (isError) {
     return <ErrorNoData error={error} />;
   }
-
   const filteredIds = getFilteredIds();
   return (
     <Container maxWidth="xl">
@@ -59,5 +52,4 @@ const Tugas = () => {
     </Container>
   );
 };
-
 export default Tugas;

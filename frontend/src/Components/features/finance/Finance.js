@@ -6,19 +6,17 @@ import { IconButton, TableCell, TableRow } from "@mui/material";
 import { selectGardenById } from "../../../app/api/gardensApiSlice";
 import { formatDateOnly } from "../../../utils/formatDateTime";
 import React from "react";
+
 const Finance = ({ financeId, serialNumber }) => {
   const finance = useSelector((state) => selectFinanceById(state, financeId));
   const navigate = useNavigate();
   const gardenId = finance ? finance.garden : null;
   const garden = useSelector((state) => selectGardenById(state, gardenId));
-
   if (finance) {
     const handleEdit = () => navigate(`/keuangan/edit/${financeId}`);
-
     return (
       <TableRow>
         <TableCell sx={{ maxWidth: 10 }}>{serialNumber}</TableCell>
-
         <TableCell align="left">{finance.supplier}</TableCell>
         <TableCell align="left">{finance.item}</TableCell>
         <TableCell align="left">{finance.itemType}</TableCell>
@@ -49,5 +47,4 @@ const Finance = ({ financeId, serialNumber }) => {
     );
   } else return null;
 };
-
 export default Finance;

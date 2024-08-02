@@ -3,7 +3,6 @@ import { MuiTelInput } from "mui-tel-input";
 import { useUpdateUserMutation } from "../../app/api/usersApiSlice";
 import { useNavigate } from "react-router-dom";
 import React from "react";
-
 import {
   Alert,
   Avatar,
@@ -24,7 +23,6 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
-
 import {
   doSomethingWithPhoto,
   getSignature,
@@ -36,18 +34,14 @@ import { REGEX } from "../../config/regex";
 const EditUserForm = ({ user }) => {
   const [updateUser, { isLoading, isSuccess, isError, error }] =
     useUpdateUserMutation();
-
   const navigate = useNavigate();
-
   const [name, setName] = useState(user.name);
   const [image, setImage] = useState(user.image);
   const [validName, setValidName] = useState("");
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
-
   const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
   const [showPassword, setShowPassword] = useState(false);
-
   const [load, setLoad] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [validImage, setValidImage] = useState(false);
@@ -57,7 +51,6 @@ const EditUserForm = ({ user }) => {
   const [imageUrl, setImageUrl] = useState(user.image);
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -103,28 +96,22 @@ const EditUserForm = ({ user }) => {
       }
     }
   }, [image]);
-
   useEffect(() => {
     setValidName(REGEX.NAME.test(name));
   }, [name]);
-
   useEffect(() => {
     setValidPassword(REGEX.PWD.test(password));
   }, [password]);
-
   useEffect(() => {
     if (isSuccess) {
       setPassword("");
-
       setImage(null);
       setImageUrl("");
       setPhoneNumber("");
       navigate("/dashboard/");
     }
   }, [isSuccess, navigate]);
-
   const onNameChanged = (e) => setName(e.target.value);
-
   const onPasswordChanged = (e) => setPassword(e.target.value);
   const onPhoneNumberChanged = (value) => setPhoneNumber(value);
   let canSave;
@@ -138,7 +125,6 @@ const EditUserForm = ({ user }) => {
     canSave =
       [validPassword, validName, validImage].every(Boolean) && !isLoading;
   }
-
   const onSaveUserClicked = async (e) => {
     e.preventDefault();
     setLoad(true);
@@ -236,13 +222,10 @@ const EditUserForm = ({ user }) => {
       console.error("Error submitting form:", error);
     }
   };
-
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
   const errContent = error?.data?.message;
-
   const content = (
     <>
       <p>{errContent}</p>
@@ -413,5 +396,4 @@ const EditUserForm = ({ user }) => {
   );
   return content;
 };
-
 export default EditUserForm;

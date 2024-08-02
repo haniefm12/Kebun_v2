@@ -15,9 +15,7 @@ const Inventory = ({ inventoryId, serialNumber, auth }) => {
   const gardenId = inventory ? inventory.garden : null; // Add a check for note
   const garden = useSelector((state) => selectGardenById(state, gardenId));
   const handleEdit = () => navigate(`/inventaris/edit/${inventoryId}`);
-
   let edit;
-
   if (auth === true) {
     edit = (
       <TableCell align="center">
@@ -52,5 +50,4 @@ const Inventory = ({ inventoryId, serialNumber, auth }) => {
     );
   } else return null;
 };
-
 export default Inventory;

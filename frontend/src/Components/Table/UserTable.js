@@ -13,7 +13,6 @@ const UserTable = ({ users }) => {
   const tableContent = ids?.map((userId, index) => (
     <User key={userId} userId={userId} serialNumber={index + 1} />
   ));
-
   return (
     <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
       <Table
@@ -48,5 +47,4 @@ const UserTable = ({ users }) => {
     </TableContainer>
   );
 };
-
 export default UserTable;

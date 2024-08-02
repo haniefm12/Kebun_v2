@@ -8,7 +8,6 @@ import React from "react";
 const Profile = () => {
   const { username } = useParams();
   const user = useSelector((state) => selectUserByUsername(state, username));
-
   if (!user) {
     return (
       <Box sx={{ display: "flex", marginTop: 8, alignItems: "center" }}>
@@ -16,8 +15,6 @@ const Profile = () => {
       </Box>
     );
   }
-
   return <ProfileForm user={user} />;
 };
-
 export default Profile;

@@ -18,7 +18,6 @@ const Keuangan = () => {
     isError,
     error,
   } = useFinances();
-
   useEffect(() => {
     if (isSuccess) {
       const total = finances.ids.reduce(
@@ -29,7 +28,6 @@ const Keuangan = () => {
       setTotalExpenses(total);
     }
   }, [finances, isSuccess]);
-
   if (isLoading) return <LoadingState />;
   if (isError) return <ErrorNoData error={error} />;
   if (isAdmin || isManager) {
@@ -49,5 +47,4 @@ const Keuangan = () => {
     return <NoAccessPage />;
   }
 };
-
 export default Keuangan;

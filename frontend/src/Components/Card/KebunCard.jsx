@@ -34,7 +34,6 @@ const ExpandMore = styled((props) => {
 
 const KebunCard = ({ gardenId, auth }) => {
   const navigate = useNavigate();
-
   const [expanded, setExpanded] = useState(false);
   const garden = useSelector((state) => selectGardenById(state, gardenId));
   // eslint-disable-next-line
@@ -45,7 +44,6 @@ const KebunCard = ({ gardenId, auth }) => {
       setNotes(notesArray);
     }
   }, [garden?.notes]);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -73,7 +71,6 @@ const KebunCard = ({ gardenId, auth }) => {
     description = garden.description;
     subheader = `${garden.area} m² (${garden.area / 10000} ha)`;
     image = garden.image;
-
     return (
       <Card
         sx={{
@@ -148,7 +145,6 @@ const KebunCard = ({ gardenId, auth }) => {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
             <Typography paragraph>Catatan:</Typography>
-
             <div>
               {garden && garden.notes && garden.notes.length > 0 ? (
                 garden.notes.slice(1).map((note, index) => (

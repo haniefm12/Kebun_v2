@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import NewData from "../Components/FloatButton/NewData";
-
 import { useInventorys } from "../app/api/api";
 import LoadingState from "../Components/state/LoadingState";
 import ErrorNoData from "../Components/state/ErrorNoData";
@@ -13,7 +12,6 @@ const Inventaris = () => {
   const { isManager, isAdmin } = useAuth();
   let tombolTambah;
   let auth;
-
   if (isManager || isAdmin) {
     tombolTambah = <NewData />;
     auth = true;
@@ -28,7 +26,6 @@ const Inventaris = () => {
   if (isError) {
     return <ErrorNoData error={error} />;
   }
-
   return (
     <Box pl={4} pb={2} pt={2} pr={2}>
       <Typography pl={2} pb={1} variant="h4">
@@ -39,5 +36,4 @@ const Inventaris = () => {
     </Box>
   );
 };
-
 export default Inventaris;

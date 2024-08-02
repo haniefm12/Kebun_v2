@@ -16,7 +16,6 @@ const InventoryTable = ({ inventorys, auth }) => {
   } else {
     action = null;
   }
-
   const tableContent = ids?.map((inventoryId, index) => (
     <Inventory
       auth={auth}
@@ -25,7 +24,6 @@ const InventoryTable = ({ inventorys, auth }) => {
       serialNumber={index + 1}
     />
   ));
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 580 }} aria-label="simple table">
@@ -46,5 +44,4 @@ const InventoryTable = ({ inventorys, auth }) => {
     </TableContainer>
   );
 };
-
 export default InventoryTable;

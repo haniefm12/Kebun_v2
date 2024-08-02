@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardMedia,
 } from "@mui/material";
-
 import { formatDateTime } from "../../utils/formatDateTime";
 import { useGardens } from "../../app/api/api";
 import { DEFAULT_IMAGE } from "../../config/urls";
@@ -17,15 +16,12 @@ import LoadingState from "../state/LoadingState";
 
 function GardenContent() {
   const { data: gardens, isLoading, isSuccess, isError, error } = useGardens();
-
   if (isLoading) {
     return <LoadingState />;
   }
-
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
-
   if (isSuccess) {
     return (
       <Grid container spacing={2} display="flex" flexWrap="wrap">
@@ -130,8 +126,6 @@ function GardenContent() {
       </Grid>
     );
   }
-
   return null;
 }
-
 export default GardenContent;

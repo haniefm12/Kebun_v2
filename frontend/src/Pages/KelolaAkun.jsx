@@ -8,10 +8,8 @@ import UserTable from "../Components/Table/UserTable";
 
 const KelolaAkun = () => {
   const { data: users, isLoading, isError, error } = useUsers();
-
   if (isLoading) return <LoadingState />;
   if (isError) return <ErrorNoData error={error} />;
-
   return (
     <Box pl={4} pb={2} pt={2} pr={2}>
       <Typography pl={2} pb={1} variant="h4">
@@ -22,5 +20,4 @@ const KelolaAkun = () => {
     </Box>
   );
 };
-
 export default KelolaAkun;

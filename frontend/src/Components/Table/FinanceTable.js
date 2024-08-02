@@ -13,7 +13,6 @@ const FinanceTable = ({ finances }) => {
   const tableContent = ids?.map((financeId, index) => (
     <Finance key={financeId} financeId={financeId} serialNumber={index + 1} />
   ));
-
   return (
     <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
       <Table
@@ -57,5 +56,4 @@ const FinanceTable = ({ finances }) => {
     </TableContainer>
   );
 };
-
 export default FinanceTable;

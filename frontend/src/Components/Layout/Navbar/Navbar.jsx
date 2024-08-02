@@ -25,21 +25,15 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
   const user = useSelector((state) => selectUserByUsername(state, username));
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
   const profileImage = user ? user.image : "";
-
   const handleAvatarClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const navigate = useNavigate();
-
   const [sendLogout, { isLoading, isError, error }] = useSendLogoutMutation();
-
   const handleLogout = () => {
     sendLogout().then(() => {
       navigate("/login", { replace: true }); // Navigate to a different page after logging out
@@ -49,11 +43,8 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
     navigate(`/profile/${username}`);
     setAnchorEl(null);
   };
-
   if (isLoading) return <LoadingState />;
-
   if (isError) return <p>Error: {error.data?.message}</p>;
-
   return (
     <AppBar position="static">
       <Container maxWidth="100%">
@@ -159,5 +150,4 @@ const Navbar = ({ setMode, mode, isSidebarOpen, setIsSidebarOpen }) => {
     </AppBar>
   );
 };
-
 export default Navbar;

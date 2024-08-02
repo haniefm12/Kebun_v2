@@ -1,6 +1,5 @@
 import React from "react";
 import { Grid, Typography, Card, CardContent } from "@mui/material";
-
 import GardenContent from "../Components/content/GardenContent";
 import FinanceContent from "../Components/content/FinanceContent";
 import NotesContent from "../Components/content/NotesContent";
@@ -34,7 +33,6 @@ function Dashboard() {
       <Grid item xs={12} md={6} lg={7} xl={8}>
         <Typography variant="h4">Dashboard</Typography>
       </Grid>
-
       <Grid item xs={12} sm={12} md={8}>
         <Card sx={{ pr: 1, pl: 1, pb: 1 }}>
           <Typography
@@ -43,10 +41,9 @@ function Dashboard() {
           >
             Perkembangan Kebun
           </Typography>
-          <GardenContent></GardenContent>
+          <GardenContent />
         </Card>
       </Grid>
-
       <Grid item xs={12} sm={12} md={4} sx={{ pr: 4 }}>
         {total}
         <Card sx={{ mt: 0 }}>
@@ -58,5 +55,4 @@ function Dashboard() {
     </Grid>
   );
 }
-
 export default Dashboard;

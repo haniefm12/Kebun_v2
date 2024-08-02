@@ -5,11 +5,9 @@ import LoadingState from "../state/LoadingState";
 
 function NotesContent() {
   const { data: notes, isLoading, isSuccess, isError } = useNotes();
-
   if (isLoading) {
     return <LoadingState />;
   }
-
   if (isError) {
     return (
       <Typography variant="h5">
@@ -63,7 +61,6 @@ function NotesContent() {
         return null;
       }
     });
-
   if (isSuccess) {
     return (
       <>
@@ -78,8 +75,6 @@ function NotesContent() {
       </>
     );
   }
-
   return null;
 }
-
 export default NotesContent;

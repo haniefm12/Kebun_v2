@@ -1,16 +1,12 @@
 import { useRef, useState, useEffect } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../app/api/authSlice";
 import { useLoginMutation } from "../app/api/authApiSlice";
 import usePersist from "../hooks/usePersist";
-
 import LoadingState from "../Components/state/LoadingState";
-
 import { Container, CssBaseline, Box, Avatar, Typography } from "@mui/material";
-
 import LoginForm from "../Components/Form/LoginForm";
 import LockOpenOutlined from "@mui/icons-material/LockOpenOutlined";
 
@@ -21,20 +17,15 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [persist, setPersist] = usePersist();
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const [login, { isLoading }] = useLoginMutation();
-
   useEffect(() => {
     userRef.current.focus();
   }, []);
-
   useEffect(() => {
     setErrMsg("");
   }, [username, password]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -58,13 +49,10 @@ const Login = () => {
       }
     }
   };
-
   const handleUserInput = (e) => setUsername(e.target.value);
   const handlePwdInput = (e) => setPassword(e.target.value);
   const handleToggle = () => setPersist((prev) => !prev);
-
   if (isLoading) return <LoadingState />;
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -97,5 +85,4 @@ const Login = () => {
     </Container>
   );
 };
-
 export default Login;

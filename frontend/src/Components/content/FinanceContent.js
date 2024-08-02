@@ -5,11 +5,9 @@ import LoadingState from "../state/LoadingState";
 
 function FinanceContent() {
   const { data: finances, isLoading, isSuccess, isError } = useFinances();
-
   if (isLoading) {
     return <LoadingState />;
   }
-
   if (isError) {
     return (
       <Typography align="center" variant="body1">
@@ -17,7 +15,6 @@ function FinanceContent() {
       </Typography>
     );
   }
-
   if (isSuccess) {
     return (
       <Grid container spacing={0}>
@@ -41,8 +38,6 @@ function FinanceContent() {
       </Grid>
     );
   }
-
   return null;
 }
-
 export default FinanceContent;
