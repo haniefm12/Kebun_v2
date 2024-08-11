@@ -6,7 +6,6 @@
     "node": "20.x"
   },
   "scripts": {
-    "build": "node server.js --production",
     "start": "node server",
     "dev": "nodemon server"
   },

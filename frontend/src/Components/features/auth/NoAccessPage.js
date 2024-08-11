@@ -11,10 +11,18 @@ const NoAccessPage = () => {
       <Button
         variant="contained"
         color="primary"
-        sx={{ mt: 2 }}
+        sx={{ mt: 2, mr: 2 }}
         onClick={() => navigate("/dashboard")}
       >
         Kembali
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        sx={{ mt: 2 }}
+        onClick={() => navigate("/login")}
+      >
+        Login
       </Button>
     </Container>
   );

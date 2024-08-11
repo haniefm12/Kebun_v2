@@ -9,7 +9,8 @@ import Paper from "@mui/material/Paper";
 import Inventory from "../features/inventory/Inventory";
 
 const InventoryTable = ({ inventorys, auth }) => {
-  const { ids } = inventorys;
+  const ids = inventorys.map((inventory) => inventory.id);
+
   let action;
   if (auth === true) {
     action = <TableCell align="center">Actions</TableCell>;
